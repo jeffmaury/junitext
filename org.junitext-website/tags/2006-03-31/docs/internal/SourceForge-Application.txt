@@ -1,0 +1,20 @@
+Project: "JUnitExt"
+
+UNIX-Name: "junitext"
+Agree to OSI license
+Project-Type: "Open Source Project"
+Define Trove
+Project Description:
+"
+JUnitExt is an extension of JUnit 4, which adds additional annotations and Runners for @Prerequisites, @Categories and many other things.
+"
+Registration Description:
+"
+JUnitExt is an extension of JUnit 4, which adds additional annotations and Runners for @Prerequisites, @Categories and many other things.
+
+Implemented in Java, based on JDK 5, annotations etc.
+
+The implementation has been done as part of an article about JUnit 4, and will be made public to OpenSource community.
+"
+
+Descriptive name: "JUnit 4 extensions"
