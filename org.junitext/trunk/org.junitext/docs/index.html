@@ -1,0 +1,180 @@
+<html>
+<body>
+<h1>Overview</h1>
+<p><b>Download</b> latest version at SourceForge <a
+	href="http://sourceforge.net/project/showfiles.php?group_id=163909">here</a>.
+You will find SourceForge project page <a
+	href="http://www.sourceforge.net/projects/junitext">here</a>.</p>
+<p>The JUnit 4 Extensions (<a href="www.junitext.org">www.junitext.org</a>)
+is an OpenSource project started during writing an article about new
+features of JUnit 4 (See: <a href="www.ix.de">www.ix.de</a>, Issue
+06/2006). These extensions should proove extensibility of JUnit 4 for
+typical use cases.</p>
+
+<p>These extensions will support following features (see also <a
+	href="ChangeLog">ChangeLog</a>):
+<ul>
+	<li>Additional annotation for Prerequisites (<code>@Prerequisite</code>):
+	Ignore tests based on conditions. Will use the <code>org.junit.runner.manipulation.Filter</code></li>
+	<li>Additional annotation for Categories (<code>@Category</code>):
+	Filter and Sort tests based on a Category. Will both use the <code>org.junit.runner.manipulation.Filter</code>
+	and <code>org.junit.runner.manipulation.Sorter</code></li>
+	<li>Annotation based runner, to be used for <code>@RunWith(AnnotationRunner.class)</code></li>
+	<li>As requested by some JUnit users: Provide the old UI based
+	runners from JUnit 3.8.2 as prebuilt jar file</li>
+</ul>
+<p>Following features are planned in near time (see also <a
+	href="TODO">TODO</a>):
+<ul>
+	<li>Additional runner for multithreaded tests: <code>@RunWith(MTRunner.class)</code></li>
+	<li>Additional annotation for <code>@Platform</code>: Run test
+	only based on given platform spec (OS version, JDK version, Eclipse
+	version, ...)</li>
+	<li>Procide declarative test configurations (as provided by
+	TestNG)</li>
+	<li>Test whether JUnit 4 extensions could be plugged into Eclipse
+	JUnit plugins</li>
+</ul>
+</p>
+<h1>News</h1>
+<ul>
+	<li>2006-05-10: Initial version 0.1.0 of JUnitExt released</li>
+	<li>2006-05-05: Eclipse 3.2RC3 released. Will now support JUnit 4
+	!!!</li>
+</ul>
+<h1>Tutorial</h1>
+<h2>How to define prerequisites</h2>
+<p>It happens often, that a test case requires some prerequisites,
+e.g. be online in internet, database is available, database is filled
+with required test data. In this case, the test cases would fail. To use
+the <code>@Igore</code> is not applicable, if I am always switching
+between such configurations.</p>
+<p>The required approach would be to check this during running
+tests. So you can simply add a <code>@Prerequisite(requires="databaseIsAvailable"</code>
+annotation.</p>
+<pre>
+public class TestFillDatabase {
+	<b>@Prerequisite(requires = "databaseIsAvailable")</b>
+	@Test public void fillData() {
+		// ...
+	}
+	public boolean databaseIsAvailable() {
+		boolean isAvailable = ...;
+		return isAvailable ;
+	}
+}
+</pre>
+<p>This specified methods with <code>@Prerequisite(requires =
+"databaseIsAvailable")</code> must be a public method, returning a boolean or
+Boolean value.</p>
+<p>If these methods will be consolidated in helper classes, you can
+also specify static methods within a class to be called using <code>@Prerequisite(requires
+= "databaseIsAvailable", callee="DBHelper")</code>.</p>
+<pre>
+public class TestFillDatabase {
+	@Prerequisite(requires = "databaseIsAvailable", <b>callee="DBHelper"</b>)
+	@Test public void fillData() {
+		// ...
+	}
+}
+public class <b>DBHelper</b> {
+	public <b>static</b> boolean databaseIsAvailable() {
+		boolean isAvailable = ...;
+		return isAvailable ;
+	}
+}
+</pre>
+<p>To run these tests you have to specify to use a specific runner:</p>
+<pre>
+<b>@RunWith(AnnotationRunner.class)</b>
+public class TestFillDatabase {
+	...
+}
+</pre>
+<h2>How to use categories</h2>
+<p>Tests can be categorized, to sort them for different puporses.
+JUnitExt provides a CategoryTextListerner, which prints out at end of
+test run all categories, with status of tests listed: May be <code>Success</code>,
+<code>Ignored</code>, <code>Failed</code>. You can plugin the category
+text listener using following code: (see also <code>org.junitext.samples</code>
+package)</p>
+<pre>
+	JUnitCore core = new JUnitCore();
+	// use for categories special listener, give some statistics
+	core.addListener(new CategoryTextListener(System.out));
+	core.run(SimpleTest.class);
+</pre>
+<p>The output when running thes tests will be:</p>
+<pre>
+I.
+Time: 0
+
+OK (1 test)
+
+Category: equal tests
+  Success testEquals(org.junitext.samples.SimpleTest)
+Category: math tests
+  Ignored divideByZero(org.junitext.samples.SimpleTest)
+</pre>
+<p>A further integration withan IDE (e.g. Eclipse) is planned.</p>
+<h2>Test reports of JUnitExt</h2>
+<p>JUnitExt will have JUnit based tests. The results can be
+inspected <a href="tests/index.html">here</a>.</p>
+<h1>Licenses</h1>
+<ul>
+	<li>JUnit license: CPL 1.0 <a href="licenses/junit-license.html">licenses/junit-license.html</a></li>
+	<li>JUnitExt license: CPL 1.0 <a
+		href="licenses/junitext-license.html">licenses/junitext-license.html</a></li>
+</ul>
+<h1>Links</h1>
+<h2>General</h2>
+<ul>
+	<li>JUnit: <a href="http://www.junit.org">http://www.junit.org</a></li>
+	<li>NUnit: <a href="http://nunit.org">http://nunit.org</a></li>
+	<li>TestNG: <a href="http://testng.org/doc">http://testng.org/doc</a></li>
+	<li>Useful links to JUnit 4 and Eclipse: <a
+		href="http://www.jroller.com/page/eu?entry=running_junit_4_test_cases">http://www.jroller.com/page/eu?entry=running_junit_4_test_cases</a></li>
+	<li>JUnit 4 in 10 minutes, Gunjan Doshi, Instrumental Services
+	Inc.: <a href="http://www.instrumentalservices.com/content/view/45/52/">http://www.instrumentalservices.com/content/view/45/52/</a></li>
+	<li>SourceForge: Additional test case for JUnitCoreTest: <a
+		href="http://sourceforge.net/tracker/index.php?func=detail&aid=1470872&group_id=15278&atid=315278">[
+	1470872 ] Additional test case for a running time &gt;0</a></li>
+	<li>SourceForge: Enhancement request for @Prerequsite: <a
+		href="http://sourceforge.net/tracker/index.php?func=detail&aid=1447312&group_id=15278&atid=365278">[
+	1447312 ] Add @Prerequisite annotation for a test case</a></li>
+</ul>
+<h2>Eclipse</h2>
+<ul>
+	<li>JUnit 4 in 3.2RC1: <a
+		href="https://bugs.eclipse.org/bugs/show_bug.cgi?id=102632">https://bugs.eclipse.org/bugs/show_bug.cgi?id=102632</a></li>
+	<li>Eclipse bug, full qualified test case: <a
+		href="https://bugs.eclipse.org/bugs/show_bug.cgi?id=129035">https://bugs.eclipse.org/bugs/show_bug.cgi?id=129035</a></li>
+</ul>
+<h2>Tools, IDE's</h2>
+<ul>
+	<li>ANT: JUnit 4 in ANT 1.7:<br />
+	<ul>
+		<li><a
+			href="http://marc.theaimsgroup.com/?l=ant-user&m=114070445424233&w=4">http://marc.theaimsgroup.com/?l=ant-user&m=114070445424233&w=4</a></li>
+		<li><a
+			href="http://marc.theaimsgroup.com/?l=ant-user&m=114067054522196&w=4">http://marc.theaimsgroup.com/?l=ant-user&m=114067054522196&w=4</a></li>
+	</ul>
+	</li>
+	<li>Maven: Requests to support JUnit 4 (2006-03-06): <a
+		href="http://feeds.codehaus.org/">http://feeds.codehaus.org/</a></li>
+	<li>Netbeans: JUnit in version 5.5/6.0: <a
+		href="http://junit.netbeans.org/junit4/">http://junit.netbeans.org/junit4/</a></li>
+	<li>Intelli/J: JUnit 4 Tests in Intelli/J (2006-04-07):<a
+		href="http://blogs.jetbrains.com/idea/2006/03/running-junit-4-tests-in-intellij-idea-51/">http://blogs.jetbrains.com/idea/2006/03/running-junit-4-tests-in-intellij-idea-51/</a></li>
+</ul>
+<h2>Backward compatibility</h2>
+<ul>
+	<li>Retroweaver: <a href="http://retroweaver.sourceforge.net">http://retroweaver.sourceforge.net</a></li>
+	<li>Retroweaver and Annotations, not yet supported: <a
+		href="http://sourceforge.net/forum/message.php?msg_id=3405558">http://sourceforge.net/forum/message.php?msg_id=3405558</a></li>
+</ul>
+<p><a href="http://sourceforge.net"><img
+	src="http://sflogo.sourceforge.net/sflogo.php?group_id=163909&amp;type=1"
+	width="88" height="31" border="0" alt="SourceForge.net Logo" /></a></p>
+</body>
+</html>
