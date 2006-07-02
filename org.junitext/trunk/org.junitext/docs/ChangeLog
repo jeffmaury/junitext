@@ -1,5 +1,16 @@
 ChangeLog for JUnitExt
 ======================
 
+0.1.2 2006-05-14 Jochen Hiller
+- restructured documentation, update web site
+- include documentation now with distribution
+
+0.1.1 2006-05-12 Jochen Hiller
+- added first documentation
+
 0.1.0 2006-05-10 Jochen Hiller
 - Initial release published
+- @Prerequisite: Ignore tests based on conditions
+- @Category: Filter and Sort tests based on a Category
+- Annotation based runner, to be used for @RunWith(AnnotationRunner.class)
+- Provide the old UI based runners from JUnit 3.8.2 as prebuilt jar file
