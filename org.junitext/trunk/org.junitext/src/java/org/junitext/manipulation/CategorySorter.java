@@ -7,7 +7,7 @@ import org.junit.runner.manipulation.Sorter;
 import org.junitext.Category;
 
 /**
- * A filter to support prerequisites.
+ * A filter to support categories.
  */
 public class CategorySorter extends Sorter {
 
