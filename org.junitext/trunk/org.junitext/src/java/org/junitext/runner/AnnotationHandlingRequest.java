@@ -4,6 +4,7 @@ import org.junit.internal.runners.InitializationError;
 import org.junit.runner.Request;
 import org.junit.runner.Runner;
 import org.junit.runner.manipulation.Filter;
+import org.junitext.runners.AnnotationRunner;
 
 /**
  * Request which supports annotation handling of test cases.

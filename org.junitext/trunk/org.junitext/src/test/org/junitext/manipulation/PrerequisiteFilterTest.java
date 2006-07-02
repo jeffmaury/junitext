@@ -11,7 +11,7 @@ import org.junit.runner.Result;
 import org.junitext.Prerequisite;
 
 /**
- * Tests for the {@link PrerequisiteFilter} for JUnit.
+ * Tests for the {@link PrerequisiteFilter} for JUnitExt.
  */
 public class PrerequisiteFilterTest {
 
@@ -30,7 +30,7 @@ public class PrerequisiteFilterTest {
  		public static boolean isFalse() { return false; }
 	}
 
-	@Ignore ("TODO: does not work")
+	@Ignore ("TODO: does not work. Requires access to test instance object. Clarify with Kent Beck")
 	@Test public void callWithFilter() throws InitializationError {
 		JUnitCore core = new JUnitCore();
 		Request req = Request.aClass(APrereqTest.class);

@@ -15,7 +15,7 @@ import org.junitext.manipulation.PrerequisiteFilterTest;
 
 @RunWith(Suite.class)
 @SuiteClasses( { PrerequisiteTest.class, CategoryFilterTest.class,
-		CategorySorterTest.class, PrerequisiteFilterTest.class, })
+		CategorySorterTest.class, PrerequisiteFilterTest.class })
 public class AllTests {
 	public static Test suite() {
 		return new JUnit4TestAdapter(AllTests.class);

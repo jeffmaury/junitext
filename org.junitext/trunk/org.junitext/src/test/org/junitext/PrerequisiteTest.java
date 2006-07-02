@@ -13,7 +13,7 @@ import org.junit.runner.RunWith;
 import org.junitext.Prerequisite;
 import org.junitext.runner.AnnotationHandlingJUnit4TestAdapter;
 import org.junitext.runner.AnnotationHandlingRequest;
-import org.junitext.runner.AnnotationRunner;
+import org.junitext.runners.AnnotationRunner;
 
 /**
  * Tests for the {@link Prerequisite} annotation for JUnit.

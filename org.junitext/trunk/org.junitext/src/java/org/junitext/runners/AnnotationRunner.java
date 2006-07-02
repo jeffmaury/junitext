@@ -1,4 +1,4 @@
-package org.junitext.runner;
+package org.junitext.runners;
 
 import org.junit.internal.runners.InitializationError;
 import org.junit.internal.runners.TestClassRunner;
