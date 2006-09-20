@@ -1,7 +1,9 @@
 TODOs for JUnitExt
 ==================
 
-- finish documentation, add docs to distribution
+- fix: execute of AllTests from ANT does produce a report without filled test names
+	- file a bug to JUnit
+- finish documentation
 - Add a runner for Multithreaded tests: @RunWith(MTRunner.class)
 	- configure no of threads, max. running time ?
 - Add annotation for @Platform

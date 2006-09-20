@@ -1,6 +1,12 @@
 ChangeLog for JUnitExt
 ======================
 
+0.2.0 2006-09-19 Jochen Hiller
+- refactored build for docs
+- removed _svn files from dist
+- updated to junit-4.1
+- added all docs to distribution
+
 0.1.2 2006-05-14 Jochen Hiller
 - restructured documentation, update web site
 - include documentation now with distribution
