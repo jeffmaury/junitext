@@ -1,0 +1,103 @@
+/* standard settings */
+
+body {
+  background-color: white;
+  color: black;
+  font-family: Arial, sans-serif;
+  font-size: small;
+}
+
+pre, code {
+  font-family: "bogus font here", monospace;
+  font-size: 100%;
+}
+
+h1 {
+  font-size: large;
+}
+h2 {
+  font-size: medium;
+}
+h2 {
+  font-size: small;
+}
+
+/* Top header/menu/logo section */
+
+#header {
+  position: relative;
+  height: 55px;
+  padding-top: 6px;
+}
+
+#logo {
+  padding-right: 18px;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+#title {
+  margin-left: 171px;
+  padding-left: 3px;
+}
+
+#title {
+  border-top: 1px solid #3366cc;
+  background-color: #e5ecf9;
+  font-size: large;
+  font-weight: bold;
+  padding-top: 1px;
+  padding-bottom: 1px;
+}
+
+/* Side panel section */
+
+#side, #body {
+  margin-top: 7px;
+}
+
+#side {
+  position: absolute;
+  width: 142px;
+  padding: 0;
+  left: 8px;
+  z-index: 1;
+}
+
+/* Menu */
+
+#menu .item {
+  margin-bottom: 1em;
+}
+
+#menu .group .item {
+  margin-bottom: 3px;
+}
+
+#menu .group {
+  margin-bottom: 1em;
+}
+
+#menu .group .group {
+  margin-left: 10px;
+}
+
+#menu .header {
+  font-weight: bold;
+}
+
+#body {
+  margin-left: 151px;
+  padding-left: 20px;
+  border-left: 1px dotted silver;
+  padding-bottom: 25px;
+  padding-right: 25px;
+}
+
+/* Top section */
+
+#mainsection .productsection {
+  float: left;
+  width: 32.9%;
+}
