@@ -19,7 +19,7 @@ details see RetroWeaver <a href="http://retroweaver.sourceforge.net">website</a>
 </p>
 
 <p>There is an experimental test included, based on latest
-RetroWeaver version 2.0Beta1. We got following results:
+RetroWeaver version 2.0Beta2. We got following results:
 <ol>
 	<li>Annotations are supported in general</li>
 	<li>In general, reflection support is also now included for
@@ -30,22 +30,29 @@ RetroWeaver version 2.0Beta1. We got following results:
 </ol>
 </p>
 <p>But: There are now runtime errors when executing the JUnit 4 test
-suite with JDK 1.4 and weaved JUnit 4.1 library.</p>
+suite with JDK 1.4 and weaved JUnit 4.2 library.</p>
 <p>See following result of tests: <a
-	href="jdk14/retroweaver-2.0Beta1.log">retroweaver-2.0Beta1.log</a>.
-This bug has been posted to RetroWeaver as <a
-	href="https://sourceforge.net/tracker/?func=detail&atid=637380&aid=1562317&group_id=104240">NPE
-in AIB.getMethodAnnotation(AIB.java:175)</a></p>
+	href="jdk14/retroweaver-2.0Beta2.log">retroweaver-2.0Beta2.log</a>.
+These bugs have been posted to RetroWeaver:
+<ul>
+	<li><a
+		href="https://sourceforge.net/tracker/?func=detail&atid=637380&aid=1562317&group_id=104240">NPE
+	in AIB.getMethodAnnotation(AIB.java:175)</a></li>
+	<li><a
+		href="http://sourceforge.net/tracker/index.php?func=detail&aid=1627206&group_id=104240&atid=637380">NoSuchMethodError:
+	String.format(String, Object[]):String</a></li></ul>
+	</p>
 
-<p>Short tutorial how to make these tests for your own:
-<ol>
-	<li>Download latest version of JUnit (e.g. <code>junit41.zip</code>).
-	Copy into <code>.../src-jdk14/3rdParty</code></li>
-	<li>Download latest version of RetroWeaver (e.g. <code>retroweaver-2.0Beta1.zip</code>).
-	Copy into <code>.../src-jdk14/3rdParty</code></li>
-	<li>If using other versions, set your specific version info into <code>.../src-jdk14/build.local.properties</code></li>
-	<li>Set your paths to your JDK 1.4 and 1.5 in <code>.../src-jdk14/build.local.properties</code></li>
-	<li>call <code>.../src-jdk14/build.xml</code> with target test</li>
-	<li>Check build output for correct execution</li>
-</ol>
-</p>
+	<p>Short tutorial how to make these tests for your own:
+	<ol>
+		<li>Download latest version of JUnit (e.g. <code>junit41.zip</code>).
+		Copy into <code>.../src-jdk14/3rdParty</code></li>
+		<li>Download latest version of RetroWeaver (e.g. <code>retroweaver-2.0Beta2.zip</code>).
+		Copy into <code>.../src-jdk14/3rdParty</code></li>
+		<li>If using other versions, set your specific version info into
+		<code>.../src-jdk14/build.local.properties</code></li>
+		<li>Set your paths to your JDK 1.4 and 1.5 in <code>.../src-jdk14/build.local.properties</code></li>
+		<li>call <code>.../src-jdk14/build.xml</code> with target test</li>
+		<li>Check build output for correct execution</li>
+	</ol>
+	</p>
