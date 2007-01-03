@@ -1,9 +1,13 @@
+/**
+ * Copyright (C) 2006-2007, Jochen Hiller.
+ */
 package org.junitext.samples;
 
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 import org.junit.internal.runners.InitializationError;
+import org.junit.runner.Description;
 import org.junit.runner.JUnitCore;
 import org.junit.runner.RunWith;
 import org.junitext.Category;
@@ -38,11 +42,47 @@ public class SimpleTest {
 		assertEquals("Capacity", 12.0, 11.99, 0.2);
 	}
 
+	@Prerequisite(requires = "doSomeTest")
+	@Test
+	public void testSome1() {
+		assertEquals(42, 42);
+	}
+
+	@Prerequisite(requires = "doSomeTest")
+	@Test
+	public void testSome2() {
+		assertEquals(42, 12);
+	}
+
 	public boolean doMathTests() {
 		return false;
 	}
 
 	public static boolean doEqualsTests() {
+		return true;
+	}
+
+	/**
+	 * Callback with signature boolean doSomeTest(Description description). Will
+	 * be search first.
+	 */
+	public static boolean doSomeTest(Description desc) {
+		return desc.getDisplayName().startsWith("testSome1");
+	}
+
+	/**
+	 * Callback with signature boolean doSomeTest(String className, String
+	 * methodName). Will be searched second.
+	 */
+	public static boolean doSomeTest(String className, String testName) {
+		return "testSome1".equals(testName);
+	}
+
+	/**
+	 * Callback with signature boolean doSomeTest(). Will be search as last
+	 * option.
+	 */
+	public static boolean doSomeTest() {
 		return true;
 	}
 
