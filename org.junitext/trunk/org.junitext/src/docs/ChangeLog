@@ -1,6 +1,19 @@
 ChangeLog for JUnitExt
 ======================
 
+0.2.1 2007-01-03 Jochen Hiller
+- Additional support for Prerequisite signatures
+	- will first try to call "public void isXxx (Description desc)"
+	- then try to call "public void isXxx(String className, String methodName)"
+	- and finally fallback to "public void isXxx()"
+	- see Bugfix: http://code.google.com/p/junitext/issues/detail?id=3
+- upated to JUnit 4.2: Added exclude.properties to junit-ui-runners-3.8.2.jar, 
+  because this file has been taken off of junit-4.1.jar
+- added javadocs to distribution
+- Bugfix: added icons to junit-ui-runners-3.8.2.jar"
+	- see http://code.google.com/p/junitext/issues/detail?id=4
+- added more javadocs where missing (overview, package-info, ...)
+
 0.2.0 2006-09-19 Jochen Hiller
 - refactored build for docs
 - removed _svn files from dist

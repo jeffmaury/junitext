@@ -32,8 +32,6 @@ TODOs for JUnitExt
 	- test cruise control, or Maven / Continuum
 	- see article of JavaMagazin
 
-
-
 - New features:
 	- Category-Filter:
 		- add static methods with INCLUDE/EXCLUDE filters
@@ -61,4 +59,3 @@ TODOs for JUnitExt
 
 - JUnit 4.1:
 	- deployment is a litte bit ugly (empty folders)
-	
