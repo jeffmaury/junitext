@@ -1,3 +1,6 @@
+/**
+ * Copyright (C) 2006-2007, Jochen Hiller.
+ */
 package org.junitext.manipulation;
 
 import static org.junit.Assert.assertEquals;
@@ -74,7 +77,7 @@ public class CategoryFilterTest {
 		assertEquals (3, cats.size());
 		// select Category "A"
 		Category a = null;
-		for (Iterator iter = cats.iterator() ; iter.hasNext() ; ) {
+		for (Iterator<Category> iter = cats.iterator() ; iter.hasNext() ; ) {
 			Category c = (Category) iter.next();
 			if ("A".equals(c.value())) {
 				a = c;

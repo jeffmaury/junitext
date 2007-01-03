@@ -1,3 +1,6 @@
+/**
+ * Copyright (C) 2006-2007, Jochen Hiller.
+ */
 package org.junitext.runners;
 
 import org.junit.internal.runners.InitializationError;

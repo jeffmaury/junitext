@@ -1,3 +1,6 @@
+/**
+ * Copyright (C) 2006-2007, Jochen Hiller.
+ */
 package org.junitext;
 
 import junit.framework.JUnit4TestAdapter;
@@ -14,7 +17,7 @@ import org.junitext.manipulation.CategorySorterTest;
 import org.junitext.manipulation.PrerequisiteFilterTest;
 
 @RunWith(Suite.class)
-@SuiteClasses( { PrerequisiteTest.class, CategoryFilterTest.class,
+@SuiteClasses( { PrerequisiteTest.class, PrerequisiteHandlerTest.class, CategoryFilterTest.class,
 		CategorySorterTest.class, PrerequisiteFilterTest.class })
 public class AllTests {
 	public static Test suite() {

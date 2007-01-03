@@ -1,3 +1,6 @@
+/**
+ * Copyright (C) 2006-2007, Jochen Hiller.
+ */
 package org.junitext.manipulation;
 
 import static org.junit.Assert.assertEquals;

@@ -1,3 +1,6 @@
+/**
+ * Copyright (C) 2006-2007, Jochen Hiller.
+ */
 package org.junitext;
 
 import static org.junit.Assert.assertEquals;
@@ -10,7 +13,6 @@ import org.junit.runner.JUnitCore;
 import org.junit.runner.Request;
 import org.junit.runner.Result;
 import org.junit.runner.RunWith;
-import org.junitext.Prerequisite;
 import org.junitext.runner.AnnotationHandlingJUnit4TestAdapter;
 import org.junitext.runner.AnnotationHandlingRequest;
 import org.junitext.runners.AnnotationRunner;
