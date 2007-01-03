@@ -1,3 +1,6 @@
+/**
+ * Copyright (C) 2006-2007, Jochen Hiller.
+ */
 package org.junitext.internal.runners;
 
 import java.io.PrintStream;
@@ -13,6 +16,9 @@ import org.junit.runner.notification.Failure;
 import org.junitext.Category;
 import org.junitext.manipulation.CategoryResolver;
 
+/**
+ * An text listener supporting Category based reporting.  
+ */
 public class CategoryTextListener extends TextListener {
 
 	// TODO irrg, ugly !

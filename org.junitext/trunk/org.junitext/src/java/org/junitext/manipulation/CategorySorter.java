@@ -1,3 +1,6 @@
+/**
+ * Copyright (C) 2006-2007, Jochen Hiller.
+ */
 package org.junitext.manipulation;
 
 import java.util.Comparator;
@@ -7,7 +10,7 @@ import org.junit.runner.manipulation.Sorter;
 import org.junitext.Category;
 
 /**
- * A filter to support categories.
+ * A sorter to support categories.
  */
 public class CategorySorter extends Sorter {
 

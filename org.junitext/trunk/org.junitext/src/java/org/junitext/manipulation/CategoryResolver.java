@@ -1,5 +1,5 @@
 /**
- * 
+ * Copyright (C) 2006-2007, Jochen Hiller.
  */
 package org.junitext.manipulation;
 
@@ -10,6 +10,9 @@ import java.util.StringTokenizer;
 import org.junit.runner.Description;
 import org.junitext.Category;
 
+/**
+ * Helper class to resolve a Category based on test descriptions.
+ */
 public class CategoryResolver {
 
 	/**
@@ -26,7 +29,7 @@ public class CategoryResolver {
 			StringTokenizer tokenizer = new StringTokenizer(name, "(");
 			String methodName = tokenizer.nextToken();
 			String className = tokenizer.nextToken(")").substring(1);
-			Class clazz = Class.forName(className);
+			Class<?> clazz = Class.forName(className);
 			Method m = clazz.getMethod(methodName);
 			// may be null
 			return m.getAnnotation(Category.class);
