@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 
-<project name="org.junitext" default="all">
+<project name="org.junitext" default="all" basedir=".">
 	<description>
         JUnit 4 Extensions
     </description>
@@ -48,6 +48,12 @@
 				<fileset dir="${basedir}/lib" includes="*.jar" />
 			</classpath>
 		</javac>
+		<copy todir="${build.dir}/classes">
+			<fileset dir="${basedir}/src-ui-runners/java">
+				<include name="**/*.properties" />
+				<include name="**/*.gif" />
+			</fileset>
+		</copy>
 		<jar basedir="${build.dir}/classes"
 		     destfile="${build.dir}/lib/junit-ui-runners-${build.version.ui-runners}.jar" />
 
@@ -63,6 +69,37 @@
 		</javac>
 		<jar basedir="${build.dir}/classes"
 		     destfile="${build.dir}/lib/junit-ui-runners-tests-${build.version.ui-runners}.jar" />
+	</target>
+
+	<target name="javadoc" depends="compile" description="Create JavaDoc">
+		<delete dir="${build.dir}/docs/api" />
+		<mkdir dir="${build.dir}/docs/api" />
+		<javadoc access="public"
+		         author="Jochen Hiller"
+		         destdir="${build.dir}/docs/api"
+		         overview="${basedir}/src/java/overview.html">
+			<fileset dir="${basedir}/src/java">
+				<include name="**/*.java" />
+			</fileset>
+			<classpath>
+				<fileset dir="${basedir}/lib" includes="*.jar" />
+			</classpath>
+		</javadoc>
+
+		<delete dir="${build.dir}/docs/api-ui-runners" />
+		<mkdir dir="${build.dir}/docs/api-ui-runners" />
+		<javadoc access="public"
+		         author="true" failonerror="true"  
+		         destdir="${build.dir}/docs/api-ui-runners">
+			<fileset dir="${basedir}/src-ui-runners/java">
+				<include name="**/*.java" />
+			</fileset>
+			<classpath>
+				<fileset dir="${basedir}/lib" includes="*.jar" />
+				<fileset dir="${build.dir}/lib"
+				         includes="junit-ui-runners-${build.version.ui-runners}.jar" />
+			</classpath>
+		</javadoc>
 	</target>
 
 	<target name="tests" depends="compile" description="Run all tests">
@@ -107,10 +144,16 @@
 	</target>
 
 	<target name="docs"
-	        depends="docs.missing"
+	        depends="prepare, javadoc, docs.missing"
 	        description="Create docs"
 	        if="docs.is.available">
-		<delete dir="${build.dir}/docs" />
+		<delete includeemptydirs="true">
+			<fileset dir="${build.dir}/docs">
+				<include name="**/*" />
+				<exclude name="api/**/*" />
+				<exclude name="api-ui-runners/**/*" />
+			</fileset>
+		</delete>
 		<mkdir dir="${build.dir}/docs" />
 
 		<copy todir="${build.dir}/docs">
