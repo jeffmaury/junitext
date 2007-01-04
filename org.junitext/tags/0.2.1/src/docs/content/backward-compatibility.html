@@ -1,0 +1,58 @@
+<h1>Backward compatibility</h1>
+<p>JUnit 4 requires due to Annotation usage JDK 1.5. For many
+environments, this is a strong limitation, as JDK 1.5 is not allowed to
+be used in production systems.</p>
+<p>RetroWeaver (<a href="http://retroweaver.sourceforge.net">http://retroweaver.sourceforge.net</a>)
+is a JDK 1.5 backward compatibility tool to allow JDK 1.5 based
+development, and JDK 1.4 (down to JDK 1.1) based deployment. For more
+details see RetroWeaver <a href="http://retroweaver.sourceforge.net">website</a>.</p>
+
+<p>Notes to previous RetroWeaver versions:
+<ul>
+	<li>RetroWeaver 1.2.2 does not work, as ANT task does not create
+	output directories when weaving classes. See <code><a
+		href="jdk14/retroweaver-1.2.2.log">retroweaver-1.2.2.log</a></code></li>
+	<li>RetroWeaver 1.2.5 does not work, as Annotation access via
+	reflection is not yet supported. See <code><a
+		href="jdk14/retroweaver-1.2.5.log">retroweaver-1.2.5.log</a></code></li>
+</ul>
+</p>
+
+<p>There is an experimental test included, based on latest
+RetroWeaver version 2.0Beta2. We got following results:
+<ol>
+	<li>Annotations are supported in general</li>
+	<li>In general, reflection support is also now included for
+	annotations</li>
+	<li>Weaving with ANT task works fine</li>
+	<li>Verifier does not throw any not fulfilled conditions, fine !</li>
+	<li>JUnit 3 tests are running fine with weaved code</li>
+</ol>
+</p>
+<p>But: There are now runtime errors when executing the JUnit 4 test
+suite with JDK 1.4 and weaved JUnit 4.2 library.</p>
+<p>See following result of tests: <a
+	href="jdk14/retroweaver-2.0Beta2.log">retroweaver-2.0Beta2.log</a>.
+These bugs have been posted to RetroWeaver:
+<ul>
+	<li><a
+		href="https://sourceforge.net/tracker/?func=detail&atid=637380&aid=1562317&group_id=104240">NPE
+	in AIB.getMethodAnnotation(AIB.java:175)</a></li>
+	<li><a
+		href="http://sourceforge.net/tracker/index.php?func=detail&aid=1627206&group_id=104240&atid=637380">NoSuchMethodError:
+	String.format(String, Object[]):String</a></li></ul>
+	</p>
+
+	<p>Short tutorial how to make these tests for your own:
+	<ol>
+		<li>Download latest version of JUnit (e.g. <code>junit41.zip</code>).
+		Copy into <code>.../src-jdk14/3rdParty</code></li>
+		<li>Download latest version of RetroWeaver (e.g. <code>retroweaver-2.0Beta2.zip</code>).
+		Copy into <code>.../src-jdk14/3rdParty</code></li>
+		<li>If using other versions, set your specific version info into
+		<code>.../src-jdk14/build.local.properties</code></li>
+		<li>Set your paths to your JDK 1.4 and 1.5 in <code>.../src-jdk14/build.local.properties</code></li>
+		<li>call <code>.../src-jdk14/build.xml</code> with target test</li>
+		<li>Check build output for correct execution</li>
+	</ol>
+	</p>
