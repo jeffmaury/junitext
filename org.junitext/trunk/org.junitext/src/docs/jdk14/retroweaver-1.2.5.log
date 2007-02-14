@@ -1,0 +1,102 @@
+Buildfile: C:\data\Project\jhi-development\projects\junit\wsp-junitext\org.junitext\src-jdk14\build.xml
+check.3rdParty:
+prepare:
+    [mkdir] Created dir: C:\data\Project\jhi-development\projects\junit\wsp-junitext\org.junitext\src-jdk14\build
+    [unzip] Expanding: C:\data\Project\jhi-development\projects\junit\wsp-junitext\org.junitext\src-jdk14\3rdParty\junit4.1.zip into C:\data\Project\jhi-development\projects\junit\wsp-junitext\org.junitext\src-jdk14\build
+    [unzip] Expanding: C:\data\Project\jhi-development\projects\junit\wsp-junitext\org.junitext\src-jdk14\3rdParty\retroweaver-1.2.5.zip into C:\data\Project\jhi-development\projects\junit\wsp-junitext\org.junitext\src-jdk14\build
+    [mkdir] Created dir: C:\data\Project\jhi-development\projects\junit\wsp-junitext\org.junitext\src-jdk14\build\bin\jdk15
+    [mkdir] Created dir: C:\data\Project\jhi-development\projects\junit\wsp-junitext\org.junitext\src-jdk14\build\bin\weaved
+compile:
+    [javac] Compiling 4 source files to C:\data\Project\jhi-development\projects\junit\wsp-junitext\org.junitext\src-jdk14\build\bin\jdk15
+    [javac] Compiling 83 source files to C:\data\Project\jhi-development\projects\junit\wsp-junitext\org.junitext\src-jdk14\build\bin\jdk15
+    [javac] Note: C:\data\Project\jhi-development\projects\junit\wsp-junitext\org.junitext\src-jdk14\build\junit4.1\junit\tests\framework\SuiteTest.java uses unchecked or unsafe operations.
+    [javac] Note: Recompile with -Xlint:unchecked for details.
+weave:
+    [mkdir] Created dir: C:\data\Project\jhi-development\projects\junit\wsp-junitext\org.junitext\src-jdk14\build\bin\weaved\p1
+[retroweaver] Processing 252 classe(s)
+[retroweaver] 252 classe(s) weaved.
+[retroweaver] Processing 96 classe(s)
+[retroweaver] 96 classe(s) weaved.
+test:
+     [echo] Calling NOT weaved with JDK 1.5
+     [java] C1: Hello World
+     [java] C2: Hello World
+     [java] C3: m
+     [java] C4: @p1.C4$MyAnnotation(value=Hello World)m
+     [java] .........................................
+     [java] .........................................
+     [java] ....................
+     [java] Time: 1,182
+     [java] OK (102 tests)
+     [java] JUnit version 4.1
+     [java] ................................................I.......................................................................................................................................................................................I..............................
+     [java] Time: 6,54
+     [java] OK (261 tests)
+     [echo] Calling weaved with JDK 1.5
+     [java] C1: Hello World
+     [java] C2: Hello World
+     [java] C3: m
+     [java] C4: m
+     [java] .........................................
+     [java] .........................................
+     [java] ....................
+     [java] Time: 1,272
+     [java] OK (102 tests)
+     [java] JUnit version 4.1
+     [java] .E
+     [java] Time: 0,01
+     [java] There was 1 failure:
+     [java] 1) org.junit.tests.AllTests
+     [java] java.lang.Exception: No runnable methods
+     [java] at org.junit.internal.runners.TestClassMethodsRunner.testAborted(TestClassMethodsRunner.java:42)
+     [java] at org.junit.internal.runners.TestClassMethodsRunner.run(TestClassMethodsRunner.java:33)
+     [java] at org.junit.internal.runners.TestClassRunner$1.runUnprotected(TestClassRunner.java:42)
+     [java] at org.junit.internal.runners.BeforeAndAfterRunner.runProtected(BeforeAndAfterRunner.java:34)
+     [java] at org.junit.internal.runners.TestClassRunner.run(TestClassRunner.java:52)
+     [java] at org.junit.internal.runners.CompositeRunner.run(CompositeRunner.java:29)
+     [java] at org.junit.runner.JUnitCore.run(JUnitCore.java:121)
+     [java] at org.junit.runner.JUnitCore.run(JUnitCore.java:100)
+     [java] at org.junit.runner.JUnitCore.run(JUnitCore.java:91)
+     [java] at org.junit.runner.JUnitCore.runMain(JUnitCore.java:75)
+     [java] at org.junit.runner.JUnitCore.main(JUnitCore.java:42)
+     [java] FAILURES!!!
+     [java] Tests run: 1,  Failures: 1
+     [java] Java Result: 1
+     [echo] Calling weaved with JDK 1.4
+     [java] C1: Hello World
+     [java] C2: Hello World
+     [java] C3: m
+     [java] C4: m
+     [java] .........................................
+     [java] .........................................
+     [java] ....................
+     [java] Time: 1,092
+     [java] OK (102 tests)
+     [java] JUnit version 4.1
+     [java] java.lang.NoClassDefFoundError: java/lang/annotation/Annotation
+     [java] at java.lang.ClassLoader.defineClass0(Native Method)
+     [java] at java.lang.ClassLoader.defineClass(ClassLoader.java:539)
+     [java] at java.security.SecureClassLoader.defineClass(SecureClassLoader.java:123)
+     [java] at java.net.URLClassLoader.defineClass(URLClassLoader.java:251)
+     [java] at java.net.URLClassLoader.access$100(URLClassLoader.java:55)
+     [java] at java.net.URLClassLoader$1.run(URLClassLoader.java:194)
+     [java] at java.security.AccessController.doPrivileged(Native Method)
+     [java] at java.net.URLClassLoader.findClass(URLClassLoader.java:187)
+     [java] at java.lang.ClassLoader.loadClass(ClassLoader.java:289)
+     [java] at sun.misc.Launcher$AppClassLoader.loadClass(Launcher.java:274)
+     [java] at java.lang.ClassLoader.loadClass(ClassLoader.java:235)
+     [java] at java.lang.ClassLoader.loadClassInternal(ClassLoader.java:302)
+     [java] at java.lang.Class.forName0(Native Method)
+     [java] at java.lang.Class.forName(Class.java:141)
+     [java] at org.junit.internal.requests.ClassRequest.class$(ClassRequest.java)
+     [java] at org.junit.internal.requests.ClassRequest.getRunnerClass(ClassRequest.java:35)
+     [java] at org.junit.internal.requests.ClassRequest.getRunner(ClassRequest.java:23)
+     [java] at org.junit.internal.requests.ClassesRequest.getRunner(ClassesRequest.java:23)
+     [java] at org.junit.runner.JUnitCore.run(JUnitCore.java:100)
+     [java] at org.junit.runner.JUnitCore.run(JUnitCore.java:91)
+     [java] at org.junit.runner.JUnitCore.runMain(JUnitCore.java:75)
+     [java] at org.junit.runner.JUnitCore.main(JUnitCore.java:42)
+     [java] Exception in thread "main"
+     [java] Java Result: 1
+BUILD SUCCESSFUL
+Total time: 26 seconds
