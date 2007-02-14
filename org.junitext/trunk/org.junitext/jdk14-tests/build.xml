@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 
-<project name="org.junitext.jdk14" default="usage">
+<project name="org.junitext.jdk14.tests" default="usage">
 	<description>
         JUnit 4 - Backward compatibility tests using RetroWeaver
     </description>
@@ -73,7 +73,6 @@
 		<retroweaver inputjar="${build.dir}/junit${junit4.version}/junit-${junit4.version}.jar"
 		             outputjar="${build.dir}/junit-${junit4.version}-jdk14.jar">
 		</retroweaver>
-
 	</target>
 
 	<target name="test" depends="weave" description="Test with RetroWeaver">
