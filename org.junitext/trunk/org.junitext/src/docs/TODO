@@ -1,6 +1,10 @@
 TODOs for JUnitExt
 ==================
 
+- Sanity-Check for distribution
+	- Test SwingUI without load errors
+	- make ANT build, with -lib lib
+
 - Website
 	- add links to website
 		- additional feature requests
