@@ -13,6 +13,13 @@
 		<available file="${basedir}/src/docs"
 		           type="dir"
 		           property="docs.is.available" />
+		<!-- we use retroweaver ant task -->
+		<taskdef name="retroweaver"
+		         classname="net.sourceforge.retroweaver.ant.RetroWeaverTask">
+			<classpath>
+				<pathelement path="${retroweaver.lib}" />
+			</classpath>
+		</taskdef>
 	</target>
 
 	<target name="compile" depends="prepare">
@@ -71,6 +78,17 @@
 		     destfile="${build.dir}/lib/junit-ui-runners-tests-${build.version.ui-runners}.jar" />
 	</target>
 
+	<target name="weave" depends="compile" description="Weaves JDK 1.4 classes">
+		<!-- weave junit jar -->
+		<retroweaver inputjar="${basedir}/lib/junit-${junit.version}.jar"
+		             outputjar="${build.dir}/lib/junit-${junit.version}-jdk14.jar">
+		</retroweaver>
+		<!-- weave junitext jar -->
+		<retroweaver inputjar="${build.dir}/lib/junitext-${build.version}.jar"
+		             outputjar="${build.dir}/lib/junitext-${build.version}-jdk14.jar">
+		</retroweaver>
+	</target>
+
 	<target name="javadoc" depends="compile" description="Create JavaDoc">
 		<delete dir="${build.dir}/docs/api" />
 		<mkdir dir="${build.dir}/docs/api" />
@@ -89,7 +107,8 @@
 		<delete dir="${build.dir}/docs/api-ui-runners" />
 		<mkdir dir="${build.dir}/docs/api-ui-runners" />
 		<javadoc access="public"
-		         author="true" failonerror="true"  
+		         author="true"
+		         failonerror="true"
 		         destdir="${build.dir}/docs/api-ui-runners">
 			<fileset dir="${basedir}/src-ui-runners/java">
 				<include name="**/*.java" />
@@ -102,7 +121,7 @@
 		</javadoc>
 	</target>
 
-	<target name="tests" depends="compile" description="Run all tests">
+	<target name="tests" depends="weave" description="Run all tests">
 		<delete dir="${build.dir}/tests" />
 		<mkdir dir="${build.dir}/tests" />
 		<!-- ui-runners tests require to be started from test dir -->
@@ -121,7 +140,16 @@
 			-->
 			<classpath>
 				<fileset dir="${basedir}/lib" includes="*.jar" />
-				<fileset dir="${build.dir}/lib" includes="*.jar" />
+				<fileset dir="${build.dir}/lib"
+				         includes="junitext-tests-${build.version}.jar" />
+				<fileset dir="${build.dir}/lib"
+				         includes="junitext-${build.version}.jar" />
+				<fileset dir="${build.dir}/lib"
+				         includes="junit-${junit.version}.jar" />
+				<fileset dir="${build.dir}/lib"
+				         includes="junit-ui-runners-tests-3.8.2.jar" />
+				<fileset dir="${build.dir}/lib"
+				         includes="junit-ui-runners-3.8.2.jar" />
 			</classpath>
 			<formatter usefile="true" type="xml" />
 		</junit>
@@ -250,6 +278,13 @@
 				<exclude name="**/_svn/**/*" />
 				<exclude name="**/_svn" />
 			</zipfileset>
+			<zipfileset dir="${build.dir}/lib"
+			            prefix="junitext-${build.version}/lib/jdk14">
+				<include name="junitext-${build.version}-jdk14.jar" />
+				<include name="junit-${junit.version}-jdk14.jar" />
+				<exclude name="**/_svn/**/*" />
+				<exclude name="**/_svn" />
+			</zipfileset>
 			<zipfileset dir="${basedir}" prefix="junitext-${build.version}">
 				<include name="build.xml" />
 				<include name="build.local.properties" />
@@ -258,12 +293,14 @@
 				<include name="src/java/**/*" />
 				<include name="src/test/**/*" />
 				<include name="src-ui-runners/**/*" />
-				<include name="src-jdk14/**/*" />
+				<include name="jdk14/**/*" />
 				<include name=".classpath" />
 				<include name=".project" />
-				<exclude name="src-jdk14/3rdParty/*.zip" />
-				<exclude name="src-jdk14/build/**/*" />
-				<exclude name="src-jdk14/build" />
+				<exclude name="jdk14/sample/build/**/*" />
+				<exclude name="jdk14/sample/build" />
+				<exclude name="jdk14/tests/3rdParty/*.zip" />
+				<exclude name="jdk14/tests/build/**/*" />
+				<exclude name="jdk14/tests/build" />
 				<exclude name="**/_svn/**/*" />
 				<exclude name="**/_svn" />
 			</zipfileset>
