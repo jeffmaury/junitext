@@ -89,6 +89,9 @@
 		<java jvm="${_java15.home}/bin/java.exe"
 		      classname="p1.C4"
 		      classpath="${build.dir}/bin/jdk15" />
+		<java jvm="${_java15.home}/bin/java.exe"
+		      classname="p1.C5"
+		      classpath="${build.dir}/bin/jdk15" />
 		<!-- run junit tests against junit. Must fork, otherwise we will get some errors -->
 		<java jvm="${_java15.home}/bin/java.exe"
 		      fork="true"
@@ -119,6 +122,9 @@
 		<java jvm="${_java15.home}/bin/java.exe"
 		      classname="p1.C4"
 		      classpath="${classpath.rt}" />
+		<java jvm="${_java15.home}/bin/java.exe"
+		      classname="p1.C5"
+		      classpath="${classpath.rt}" />
 		<!-- run junit tests against junit. Must fork, otherwise we will get some errors -->
 		<java jvm="${_java15.home}/bin/java.exe"
 		      fork="true"
@@ -143,6 +149,9 @@
 		      classpath="${classpath.rt}" />
 		<java jvm="${_java14.home}/bin/java.exe"
 		      classname="p1.C4"
+		      classpath="${classpath.rt}" />
+		<java jvm="${_java14.home}/bin/java.exe"
+		      classname="p1.C5"
 		      classpath="${classpath.rt}" />
 		<!-- run junit tests against junit. Must fork, otherwise we will get some errors -->
 		<java jvm="${_java14.home}/bin/java.exe"
