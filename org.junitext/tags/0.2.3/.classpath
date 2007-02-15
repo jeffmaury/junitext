@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src/java"/>
+	<classpathentry kind="src" path="src/test"/>
+	<classpathentry kind="src" path="src-ui-runners/java"/>
+	<classpathentry kind="src" path="src-ui-runners/test"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="lib/junit-4.2.jar" sourcepath="lib/junit-4.2-src.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

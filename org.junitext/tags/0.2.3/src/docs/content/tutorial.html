@@ -1,0 +1,99 @@
+<h1>Tutorial</h1>
+<h2>How to define prerequisites</h2>
+<p>It happens often, that a test case requires some prerequisites,
+e.g. be online in internet, database is available, database is filled
+with required test data. In this case, the test cases would fail. To use
+the <code>@Igore</code> is not applicable, if I am always switching
+between such configurations.</p>
+<p>The required approach would be to check this during running
+tests. So you can simply add a <code>@Prerequisite(requires="databaseIsAvailable"</code>
+annotation.</p>
+<pre>
+public class TestFillDatabase {
+    <b>@Prerequisite(requires = "databaseIsAvailable")</b>
+    @Test public void fillData() {
+        // ...
+    }
+    
+    public boolean databaseIsAvailable() {
+        boolean isAvailable = ...;
+        return isAvailable;
+    }
+}
+</pre>
+<pre>
+public class TestFillDatabase {
+	<b>@Prerequisite(requires = "databaseIsAvailable")</b>
+	@Test public void fillData() {
+		// ...
+	}
+	public boolean databaseIsAvailable() {
+		boolean isAvailable = ...;
+		return isAvailable ;
+	}
+}
+</pre>
+<p>This specified methods with <code>@Prerequisite(requires =
+"databaseIsAvailable")</code> must be a public method, returning a boolean or
+Boolean value.</p>
+<p>If these methods will be consolidated in helper classes, you can
+also specify static methods within a class to be called using <code>@Prerequisite(requires
+= "databaseIsAvailable", callee="DBHelper")</code>.</p>
+<pre>
+public class TestFillDatabase {
+	@Prerequisite(requires = "databaseIsAvailable", <b>callee="DBHelper"</b>)
+	@Test public void fillData() {
+		// ...
+	}
+}
+public class <b>DBHelper</b> {
+	public <b>static</b> boolean databaseIsAvailable() {
+		boolean isAvailable = ...;
+		return isAvailable ;
+	}
+}
+</pre>
+<p>Since JUnitExt 0.2.1, the called prerequisite method can also be
+implemented with following signatures (lookup with this ordering):</p>
+<pre>
+  public boolean somePrereqMethod (Description desc);
+  public boolean somePrereqMethod (String className, String methodName);
+  public boolean somePrereqMethod ();
+</pre>
+This will allow for dynamic logic based on test description or class and
+method name. See also org.junitext.samples.SimpleTest in distribution.
+</p>
+<p>To run these tests you have to specify to use a specific runner:</p>
+<pre>
+<b>@RunWith(AnnotationRunner.class)</b>
+public class TestFillDatabase {
+	...
+}
+</pre>
+<h2>How to use categories</h2>
+<p>Tests can be categorized, to sort them for different puporses.
+JUnitExt provides a CategoryTextListerner, which prints out at end of
+test run all categories, with status of tests listed: May be <code>Success</code>,
+<code>Ignored</code>, <code>Failed</code>. You can plugin the category
+text listener using following code: (see also <code>org.junitext.samples</code>
+package)</p>
+<pre>
+	JUnitCore core = new JUnitCore();
+	// use for categories special listener, give some statistics
+	core.addListener(new CategoryTextListener(System.out));
+	core.run(SimpleTest.class);
+</pre>
+<p>The output when running thes tests will be:</p>
+<pre>
+I.
+Time: 0
+
+OK (1 test)
+
+Category: equal tests
+  Success testEquals(org.junitext.samples.SimpleTest)
+Category: math tests
+  Ignored divideByZero(org.junitext.samples.SimpleTest)
+</pre>
+<p>A further integration withan IDE (e.g. Eclipse) is planned.</p>
+
