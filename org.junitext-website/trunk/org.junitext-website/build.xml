@@ -7,7 +7,7 @@
 
 	<property name="build.dir" value="build" />
 	<property name="project.dir" value="../org.junitext" />
-	<property name="project.version" value="0.2.2" />
+	<property name="project.version" value="0.2.3" />
 
 	<target name="prepare">
 		<ant antfile="${project.dir}/build.xml" target="dist" inheritall="no" />
