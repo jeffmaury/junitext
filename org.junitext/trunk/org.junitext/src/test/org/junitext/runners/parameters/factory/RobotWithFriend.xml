@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<tests>
+  <test>
+  	<bean id="expectedRobot" class="org.junitext.runners.Robot" >
+  	     <property name="name" value="Daneel Olivaw" />
+  	     <property name="id" value="134" />
+  	     <property name="model" value="X24R" />
+  	     <property name="manufacturer" value="Han Fastolfe" />
+    	 <property name="friends">
+     	    <list>
+		  	    <bean id="friend" class="org.junitext.runners.Robot" >
+	  	      	     <property name="name" value="Johnny 5" />
+			  	     <property name="id" value="5" />
+			  	     <property name="model" value="SAINT" />
+			  	     <property name="manufacturer" value="Nova Laboratories" />	  	    
+		  	    </bean>
+		  	</list>
+		 </property>
+    </bean>
+  	<bean id="expectedRobot" class="org.junitext.runners.Robot" >
+  	     <property name="name" value="Daneel Olivaw" />
+  	     <property name="id" value="134" />
+  	     <property name="model" value="X24R" />
+  	     <property name="manufacturer" value="Han Fastolfe" />
+    	 <property name="friends">
+     	    <list>
+		  	    <bean id="friend" class="org.junitext.runners.Robot" >
+	  	      	     <property name="name" value="Johnny 5" />
+			  	     <property name="id" value="5" />
+			  	     <property name="model" value="SAINT" />
+			  	     <property name="manufacturer" value="Nova Laboratories" />	  	    
+		  	    </bean>
+		  	</list>
+		 </property>
+    </bean>
+  </test>
+</tests>
