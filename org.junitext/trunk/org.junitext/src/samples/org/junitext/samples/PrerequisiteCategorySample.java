@@ -16,10 +16,10 @@ import org.junitext.internal.runners.CategoryTextListener;
 import org.junitext.runners.AnnotationRunner;
 
 /**
- * Some simple tests for prerequisites and categories.
+ * Some samples for prerequisites and categories.
  */
 @RunWith(AnnotationRunner.class)
-public class SimpleTest {
+public class PrerequisiteCategorySample {
 
 	@Prerequisite(requires = "doMathTests")
 	@Category("math tests")
@@ -30,7 +30,7 @@ public class SimpleTest {
 		result++; // avoid warning for not using result
 	}
 
-	@Prerequisite(requires = "doEqualsTests", callee = SimpleTest.class)
+	@Prerequisite(requires = "doEqualsTests", callee = PrerequisiteCategorySample.class)
 	@Category("equal tests")
 	@Test
 	public void testEquals() {
@@ -64,7 +64,7 @@ public class SimpleTest {
 
 	/**
 	 * Callback with signature boolean doSomeTest(Description description). Will
-	 * be search first.
+	 * be searched first.
 	 */
 	public static boolean doSomeTest(Description desc) {
 		return desc.getDisplayName().startsWith("testSome1");
@@ -90,6 +90,6 @@ public class SimpleTest {
 		JUnitCore core = new JUnitCore();
 		// use for categories special listener, give some statistics
 		core.addListener(new CategoryTextListener(System.out));
-		core.run(SimpleTest.class);
+		core.run(PrerequisiteCategorySample.class);
 	}
 }
