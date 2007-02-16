@@ -1,6 +1,13 @@
 TODOs for JUnitExt
 ==================
 
+- Add documentation for JDK 1.4 support to docs and website
+	- Java plain code
+	- ANT sample
+	- refer to good work of RetroWeaver
+	
+- Improve website documentation
+
 - Sanity-Check for distribution
 	- Test SwingUI without load errors
 	- make ANT build, with -lib lib

@@ -1,6 +1,9 @@
 ChangeLog for JUnitExt
 ======================
 
+0.2.x 2007-02-16
+- Refactored test cases and samples
+
 0.2.3 2007-02-14 Jochen Hiller
 - Fix in weaving JUnit jar in jdk14/samples
 
