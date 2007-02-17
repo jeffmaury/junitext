@@ -13,6 +13,7 @@ import org.junit.internal.runners.CompositeRunner;
 import org.junit.internal.runners.MethodValidator;
 import org.junit.internal.runners.TestClassMethodsRunner;
 import org.junit.internal.runners.TestClassRunner;
+import org.junitext.XMLBeanParameters;
 import org.junitext.runners.parameters.factory.ParameterFactory;
 
 /**

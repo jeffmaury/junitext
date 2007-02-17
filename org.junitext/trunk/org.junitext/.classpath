@@ -6,9 +6,25 @@
 	<classpathentry kind="src" path="src-ui-runners/java"/>
 	<classpathentry kind="src" path="src-ui-runners/test"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="lib/junit-4.2.jar" sourcepath="lib/junit-4.2-src.jar"/>
-	<classpathentry kind="lib" path="lib/commons-beanutils.jar"/>
-	<classpathentry kind="lib" path="lib/commons-digester-1.8.jar"/>
-	<classpathentry kind="lib" path="lib/commons-logging-1.1.jar"/>
+	<classpathentry kind="lib" path="lib/junit-4.2.jar" sourcepath="lib/junit-4.2-src.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="http://junit.sourceforge.net/javadoc_40/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="lib/commons-beanutils.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="http://jakarta.apache.org/commons/beanutils/commons-beanutils-1.7.0/docs/api/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="lib/commons-digester-1.8.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="http://jakarta.apache.org/commons/digester/commons-digester-1.8/docs/api"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="lib/commons-logging-1.1.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="http://jakarta.apache.org/commons/logging/commons-logging-1.1/apidocs/"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

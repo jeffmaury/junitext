@@ -15,12 +15,12 @@ import org.junit.runners.Suite.SuiteClasses;
 import org.junitext.manipulation.CategoryFilterTest;
 import org.junitext.manipulation.CategorySorterTest;
 import org.junitext.manipulation.PrerequisiteFilterTest;
-import org.junitext.runners.XMLBeanParameterizedTestTest;
+import org.junitext.runners.XMLBeanParameterizedTest;
 import org.junitext.runners.parameters.factory.DigesterParameterFactoryTest;
 
 @RunWith(Suite.class)
 @SuiteClasses( { PrerequisiteTest.class, PrerequisiteHandlerTest.class, CategoryFilterTest.class,
-		CategorySorterTest.class, PrerequisiteFilterTest.class, XMLBeanParameterizedTestTest.class,
+		CategorySorterTest.class, PrerequisiteFilterTest.class, XMLBeanParameterizedTest.class,
 		DigesterParameterFactoryTest.class})
 public class AllTests {
 	public static Test suite() {
