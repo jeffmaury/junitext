@@ -10,7 +10,7 @@ import java.util.List;
  * Interface for creating JavaBean test parameters from an XML File.
  * <p>
  * Implementors of this interface can be passed as the bean factor to the
- * {@link org.junitext.XMLBeanParameters} annotation. Implementors have the
+ * {@link org.junitext.XMLParameters} annotation. Implementors have the
  * complete freedom of defining the XML format that is used. This allows for
  * different XML-->Java object mappers to be used at the discretion of the user.
  * </p>

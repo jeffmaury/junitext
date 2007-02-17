@@ -13,7 +13,7 @@ import org.junitext.runners.parameters.factory.ParameterFactory;
 
 /**
  * Marks a test class constructor as being paramaterized by the given XML file.
- * The <code>XMLBeanParameters</code> annotation also optionally allows a user
+ * The <code>XMLParameters</code> annotation also optionally allows a user
  * to specify the
  * {@link org.junitext.runners.parameters.factory.ParameterFactory}
  * implementation to use when creating the JavaBeans.
@@ -22,7 +22,7 @@ import org.junitext.runners.parameters.factory.ParameterFactory;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.CONSTRUCTOR)
-public @interface XMLBeanParameters {
+public @interface XMLParameters {
 	/**
 	 * The XML File to create the JavaBeans from.
 	 * 

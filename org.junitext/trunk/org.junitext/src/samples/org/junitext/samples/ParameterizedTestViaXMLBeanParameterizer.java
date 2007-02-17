@@ -7,16 +7,16 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.junitext.XMLBeanParameters;
-import org.junitext.runners.XMLBeanParameterizedRunner;
+import org.junitext.XMLParameters;
+import org.junitext.runners.XMLParameterizedRunner;
 
-@RunWith(XMLBeanParameterizedRunner.class)
+@RunWith(XMLParameterizedRunner.class)
 public class ParameterizedTestViaXMLBeanParameterizer {
 	private Robot expectedRobot;
 
 	private Robot actualRobot;
 
-	@XMLBeanParameters("/org/junitext/samples/Robots.xml")
+	@XMLParameters("/org/junitext/samples/Robots.xml")
 	public ParameterizedTestViaXMLBeanParameterizer(Robot expected, Robot actual) {
 		this.expectedRobot = expected;
 		this.actualRobot = actual;

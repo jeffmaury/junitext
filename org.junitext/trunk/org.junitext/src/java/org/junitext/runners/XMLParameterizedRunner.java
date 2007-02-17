@@ -13,7 +13,7 @@ import org.junit.internal.runners.CompositeRunner;
 import org.junit.internal.runners.MethodValidator;
 import org.junit.internal.runners.TestClassMethodsRunner;
 import org.junit.internal.runners.TestClassRunner;
-import org.junitext.XMLBeanParameters;
+import org.junitext.XMLParameters;
 import org.junitext.runners.parameters.factory.ParameterFactory;
 
 /**
@@ -21,7 +21,7 @@ import org.junitext.runners.parameters.factory.ParameterFactory;
  * in an XML file.
  * @author Jim Hurne
  */
-public class XMLBeanParameterizedRunner extends TestClassRunner {
+public class XMLParameterizedRunner extends TestClassRunner {
 	//TODO Don't use any of the internal JUnit classes
 
 	/**
@@ -101,12 +101,12 @@ public class XMLBeanParameterizedRunner extends TestClassRunner {
 		private Constructor<?> getConstructor() throws Exception {
 			Constructor[] constructors= getTestClass().getConstructors();
 			for(Constructor constructor: constructors) {
-				if(constructor.isAnnotationPresent(XMLBeanParameters.class)) {
+				if(constructor.isAnnotationPresent(XMLParameters.class)) {
 					return constructor;
 				}
 			}
 			//We should never get here, as this should have been validated previously.
-			throw new Exception("No constructor with the XMLBeanParameters annotation exists for class "
+			throw new Exception("No constructor with the XMLParameters annotation exists for class "
 					+ getName());			
 		}
 		
@@ -145,7 +145,7 @@ public class XMLBeanParameterizedRunner extends TestClassRunner {
 
 		@SuppressWarnings("unchecked")
 		private Collection<Object[]> getParametersList() throws IllegalAccessException, InvocationTargetException, Exception {
-			XMLBeanParameters annotation = getParameterAnnotation();
+			XMLParameters annotation = getParameterAnnotation();
 			ParameterFactory parameterFactory = annotation.beanFactory().newInstance();
 			return parameterFactory.createParameters(fKlass, lookupXmlFile(annotation.value()));
 		}
@@ -169,13 +169,13 @@ public class XMLBeanParameterizedRunner extends TestClassRunner {
 		}
 		
 		@SuppressWarnings("unchecked")
-		private XMLBeanParameters getParameterAnnotation() throws Exception {
+		private XMLParameters getParameterAnnotation() throws Exception {
 			for (Constructor constructor : fKlass.getConstructors()) {
-				if(constructor.isAnnotationPresent(XMLBeanParameters.class)) {
-					return (XMLBeanParameters) constructor.getAnnotation(XMLBeanParameters.class);
+				if(constructor.isAnnotationPresent(XMLParameters.class)) {
+					return (XMLParameters) constructor.getAnnotation(XMLParameters.class);
 				}
 			}
-			throw new Exception("No constructor with the XMLBeanParameters annotation exists for class "
+			throw new Exception("No constructor with the XMLParameters annotation exists for class "
 					+ getName());			
 		}
 	}	
@@ -185,7 +185,7 @@ public class XMLBeanParameterizedRunner extends TestClassRunner {
 	 * @param klass the test class
 	 * @throws Exception if there is a problem constructing the new test runner
 	 */
-	public XMLBeanParameterizedRunner(final Class<?> klass) throws Exception {
+	public XMLParameterizedRunner(final Class<?> klass) throws Exception {
 		super(klass, new RunAllXMLParameterMethods(klass));
 	}	
 	

@@ -18,11 +18,11 @@ import org.junit.runner.Request;
 import org.junit.runner.Result;
 import org.junit.runner.RunWith;
 import org.junit.runner.Runner;
-import org.junitext.XMLBeanParameters;
-import org.junitext.runners.XMLBeanParameterizedRunner;
+import org.junitext.XMLParameters;
+import org.junitext.runners.XMLParameterizedRunner;
 import org.junitext.runners.parameters.factory.ParameterFactory;
 
-public class XMLBeanParameterizedTest {
+public class XMLParameterizedTest {
 
 	static public class DummyBeanFactory implements ParameterFactory {
 
@@ -56,13 +56,13 @@ public class XMLBeanParameterizedTest {
 	}
 
 	// This is our "mock" test class for testing the parameterized XML
-	@RunWith(XMLBeanParameterizedRunner.class)
+	@RunWith(XMLParameterizedRunner.class)
 	static public class RobotTest {
 		private Robot expected;
 
 		private Robot actual;
 
-		@XMLBeanParameters(value = "Robots.xml", beanFactory = DummyBeanFactory.class)
+		@XMLParameters(value = "Robots.xml", beanFactory = DummyBeanFactory.class)
 		public RobotTest(Robot expectedRobot, Robot actualRobot) {
 			this.expected = expectedRobot;
 			this.actual = actualRobot;
@@ -106,7 +106,7 @@ public class XMLBeanParameterizedTest {
 
 	private static String fLog;
 
-	@RunWith(XMLBeanParameterizedRunner.class)
+	@RunWith(XMLParameterizedRunner.class)
 	static public class BeforeAndAfter {
 		@BeforeClass
 		public static void before() {
@@ -118,7 +118,7 @@ public class XMLBeanParameterizedTest {
 			fLog += "after ";
 		}
 
-		@XMLBeanParameters(value = "Robots.xml", beanFactory = DummyBeanFactory.class)
+		@XMLParameters(value = "Robots.xml", beanFactory = DummyBeanFactory.class)
 		public BeforeAndAfter(Robot expectedRobot, Robot actualRobot) {
 		}
 	}
@@ -130,7 +130,7 @@ public class XMLBeanParameterizedTest {
 		assertEquals("before after ", fLog);
 	}
 
-	@RunWith(XMLBeanParameterizedRunner.class)
+	@RunWith(XMLParameterizedRunner.class)
 	static public class EmptyTest {
 		@BeforeClass
 		public static void before() {
@@ -149,14 +149,14 @@ public class XMLBeanParameterizedTest {
 		assertEquals(1, result.getFailureCount());
 	}
 
-	@RunWith(XMLBeanParameterizedRunner.class)
+	@RunWith(XMLParameterizedRunner.class)
 	static public class IncorrectTest {
 		@Test
 		public int test() {
 			return 0;
 		}
 
-		@XMLBeanParameters(value = "Robots.xml", beanFactory = DummyBeanFactory.class)
+		@XMLParameters(value = "Robots.xml", beanFactory = DummyBeanFactory.class)
 		public IncorrectTest(Robot expectedRobot, Robot actualRobot) {
 		}
 	}
@@ -167,10 +167,10 @@ public class XMLBeanParameterizedTest {
 		assertEquals(1, result.getFailureCount());
 	}
 
-	@RunWith(XMLBeanParameterizedRunner.class)
+	@RunWith(XMLParameterizedRunner.class)
 	static public class IncorrectNumberOfParameters {
 
-		@XMLBeanParameters(value = "Robots.xml", beanFactory = DummyBeanFactory.class)
+		@XMLParameters(value = "Robots.xml", beanFactory = DummyBeanFactory.class)
 		public IncorrectNumberOfParameters(Robot robot) {
 		}
 	}
@@ -181,10 +181,10 @@ public class XMLBeanParameterizedTest {
 		assertEquals(1, result.getFailureCount());
 	}
 
-	@RunWith(XMLBeanParameterizedRunner.class)
+	@RunWith(XMLParameterizedRunner.class)
 	static public class IncorrectParameterTypes {
 
-		@XMLBeanParameters(value = "Robots.xml", beanFactory = DummyBeanFactory.class)
+		@XMLParameters(value = "Robots.xml", beanFactory = DummyBeanFactory.class)
 		public IncorrectParameterTypes(Robot robot, String anotherArgument) {
 		}
 	}
