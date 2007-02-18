@@ -94,11 +94,9 @@ public class DigesterParameterFactory implements ParameterFactory {
 		// <property name="" value="" > tag
 		digester.addSetProperty("*/bean/property", "name", "value");
 
-		// Add an object set previously with
-		// the CallParamRule to the bean property
-		// This rule is used by the collections as well as properties that
-		// expect
-		// beans
+		// Add an object set previously with the CallParamRule to the bean
+		// property. This rule is used by the collections as well as properties
+		// that expect beans
 		SetPropertyWithParameterRule setPropertyWithObject = new SetPropertyWithParameterRule(
 				"name");
 		digester.addRule("*/bean/property", setPropertyWithObject);
@@ -168,5 +166,4 @@ public class DigesterParameterFactory implements ParameterFactory {
 		// If the list is nested within another list, add it to the parent list
 		digester.addSetNext("*/list/list", "add");
 	}
-
 }
