@@ -18,6 +18,7 @@ public class Robot {
 	private long id;
 	private String model;
 	private String manufacturer;
+	private Robot bestFriend;
 	private List<Robot> friends;
 	private List<List<Robot>> listsOfFriends;
 	private List<List<List<Robot>>> threeLevelListOfFriends;
@@ -95,6 +96,20 @@ public class Robot {
 		this.threeLevelListOfFriends = threeLevelListOfFriends;
 	}
 	
+	/**
+	 * @return the bestFriend
+	 */
+	public Robot getBestFriend() {
+		return bestFriend;
+	}
+
+	/**
+	 * @param bestFriend the bestFriend to set
+	 */
+	public void setBestFriend(Robot bestFriend) {
+		this.bestFriend = bestFriend;
+	}	
+	
 	@Override
 	public String toString() {
 		StringBuilder newString = new StringBuilder();
@@ -102,6 +117,7 @@ public class Robot {
 		newString.append("Id: [").append(id).append("] ");
 		newString.append("manufacturer: [").append(manufacturer).append("] ");
 		newString.append("model: [").append(model).append("] ");
+		newString.append("bestFriend: [").append(bestFriend).append("] ");
 		newString.append("friends: {");
 		if(friends != null) {
 			for(Robot friend: friends) {
@@ -138,5 +154,5 @@ public class Robot {
 		newString.append("}");
 		
 		return newString.toString();
-	}	
+	}
 }

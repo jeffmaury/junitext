@@ -83,6 +83,8 @@ public class DigesterParameterFactory implements ParameterFactory {
 		// Add the <test> list to the top level <tests> list
 		digester.addSetNext("tests/test", "add");
 
+		// -- Basic Bean Rules
+
 		// Create an object for any "beans" that are encountered
 		// We use the wildcard so that any bean tag at any nesting level is
 		// handled
@@ -92,8 +94,29 @@ public class DigesterParameterFactory implements ParameterFactory {
 		// <property name="" value="" > tag
 		digester.addSetProperty("*/bean/property", "name", "value");
 
+		// Add an object set previously with
+		// the CallParamRule to the bean property
+		// This rule is used by the collections as well as properties that
+		// expect
+		// beans
+		SetPropertyWithParameterRule setPropertyWithObject = new SetPropertyWithParameterRule(
+				"name");
+		digester.addRule("*/bean/property", setPropertyWithObject);
+
 		// Add the bean to the parameter set
 		digester.addSetNext("*/bean", "add");
+
+		// --Rules for bean-based properties
+
+		// Create beans that are associated with properties
+		// We have to do this becuase the more-specific pattern overrides
+		// the less specific "*/bean" pattern.
+		digester.addObjectCreate("*/bean/property/bean", "java.lang.Object",
+				"class");
+
+		// Add nested beans as a parameter so that they can be
+		// added to the properties of a parent bean
+		digester.addCallParam("*/bean/property/bean", 0, true);
 	}
 
 	private void registerBasicObjectRules(Digester digester) {
@@ -132,17 +155,11 @@ public class DigesterParameterFactory implements ParameterFactory {
 		// -- Rules for List Processing
 		// Create an ArrayList for each <list> element
 		digester.addObjectCreate("*/list", ArrayList.class);
-		
+
 		// Add the newly created ArrayLists as a parameter so that it can be
 		// added to the properties of the parent bean (or added to another
 		// collection)
-		digester.addCallParam("*/list", 0, true);		
-		
-		// Add the list set previously with
-		// the CallParamRule to the bean property
-		SetPropertyWithParameterRule setPropertyWithObject = new SetPropertyWithParameterRule(
-				"name");
-		digester.addRule("*/bean/property", setPropertyWithObject);
+		digester.addCallParam("*/list", 0, true);
 
 		// -- Rules for lists nested under lists
 		// Create an ArrayList for each nested <list> element

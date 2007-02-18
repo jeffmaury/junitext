@@ -41,10 +41,12 @@ public class BasicDigesterParameterFactoryTest {
 				.getBytes("UTF-8"));
 
 		List<ParameterSet> expectedParamSets = new ArrayList<ParameterSet>();
-		expectedParamSets.add(new ParameterSet(null, new Object[] { expectedString }));
+		expectedParamSets.add(new ParameterSet(null,
+				new Object[] { expectedString }));
 
 		// Run the test
-		List<ParameterSet> actualParamSets = testFactory.createParameters(inputXml);
+		List<ParameterSet> actualParamSets = testFactory
+				.createParameters(inputXml);
 
 		// Verify the expected outcome
 		assertParameterSetsEqual(expectedParamSets, actualParamSets);
@@ -60,10 +62,12 @@ public class BasicDigesterParameterFactoryTest {
 				.getBytes("UTF-8"));
 
 		List<ParameterSet> expectedParamSets = new ArrayList<ParameterSet>();
-		expectedParamSets.add(new ParameterSet(null,new Object[] { expectedInteger }));
+		expectedParamSets.add(new ParameterSet(null,
+				new Object[] { expectedInteger }));
 
 		// Run the test
-		List<ParameterSet> actualParamSets = testFactory.createParameters(inputXml);
+		List<ParameterSet> actualParamSets = testFactory
+				.createParameters(inputXml);
 
 		// Verify the expected outcome
 		assertParameterSetsEqual(expectedParamSets, actualParamSets);
@@ -79,10 +83,12 @@ public class BasicDigesterParameterFactoryTest {
 				.getBytes("UTF-8"));
 
 		List<ParameterSet> expectedParamSets = new ArrayList<ParameterSet>();
-		expectedParamSets.add(new ParameterSet(null,new Object[] { expectedShort }));
+		expectedParamSets.add(new ParameterSet(null,
+				new Object[] { expectedShort }));
 
 		// Run the test
-		List<ParameterSet> actualParamSets = testFactory.createParameters(inputXml);
+		List<ParameterSet> actualParamSets = testFactory
+				.createParameters(inputXml);
 
 		// Verify the expected outcome
 		assertParameterSetsEqual(expectedParamSets, actualParamSets);
@@ -98,10 +104,12 @@ public class BasicDigesterParameterFactoryTest {
 				.getBytes("UTF-8"));
 
 		List<ParameterSet> expectedParamSets = new ArrayList<ParameterSet>();
-		expectedParamSets.add(new ParameterSet(null,new Object[] { expectedLong }));
+		expectedParamSets.add(new ParameterSet(null,
+				new Object[] { expectedLong }));
 
 		// Run the test
-		List<ParameterSet> actualParamSets = testFactory.createParameters(inputXml);
+		List<ParameterSet> actualParamSets = testFactory
+				.createParameters(inputXml);
 
 		// Verify the expected outcome
 		assertParameterSetsEqual(expectedParamSets, actualParamSets);
@@ -117,10 +125,61 @@ public class BasicDigesterParameterFactoryTest {
 				.getBytes("UTF-8"));
 
 		List<ParameterSet> expectedParamSets = new ArrayList<ParameterSet>();
-		expectedParamSets.add(new ParameterSet(null,new Object[] { expectedBoolean }));
+		expectedParamSets.add(new ParameterSet(null,
+				new Object[] { expectedBoolean }));
 
 		// Run the test
-		List<ParameterSet> actualParamSets = testFactory.createParameters(inputXml);
+		List<ParameterSet> actualParamSets = testFactory
+				.createParameters(inputXml);
+
+		// Verify the expected outcome
+		assertParameterSetsEqual(expectedParamSets, actualParamSets);
+	}
+
+	@Test
+	public void parseBeanWithBeanProperty() throws Exception {
+		// Create the "input" XML
+		String inputString = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\" ?>"
+				+ "<tests>"
+				+ "<test>"
+				+ "<bean id=\"expectedRobot\" class=\"org.junitext.runners.Robot\" >"
+				+ "<property name=\"name\" value=\"Daneel Olivaw\" />"
+				+ "<property name=\"id\" value=\"134\" />"
+				+ "<property name=\"model\" value=\"X24R\" />"
+				+ "<property name=\"manufacturer\" value=\"Han Fastolfe\" />"
+				+ "<property name=\"bestFriend\">"
+				+ "<bean id=\"friend\" class=\"org.junitext.runners.Robot\" >"
+				+ "<property name=\"name\" value=\"Johnny 5\" />"
+				+ "<property name=\"id\" value=\"5\" />"
+				+ "<property name=\"model\" value=\"SAINT\" />"
+				+ "<property name=\"manufacturer\" value=\"Nova Laboratories\" />"
+				+ "</bean>" + "</property>" + "</bean>" + "</test>"
+				+ "</tests>";
+		InputStream inputXml = new ByteArrayInputStream(inputString
+				.getBytes("UTF-8"));
+
+		// Create the expected parameter set
+		Robot expectedRobot = new Robot();
+		expectedRobot.setName("Daneel Olivaw");
+		expectedRobot.setId(134);
+		expectedRobot.setManufacturer("Han Fastolfe");
+		expectedRobot.setModel("X24R");
+
+		Robot friend = new Robot();
+		friend.setName("Johnny 5");
+		friend.setId(5);
+		friend.setManufacturer("Nova Laboratories");
+		friend.setModel("SAINT");
+
+		expectedRobot.setBestFriend(friend);
+
+		List<ParameterSet> expectedParamSets = new ArrayList<ParameterSet>();
+		expectedParamSets.add(new ParameterSet(null,
+				new Object[] { expectedRobot }));
+
+		// Run the test
+		List<ParameterSet> actualParamSets = testFactory
+				.createParameters(inputXml);
 
 		// Verify the expected outcome
 		assertParameterSetsEqual(expectedParamSets, actualParamSets);
@@ -167,10 +226,12 @@ public class BasicDigesterParameterFactoryTest {
 		expectedRobot.setFriends(expectedFriends);
 
 		List<ParameterSet> expectedParamSets = new ArrayList<ParameterSet>();
-		expectedParamSets.add(new ParameterSet(null,new Object[] { expectedRobot }));
+		expectedParamSets.add(new ParameterSet(null,
+				new Object[] { expectedRobot }));
 
 		// Run the test
-		List<ParameterSet> actualParamSets = testFactory.createParameters(inputXml);
+		List<ParameterSet> actualParamSets = testFactory
+				.createParameters(inputXml);
 
 		// Verify the expected outcome
 		assertParameterSetsEqual(expectedParamSets, actualParamSets);
@@ -206,10 +267,12 @@ public class BasicDigesterParameterFactoryTest {
 		expectedRobot.setListsOfFriends(listOfFriends);
 
 		List<ParameterSet> expectedParamSets = new ArrayList<ParameterSet>();
-		expectedParamSets.add(new ParameterSet(null,new Object[] { expectedRobot }));
+		expectedParamSets.add(new ParameterSet(null,
+				new Object[] { expectedRobot }));
 
 		// Run the test
-		List<ParameterSet> actualParamSets = testFactory.createParameters(inputXml);
+		List<ParameterSet> actualParamSets = testFactory
+				.createParameters(inputXml);
 
 		// Verify the expected outcome
 		assertParameterSetsEqual(expectedParamSets, actualParamSets);
@@ -250,10 +313,12 @@ public class BasicDigesterParameterFactoryTest {
 		expectedRobot.setThreeLevelListOfFriends(thirdLevelList);
 
 		List<ParameterSet> expectedParamSets = new ArrayList<ParameterSet>();
-		expectedParamSets.add(new ParameterSet(null,new Object[] { expectedRobot }));
+		expectedParamSets.add(new ParameterSet(null,
+				new Object[] { expectedRobot }));
 
 		// Run the test
-		List<ParameterSet> actualParamSets = testFactory.createParameters(inputXml);
+		List<ParameterSet> actualParamSets = testFactory
+				.createParameters(inputXml);
 
 		// Verify the expected outcome
 		assertParameterSetsEqual(expectedParamSets, actualParamSets);
@@ -261,7 +326,7 @@ public class BasicDigesterParameterFactoryTest {
 
 	/**
 	 * Asserts that two lists of parameter sets are equal. Individual objects in
-	 * a given parameter set are compaired using the <code>toString()</code>
+	 * a given parameter set are compared using the <code>toString()</code>
 	 * method.
 	 * 
 	 * @param expectedParamSets
@@ -273,8 +338,10 @@ public class BasicDigesterParameterFactoryTest {
 				expectedParamSets.size(), acutalParamSets.size());
 
 		for (int j = 0; j < expectedParamSets.size(); j++) {
-			Object[] expectedParamSet = expectedParamSets.get(j).getParameterObjects();
-			Object[] actualParamSet = acutalParamSets.get(j).getParameterObjects();
+			Object[] expectedParamSet = expectedParamSets.get(j)
+					.getParameterObjects();
+			Object[] actualParamSet = acutalParamSets.get(j)
+					.getParameterObjects();
 
 			assertEquals("The correct number of objects were not created.",
 					expectedParamSet.length, actualParamSet.length);
