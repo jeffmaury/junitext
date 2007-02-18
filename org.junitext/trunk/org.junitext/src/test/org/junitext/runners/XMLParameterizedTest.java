@@ -29,34 +29,35 @@ import org.junit.runner.Runner;
 import org.junitext.XMLParameters;
 import org.junitext.runners.XMLParameterizedRunner;
 import org.junitext.runners.parameters.factory.ParameterFactory;
+import org.junitext.runners.parameters.factory.ParameterSet;
 
 public class XMLParameterizedTest {
 
 	static public class DummyBeanFactory implements ParameterFactory {
 
-		public List<Object[]> createParameters(Class<?> klass, File xmlFile)
+		public List<ParameterSet> createParameters(Class<?> klass, File xmlFile)
 				throws Exception {
-			ArrayList<Object[]> data = new ArrayList<Object[]>();
+			ArrayList<ParameterSet> data = new ArrayList<ParameterSet>();
 
 			ArrayList<Robot> dataSet = new ArrayList<Robot>();
 			dataSet.add(new Robot("Daneel Olivaw", 134, "X24R", "Han Fastolfe"));
 			dataSet.add(new Robot("Daneel Olivaw", 134, "X24R", "Han Fastolfe"));
-			data.add(dataSet.toArray());
+			data.add(new ParameterSet(null, dataSet.toArray()));
 
 			dataSet = new ArrayList<Robot>();
 			dataSet.add(new Robot("Johnny 5", 5, "SAINT", "Nova Laboratories"));
 			dataSet.add(new Robot("Johnny 5", 5, "SAINT", "Nova Laboratories"));
-			data.add(dataSet.toArray());
+			data.add(new ParameterSet(null, dataSet.toArray()));
 
 			dataSet = new ArrayList<Robot>();
 			dataSet.add(new Robot("Johnny 5", 5, "SAINT", "Nova Laboratories"));
 			dataSet.add(new Robot("Daneel Olivaw", 134, "X24R", "Han Fastolfe"));
-			data.add(dataSet.toArray());
+			data.add(new ParameterSet(null, dataSet.toArray()));
 
 			dataSet = new ArrayList<Robot>();
 			dataSet.add(new Robot("Daneel Olivaw", 134, "X24R", "Han Fastolfe"));
 			dataSet.add(new Robot("Johnny 5", 5, "SAINT", "Nova Laboratories"));
-			data.add(dataSet.toArray());
+			data.add(new ParameterSet(null, dataSet.toArray()));
 
 			return data;
 		}

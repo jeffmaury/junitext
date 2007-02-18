@@ -19,6 +19,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Collection;
+import java.util.List;
 
 import org.junit.internal.runners.CompositeRunner;
 import org.junit.internal.runners.MethodValidator;
@@ -26,6 +27,7 @@ import org.junit.internal.runners.TestClassMethodsRunner;
 import org.junit.internal.runners.TestClassRunner;
 import org.junitext.XMLParameters;
 import org.junitext.runners.parameters.factory.ParameterFactory;
+import org.junitext.runners.parameters.factory.ParameterSet;
 
 /**
  * A custom JUnit test runner that allows tests to be parameterized by JavaBeans instanciated with data 
@@ -42,7 +44,7 @@ public class XMLParameterizedRunner extends TestClassRunner {
 		/**
 		 * The parameters for this particular test run.
 		 */
-		private final Object[] fParameters;
+		private final ParameterSet fParemeterSet;
 
 		/**
 		 * The number that this test run represents.
@@ -60,9 +62,9 @@ public class XMLParameterizedRunner extends TestClassRunner {
 		 * @param parameters the parameters to use when constructing the test class instance
 		 * @param i the parameter set number
 		 */
-		private TestClassRunnerForXMLParameters(Class<?> klass, Object[] parameters, int i) throws Exception {
+		private TestClassRunnerForXMLParameters(Class<?> klass, ParameterSet paremeterSet, int i) throws Exception {
 			super(klass);
-			fParameters= parameters;
+			fParemeterSet= paremeterSet;
 			fParameterSetNumber= i;
 			fConstructor= getConstructor();
 			validateConstructor();
@@ -77,7 +79,7 @@ public class XMLParameterizedRunner extends TestClassRunner {
 		 */
 		@Override
 		protected Object createTest() throws Exception {
-			return fConstructor.newInstance(fParameters);
+			return fConstructor.newInstance(fParemeterSet.getParameters());
 		}
 		
 		/**
@@ -123,39 +125,40 @@ public class XMLParameterizedRunner extends TestClassRunner {
 		
 		public void validateConstructor() throws Exception {
 			Class[] constructorParams = fConstructor.getParameterTypes();
-			if(constructorParams.length != fParameters.length) {
+			final Object[] parameters = fParemeterSet.getParameters();
+			if(constructorParams.length != parameters.length) {
 				throw new Exception("For test set [" +fParameterSetNumber + "], the parameter set does not contain the right number of parameters for the constuctor [" + fConstructor.toString() + "].");
 			}
 			
-			for(int j = 0; j < fParameters.length; j++) {
-				if(!fParameters[j].getClass().equals(constructorParams[j])) {
+			for(int j = 0; j < parameters.length; j++) {
+				if(!parameters[j].getClass().equals(constructorParams[j])) {
 					throw new Exception("For test set [" +fParameterSetNumber + "], parameter [" + j + "] is not of the right type for constructor [" + fConstructor.toString() + "]. " +
-							            "Expected [" + constructorParams[j].toString() + "] but was [" + fParameters[j].getClass().toString() + "].");
+							            "Expected [" + constructorParams[j].toString() + "] but was [" + parameters[j].getClass().toString() + "].");
 				}
 			}
 		}
 	}
 	
 	/**
-	 * @author jhurne
+	 * @author Jim Hurne
 	 */
 	private static class RunAllXMLParameterMethods extends CompositeRunner {
 		private final Class<?> fKlass;
 		
-		private final Collection<Object[]> parametersList;
+		private final List<ParameterSet> parametersList;
 
 		public RunAllXMLParameterMethods(Class<?> klass) throws Exception {
 			super(klass.getName());
 			fKlass= klass;
 			int i= 0;
 			parametersList = getParametersList();
-			for (final Object[] parameters : parametersList) {
-				super.add(new TestClassRunnerForXMLParameters(klass, parameters, i++));
+			for (final ParameterSet parameterSet : parametersList) {
+				super.add(new TestClassRunnerForXMLParameters(klass, parameterSet, i++));
 			}
 		}
 
 		@SuppressWarnings("unchecked")
-		private Collection<Object[]> getParametersList() throws IllegalAccessException, InvocationTargetException, Exception {
+		private List<ParameterSet> getParametersList() throws IllegalAccessException, InvocationTargetException, Exception {
 			XMLParameters annotation = getParameterAnnotation();
 			ParameterFactory parameterFactory = annotation.beanFactory().newInstance();
 			return parameterFactory.createParameters(fKlass, lookupXmlFile(annotation.value()));

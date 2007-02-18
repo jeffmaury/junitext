@@ -31,7 +31,7 @@ public class DigesterParameterFactory implements ParameterFactory {
 	 * @see org.junitext.runners.parameters.factory.ParameterFactory#createParameters(java.lang.Class,
 	 *      java.io.File)
 	 */
-	public List<Object[]> createParameters(Class<?> testClass, File xmlFile)
+	public List<ParameterSet> createParameters(Class<?> testClass, File xmlFile)
 			throws Exception {
 
 		InputStream xmlInput = new FileInputStream(xmlFile);
@@ -48,7 +48,7 @@ public class DigesterParameterFactory implements ParameterFactory {
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<Object[]> createParameters(InputStream xmlInput)
+	public List<ParameterSet> createParameters(InputStream xmlInput)
 			throws Exception {
 		// Step 1 - Create the digester
 		Digester digester = new Digester();
@@ -65,9 +65,9 @@ public class DigesterParameterFactory implements ParameterFactory {
 				.parse(xmlInput);
 
 		// Step 4- Convert our list of lists to a list of object arrays
-		List<Object[]> returnParmSet = new ArrayList<Object[]>();
+		List<ParameterSet> returnParmSet = new ArrayList<ParameterSet>();
 		for (List<?> parmSet : generatedParmSets) {
-			returnParmSet.add(parmSet.toArray());
+			returnParmSet.add(new ParameterSet(null, parmSet.toArray()));
 		}
 
 		return returnParmSet;
