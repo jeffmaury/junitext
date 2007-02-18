@@ -18,7 +18,6 @@ import java.lang.reflect.Method;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.Collection;
 import java.util.List;
 
 import org.junit.internal.runners.CompositeRunner;
