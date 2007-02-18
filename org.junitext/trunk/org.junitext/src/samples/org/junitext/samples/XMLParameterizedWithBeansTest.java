@@ -11,13 +11,13 @@ import org.junitext.XMLParameters;
 import org.junitext.runners.XMLParameterizedRunner;
 
 @RunWith(XMLParameterizedRunner.class)
-public class ParameterizedTestViaXMLBeanParameterizer {
+public class XMLParameterizedWithBeansTest {
 	private Robot expectedRobot;
 
 	private Robot actualRobot;
 
 	@XMLParameters("/org/junitext/samples/Robots.xml")
-	public ParameterizedTestViaXMLBeanParameterizer(Robot expected, Robot actual) {
+	public XMLParameterizedWithBeansTest(Robot expected, Robot actual) {
 		this.expectedRobot = expected;
 		this.actualRobot = actual;
 	}
