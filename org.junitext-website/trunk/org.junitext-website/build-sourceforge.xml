@@ -62,7 +62,8 @@ ln -s htdocs.${NOW} htdocs
 		     verbose="true"
 		     server="upload.sourceforge.net"
 		     userid="anonymous"
-		     password="">
+		     password=""
+		     newer="false">
 			<fileset dir="${ftp.dir}">
 				<include name="**/*" />
 			</fileset>
