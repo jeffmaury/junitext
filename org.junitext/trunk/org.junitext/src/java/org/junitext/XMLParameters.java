@@ -1,6 +1,14 @@
-/**
- * Copyright (C) 2006-2007, Jochen Hiller.
- */
+/*******************************************************************************
+ * Copyright (C) 2006-2007 Jochen Hiller and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Common Public License - v 1.0
+ * which accompanies this distribution, and is available at
+ * http://junitext.sourceforge.net/licenses/junitext-license.html
+ * 
+ * Contributors:
+ *     Jochen Hiller - initial API and implementation
+ *     Jim Hurne - initial XMLParameterizedRunner API and implementation 
+ ******************************************************************************/
 package org.junitext;
 
 import java.lang.annotation.ElementType;
@@ -16,7 +24,7 @@ import org.junitext.runners.parameters.factory.ParameterFactory;
  * The <code>XMLParameters</code> annotation also optionally allows a user
  * to specify the
  * {@link org.junitext.runners.parameters.factory.ParameterFactory}
- * implementation to use when creating the JavaBeans.
+ * implementation to use when creating the parameters.
  * 
  * @author Jim Hurne
  */

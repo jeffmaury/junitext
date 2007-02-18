@@ -1,6 +1,14 @@
-/**
- * Copyright (C) 2006-2007, Jochen Hiller.
- */
+/*******************************************************************************
+ * Copyright (C) 2006-2007 Jochen Hiller and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Common Public License - v 1.0
+ * which accompanies this distribution, and is available at
+ * http://junitext.sourceforge.net/licenses/junitext-license.html
+ * 
+ * Contributors:
+ *     Jochen Hiller - initial API and implementation
+ *     Jim Hurne - initial XMLParameterizedRunner API and implementation 
+ ******************************************************************************/
 package org.junitext.runners.parameters.factory;
 
 import java.io.File;
@@ -38,6 +46,7 @@ public class DigesterParameterFactory implements ParameterFactory {
 	 * @return the sets of test parameters
 	 * @throws Exception
 	 */
+	@SuppressWarnings("unchecked")
 	public List<Object[]> createParameters(InputStream xmlInput) throws Exception {
 		// Step 1 - Create the digester
 		Digester digester = new Digester();
@@ -46,16 +55,16 @@ public class DigesterParameterFactory implements ParameterFactory {
 		// Step 2 - Register rules
 
 		registerBaseRules(digester);
-		registerPrimativeRules(digester);
+		registerBasicObjectRules(digester);
 		registerCollectionRules(digester);
 		
 
 		// Step 3 - Run the digester against the given input file
-		List<List> generatedParmSets = (List<List>) digester.parse(xmlInput);
+		List<List<?>> generatedParmSets = (List<List<?>>) digester.parse(xmlInput);
 
 		// Step 4- Convert our list of lists to a list of object arrays
 		List<Object[]> returnParmSet = new ArrayList<Object[]>();
-		for (List parmSet : generatedParmSets) {
+		for (List<?> parmSet : generatedParmSets) {
 			returnParmSet.add(parmSet.toArray());
 		}
 
@@ -85,42 +94,52 @@ public class DigesterParameterFactory implements ParameterFactory {
 		digester.addSetNext("*/bean", "add");		
 	}
 	
-	private void registerPrimativeRules(Digester digester) {
+	private void registerBasicObjectRules(Digester digester) {
+		//All of the basic object rules work the same.  If we encounter
+		//a basic object, then record the "value" of the basic object
+		//as a parameter that is used to call the add method on the current
+		//<test> list.
+		
 		//-- Rules for Strings
 		digester.addCallMethod("tests/test/string", "add", 1, new Class[] { String.class });
 		digester.addCallParam("tests/test/string", 0, "value");
 		
-		//-- Rules for Integer primatives
+		//-- Rules for Integers
 		digester.addCallMethod("tests/test/int", "add", 1, new Class[] { Integer.class });
 		digester.addCallParam("tests/test/int", 0, "value");
 
-		//-- Rules for the Short primative
+		//-- Rules for the Shorts
 		digester.addCallMethod("tests/test/short", "add", 1, new Class[] { Short.class });
 		digester.addCallParam("tests/test/short", 0, "value");
 
-		//-- Rules for the Long primative
+		//-- Rules for the Longs
 		digester.addCallMethod("tests/test/long", "add", 1, new Class[] { Long.class });
 		digester.addCallParam("tests/test/long", 0, "value");
 		
-		//-- Rules for the Boolean primative
+		//-- Rules for the Booleans
 		digester.addCallMethod("tests/test/boolean", "add", 1, new Class[] { Boolean.class });
 		digester.addCallParam("tests/test/boolean", 0, "value");	
 	}
 	
 	private void registerCollectionRules(Digester digester) {
 		//-- Rules for List Processing
-		// Create an ArrayList for each nested <list> element
-		digester.addObjectCreate("*/bean/property/list", ArrayList.class);
-		
-		// Add a created ArrayList as a parameter so that it can be added
-		// to the properties of the parent bean.
-		digester.addCallParam("*/bean/property/list", 0, true);
+		// Create an ArrayList for each <list> element
+		digester.addObjectCreate("*/list", ArrayList.class);
+		digester.addObjectCreate("*/list/list", ArrayList.class);
 
+		// If the list is nested within another list, add it to the parent list
+		digester.addSetNext("*/list/list", "add");
+		
 		// Add the object (whatever it happens to be) set previously with 
 		// the CallParamRule to the bean property
 		SetPropertyWithParameterRule setPropertyWithObject = new SetPropertyWithParameterRule(
 				"name");
 		digester.addRule("*/bean/property", setPropertyWithObject);
+		
+		// Add the newly created ArrayLists as a parameter so that it can be added
+		// to the properties of the parent bean (or added to another collection)
+		digester.addCallParam("*/list", 0, true);
+		
 	}
 
 }

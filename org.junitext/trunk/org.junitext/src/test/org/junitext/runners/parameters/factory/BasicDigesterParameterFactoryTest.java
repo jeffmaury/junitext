@@ -1,24 +1,27 @@
-/**
- * Copyright (C) 2006-2007, Jochen Hiller.
- */
+/*******************************************************************************
+ * Copyright (C) 2006-2007 Jochen Hiller and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Common Public License - v 1.0
+ * which accompanies this distribution, and is available at
+ * http://junitext.sourceforge.net/licenses/junitext-license.html
+ * 
+ * Contributors:
+ *     Jochen Hiller - initial API and implementation
+ *     Jim Hurne - initial XMLParameterizedRunner API and implementation 
+ ******************************************************************************/
 package org.junitext.runners.parameters.factory;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.io.ByteArrayInputStream;
-import java.io.File;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-import org.junit.*;
+import org.junit.Before;
+import org.junit.Test;
 import org.junitext.runners.Robot;
-import org.junitext.runners.parameters.factory.DigesterParameterFactory;
 
 public class BasicDigesterParameterFactoryTest {
 
@@ -180,7 +183,7 @@ public class BasicDigesterParameterFactoryTest {
 				parmSet[0] instanceof Boolean);
 
 		// Verify the parameter
-		assertEquals("The Boolean does not equal the expected String.",
+		assertEquals("The Boolean does not equal the expected Boolean.",
 				expectedBoolean, parmSet[0]);		
 	}	
 	
@@ -245,4 +248,119 @@ public class BasicDigesterParameterFactoryTest {
 		assertEquals("The robot does not equal the expected robot.",
 				expectedRobot.toString(), parmSet[0].toString());
 	}
+	
+	@Test
+	public void parseBeanWithAListOfLists() throws Exception {
+		//Create the "input" XML
+		String inputString = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\" ?>"
+				+ "<tests>"
+				+ "<test>"
+				+ "<bean id=\"expectedRobot\" class=\"org.junitext.runners.Robot\" >"
+				+ "<property name=\"name\" value=\"Daneel Olivaw\" />"
+				+ "<property name=\"listsOfFriends\">"
+				+ "<list>"
+				+ "<list>"				
+				+ "<bean id=\"friend\" class=\"org.junitext.runners.Robot\" >"
+				+ "<property name=\"name\" value=\"Johnny 5\" />"
+				+ "</bean>"
+				+ "</list>"				
+				+ "</list>" 
+				+ "</property>" 
+				+ "</bean>" 
+				+ "</test>"
+				+ "</tests>";
+		InputStream inputXml = new ByteArrayInputStream(inputString.getBytes("UTF-8"));
+		
+		// Create the expected parameter set
+		Robot expectedRobot = new Robot();
+		expectedRobot.setName("Daneel Olivaw");
+
+		Robot friend = new Robot();
+		friend.setName("Johnny 5");
+
+		List<Robot> expectedFriends = new ArrayList<Robot>();
+		expectedFriends.add(friend);
+		List<List<Robot>> listOfFriends = new ArrayList<List<Robot>>();
+		listOfFriends.add(expectedFriends);
+		expectedRobot.setListsOfFriends(listOfFriends);
+
+		List<Object[]> parmSets = testFactory.createParameters(inputXml);
+
+		// Verify that the correct object structure was created.
+		assertEquals("The correct number of paramter sets were not created.",
+				1, parmSets.size());
+
+		Object[] parmSet = parmSets.get(0);
+		assertEquals("The correct number of beans were not created.", 1,
+				parmSet.length);
+
+		assertTrue("The first bean is not a Robot.",
+				parmSet[0] instanceof Robot);
+
+		// Verify the robot
+		assertEquals("The robot does not equal the expected robot.",
+				expectedRobot.toString(), parmSet[0].toString());
+	}
+	
+	
+	@Test
+	public void parseBeanWithAListOfListsOfLists() throws Exception {
+		//Create the "input" XML
+		String inputString = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\" ?>"
+				+ "<tests>"
+				+ "<test>"
+				+ "<bean id=\"expectedRobot\" class=\"org.junitext.runners.Robot\" >"
+				+ "<property name=\"name\" value=\"Daneel Olivaw\" />"
+				+ "<property name=\"threeLevelListOfFriends\">"
+				+ "<list>"
+				+ "<list>"
+				+ "<list>"
+				+ "<bean id=\"friend\" class=\"org.junitext.runners.Robot\" >"
+				+ "<property name=\"name\" value=\"Johnny 5\" />"
+				+ "</bean>"
+				+ "</list>"				
+				+ "</list>"				
+				+ "</list>" 
+				+ "</property>" 
+				+ "</bean>" 
+				+ "</test>"
+				+ "</tests>";
+		InputStream inputXml = new ByteArrayInputStream(inputString.getBytes("UTF-8"));
+		
+		// Create the expected parameter set
+		Robot expectedRobot = new Robot();
+		expectedRobot.setName("Daneel Olivaw");
+
+		Robot friend = new Robot();
+		friend.setName("Johnny 5");
+
+		List<Robot> expectedFriends = new ArrayList<Robot>();
+		expectedFriends.add(friend);
+		List<List<Robot>> listOfFriends = new ArrayList<List<Robot>>();
+		listOfFriends.add(expectedFriends);
+		
+		List<List<List<Robot>>> thirdLevelList = new ArrayList<List<List<Robot>>>();
+		thirdLevelList.add(listOfFriends);
+		
+		expectedRobot.setThreeLevelListOfFriends(thirdLevelList);
+
+		List<Object[]> parmSets = testFactory.createParameters(inputXml);
+
+		// Verify that the correct object structure was created.
+		assertEquals("The correct number of paramter sets were not created.",
+				1, parmSets.size());
+
+		Object[] parmSet = parmSets.get(0);
+		assertEquals("The correct number of beans were not created.", 1,
+				parmSet.length);
+
+		assertTrue("The first bean is not a Robot.",
+				parmSet[0] instanceof Robot);
+
+		// Verify the robot
+		assertEquals("The robot does not equal the expected robot.",
+				expectedRobot.toString(), parmSet[0].toString());
+	}
+	
+	
 }
