@@ -58,6 +58,11 @@ TODOs for JUnitExt
 	- probably provide scripting support
 		- check for Groovy, RS, others ?
 		- Use script engine API ?
+    - XMLParamterizedRunner
+        - finalize and formalize XML file format with a DTD and/or XML Schema
+        - add the ability to set test parameters via setter methods
+        - provide alternative parameter factories
+        - add support for Spring bean configuration files?
 
 - other frameworks:
 	- make tests with dbUnit, Jammy (UI)
