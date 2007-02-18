@@ -273,8 +273,8 @@ public class BasicDigesterParameterFactoryTest {
 				expectedParamSets.size(), acutalParamSets.size());
 
 		for (int j = 0; j < expectedParamSets.size(); j++) {
-			Object[] expectedParamSet = expectedParamSets.get(j).getParameters();
-			Object[] actualParamSet = acutalParamSets.get(j).getParameters();
+			Object[] expectedParamSet = expectedParamSets.get(j).getParameterObjects();
+			Object[] actualParamSet = acutalParamSets.get(j).getParameterObjects();
 
 			assertEquals("The correct number of objects were not created.",
 					expectedParamSet.length, actualParamSet.length);

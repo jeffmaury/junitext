@@ -28,6 +28,7 @@ import org.junit.runner.RunWith;
 import org.junit.runner.Runner;
 import org.junitext.XMLParameters;
 import org.junitext.runners.XMLParameterizedRunner;
+import org.junitext.runners.parameters.factory.Parameter;
 import org.junitext.runners.parameters.factory.ParameterFactory;
 import org.junitext.runners.parameters.factory.ParameterSet;
 
@@ -35,29 +36,32 @@ public class XMLParameterizedTest {
 
 	static public class DummyBeanFactory implements ParameterFactory {
 
+		/**
+		 * @see org.junitext.runners.parameters.factory.ParameterFactory#createParameters(java.lang.Class, java.io.File)
+		 */
 		public List<ParameterSet> createParameters(Class<?> klass, File xmlFile)
 				throws Exception {
 			ArrayList<ParameterSet> data = new ArrayList<ParameterSet>();
 
-			ArrayList<Robot> dataSet = new ArrayList<Robot>();
-			dataSet.add(new Robot("Daneel Olivaw", 134, "X24R", "Han Fastolfe"));
-			dataSet.add(new Robot("Daneel Olivaw", 134, "X24R", "Han Fastolfe"));
-			data.add(new ParameterSet(null, dataSet.toArray()));
+			ArrayList<Parameter> dataSet = new ArrayList<Parameter>();
+			dataSet.add(new Parameter(new Robot("Daneel Olivaw", 134, "X24R", "Han Fastolfe")));
+			dataSet.add(new Parameter(new Robot("Daneel Olivaw", 134, "X24R", "Han Fastolfe")));
+			data.add(new ParameterSet(null, dataSet));
 
-			dataSet = new ArrayList<Robot>();
-			dataSet.add(new Robot("Johnny 5", 5, "SAINT", "Nova Laboratories"));
-			dataSet.add(new Robot("Johnny 5", 5, "SAINT", "Nova Laboratories"));
-			data.add(new ParameterSet(null, dataSet.toArray()));
+			dataSet = new ArrayList<Parameter>();
+			dataSet.add(new Parameter(new Robot("Johnny 5", 5, "SAINT", "Nova Laboratories")));
+			dataSet.add(new Parameter(new Robot("Johnny 5", 5, "SAINT", "Nova Laboratories")));
+			data.add(new ParameterSet(null, dataSet));
 
-			dataSet = new ArrayList<Robot>();
-			dataSet.add(new Robot("Johnny 5", 5, "SAINT", "Nova Laboratories"));
-			dataSet.add(new Robot("Daneel Olivaw", 134, "X24R", "Han Fastolfe"));
-			data.add(new ParameterSet(null, dataSet.toArray()));
+			dataSet = new ArrayList<Parameter>();
+			dataSet.add(new Parameter(new Robot("Johnny 5", 5, "SAINT", "Nova Laboratories")));
+			dataSet.add(new Parameter(new Robot("Daneel Olivaw", 134, "X24R", "Han Fastolfe")));
+			data.add(new ParameterSet(null, dataSet));
 
-			dataSet = new ArrayList<Robot>();
-			dataSet.add(new Robot("Daneel Olivaw", 134, "X24R", "Han Fastolfe"));
-			dataSet.add(new Robot("Johnny 5", 5, "SAINT", "Nova Laboratories"));
-			data.add(new ParameterSet(null, dataSet.toArray()));
+			dataSet = new ArrayList<Parameter>();
+			dataSet.add(new Parameter(new Robot("Daneel Olivaw", 134, "X24R", "Han Fastolfe")));
+			dataSet.add(new Parameter(new Robot("Johnny 5", 5, "SAINT", "Nova Laboratories")));
+			data.add(new ParameterSet(null, dataSet));
 
 			return data;
 		}

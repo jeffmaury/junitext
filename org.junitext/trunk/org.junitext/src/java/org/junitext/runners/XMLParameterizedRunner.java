@@ -26,6 +26,7 @@ import org.junit.internal.runners.MethodValidator;
 import org.junit.internal.runners.TestClassMethodsRunner;
 import org.junit.internal.runners.TestClassRunner;
 import org.junitext.XMLParameters;
+import org.junitext.runners.parameters.factory.Parameter;
 import org.junitext.runners.parameters.factory.ParameterFactory;
 import org.junitext.runners.parameters.factory.ParameterSet;
 
@@ -79,7 +80,7 @@ public class XMLParameterizedRunner extends TestClassRunner {
 		 */
 		@Override
 		protected Object createTest() throws Exception {
-			return fConstructor.newInstance(fParemeterSet.getParameters());
+			return fConstructor.newInstance(fParemeterSet.getParameterObjects());
 		}
 		
 		/**
@@ -123,17 +124,20 @@ public class XMLParameterizedRunner extends TestClassRunner {
 					+ getName());			
 		}
 		
+		/**
+		 * @throws Exception
+		 */
 		public void validateConstructor() throws Exception {
 			Class[] constructorParams = fConstructor.getParameterTypes();
-			final Object[] parameters = fParemeterSet.getParameters();
-			if(constructorParams.length != parameters.length) {
+			final List<Parameter> parameters = fParemeterSet.getParameters();
+			if(constructorParams.length != parameters.size()) {
 				throw new Exception("For test set [" +fParameterSetNumber + "], the parameter set does not contain the right number of parameters for the constuctor [" + fConstructor.toString() + "].");
 			}
 			
-			for(int j = 0; j < parameters.length; j++) {
-				if(!parameters[j].getClass().equals(constructorParams[j])) {
+			for(int j = 0; j < parameters.size(); j++) {
+				if(!parameters.get(j).getParameter().getClass().equals(constructorParams[j])) {
 					throw new Exception("For test set [" +fParameterSetNumber + "], parameter [" + j + "] is not of the right type for constructor [" + fConstructor.toString() + "]. " +
-							            "Expected [" + constructorParams[j].toString() + "] but was [" + parameters[j].getClass().toString() + "].");
+							            "Expected [" + constructorParams[j].toString() + "] but was [" + parameters.get(j).getParameter().getClass().toString() + "].");
 				}
 			}
 		}
