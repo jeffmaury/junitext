@@ -57,7 +57,7 @@ public class DigesterParameterFactory implements ParameterFactory {
 		// Step 2 - Register rules
 
 		registerBaseRules(digester);
-		registerBasicObjectRules(digester);
+		registerValueObjectRules(digester);
 		registerCollectionRules(digester);
 
 		// Step 3 - Run the digester against the given input file
@@ -101,7 +101,7 @@ public class DigesterParameterFactory implements ParameterFactory {
 				"name");
 		digester.addRule("*/bean/property", setPropertyWithObject);
 
-		// Add the bean to the parameter set
+		// Add the bean to the parameter set (or to a <list>)
 		digester.addSetNext("*/bean", "add");
 
 		// --Rules for bean-based properties
@@ -117,7 +117,7 @@ public class DigesterParameterFactory implements ParameterFactory {
 		digester.addCallParam("*/bean/property/bean", 0, true);
 	}
 
-	private void registerBasicObjectRules(Digester digester) {
+	private void registerValueObjectRules(Digester digester) {
 		// All of the basic object rules work the same. If we encounter
 		// a basic object, then record the "value" of the basic object
 		// as a parameter that is used to call the add method on the current
@@ -158,6 +158,10 @@ public class DigesterParameterFactory implements ParameterFactory {
 		// added to the properties of the parent bean (or added to another
 		// collection)
 		digester.addCallParam("*/list", 0, true);
+		
+		// -- Rules for basic values nested under lists
+		digester.addCallMethod("*/list/value", "add", 1);
+		digester.addCallParam("*/list/value", 0);
 
 		// -- Rules for lists nested under lists
 		// Create an ArrayList for each nested <list> element

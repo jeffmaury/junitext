@@ -168,4 +168,50 @@ public class DigesterParameterFactoryListsTest {
 		// Verify the expected outcome
 		assertParameterSetsEqual(expectedParamSets, actualParamSets);
 	}
+
+	@Test
+	public void parseBeanWithAListOfValueObjects() throws Exception {
+
+		// NOTE: This test only tests that a list of value objects contains
+		// Strings. DigesterParameterFactory does not yet take advantage of
+		// Generics to infer the correct list type from the bean's property
+		// (like Spring is capable of doing).
+
+		// Create the "input" XML
+		String inputString = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\" ?>"
+				+ "<tests><test>"
+				+ "<bean id=\"expectedRobot\" class=\"org.junitext.runners.Robot\" >"
+				+ "<property name=\"name\" value=\"Daneel Olivaw\" />"
+				+ "<property name=\"mixedList\">" + "<list>"
+				+ "<value>A string value</value>" + "<value>10232</value>"
+				+ "<value>false</value>" + "</list></property></bean>"
+				+ "</test></tests>";
+		InputStream inputXml = new ByteArrayInputStream(inputString
+				.getBytes("UTF-8"));
+
+		// Create the expected parameter set
+		Robot expectedRobot = new Robot();
+		expectedRobot.setName("Daneel Olivaw");
+
+		Robot friend = new Robot();
+		friend.setName("Johnny 5");
+
+		List<Object> mixedList = new ArrayList<Object>();
+		mixedList.add("A string value");
+		mixedList.add("10232");
+		mixedList.add("false");
+
+		expectedRobot.setMixedList(mixedList);
+
+		List<ParameterSet> expectedParamSets = new ArrayList<ParameterSet>();
+		expectedParamSets.add(new ParameterSet(null,
+				new Object[] { expectedRobot }));
+
+		// Run the test
+		List<ParameterSet> actualParamSets = testFactory
+				.createParameters(inputXml);
+
+		// Verify the expected outcome
+		assertParameterSetsEqual(expectedParamSets, actualParamSets);
+	}
 }

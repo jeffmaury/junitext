@@ -13,12 +13,20 @@ package org.junitext.runners;
 
 import java.util.List;
 
+/**
+ * Mock bean that is used in the unit tests for the XMLParameterizedRunner.
+ * 
+ * @author Jim Hurne
+ */
 public class Robot {
 	private String name;
 	private long id;
 	private String model;
 	private String manufacturer;
 	private Robot bestFriend;
+	
+	private List<Object> mixedList;
+	
 	private List<Robot> friends;
 	private List<List<Robot>> listsOfFriends;
 	private List<List<List<Robot>>> threeLevelListOfFriends;
@@ -108,6 +116,20 @@ public class Robot {
 	 */
 	public void setBestFriend(Robot bestFriend) {
 		this.bestFriend = bestFriend;
+	}
+	
+	/**
+	 * @return the mixedList
+	 */
+	public List<Object> getMixedList() {
+		return mixedList;
+	}
+
+	/**
+	 * @param mixedList the mixedList to set
+	 */
+	public void setMixedList(List<Object> mixedList) {
+		this.mixedList = mixedList;
 	}	
 	
 	@Override
@@ -118,41 +140,12 @@ public class Robot {
 		newString.append("manufacturer: [").append(manufacturer).append("] ");
 		newString.append("model: [").append(model).append("] ");
 		newString.append("bestFriend: [").append(bestFriend).append("] ");
-		newString.append("friends: {");
-		if(friends != null) {
-			for(Robot friend: friends) {
-				newString.append(" [").append(friend.toString()).append("] ");
-			}
-		}
-		newString.append("} ");
-		newString.append("listsOfFriends: {");
-		if(listsOfFriends != null) {
-			for(List<Robot> eachList: listsOfFriends) {
-				newString.append(" {");
-				for(Robot friend: eachList) {
-					newString.append(" [").append(friend.toString()).append("] ");
-				}
-				newString.append(" } ");
-			}
-		}
-		newString.append("}");
 		
-		newString.append("threeLevelListsOfFriends: {");
-		if(threeLevelListOfFriends != null) {
-			for(List<List<Robot>> eachListList: threeLevelListOfFriends) {
-				newString.append(" {");
-				for(List<Robot> eachList: eachListList) {
-					newString.append(" {");
-					for(Robot friend: eachList) {
-						newString.append(" [").append(friend.toString()).append("] ");
-					}
-					newString.append(" } ");
-				}
-				newString.append(" } ");
-			}
-		}
-		newString.append("}");
-		
+		newString.append("mixedList: {").append(mixedList).append("}");
+		newString.append("friends: {").append(friends).append("}");
+		newString.append("listsOfFriends: {").append(listsOfFriends).append("}");
+		newString.append("threeLevelListOfFriends: {").append(threeLevelListOfFriends).append("}");
+				
 		return newString.toString();
 	}
 }

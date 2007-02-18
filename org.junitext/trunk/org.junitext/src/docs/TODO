@@ -65,6 +65,8 @@ TODOs for JUnitExt
         - add support for Spring bean configuration files?
         - allow sets of parameters to be named and to reflect the name in the 
           test names that are sent to the test runner listeners.
+        - when appropriate, attempt to infer the property type using reflection
+          (this could be particularly useful for collection types)
 
 - other frameworks:
 	- make tests with dbUnit, Jammy (UI)
