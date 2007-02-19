@@ -7,14 +7,17 @@ is a JDK 1.5 backward compatibility tool to allow JDK 1.5 based
 development, and JDK 1.4 (down to JDK 1.1) based deployment. For more
 details see RetroWeaver <a href="http://retroweaver.sourceforge.net">website</a>.</p>
 
+<h3>How to use JUnit 4.x and JDK 1.4 (or previous versions)</h3>
+
+<p>There is a sample included, using an ANT build file to compile and weave code, and 
+run JUnit 4.x based tests using JDK 1.4.</p>
+<p>See <a href="jdk14/build.xml.txt">jdk14/sample/build.xml</a>.</p>
+
+<h3>Notes to previous RetroWeaver versions:</h3>
 <p>There is a test included, based on latest
 RetroWeaver version 2.0Beta4. </p>
 <p style="color:#FF0000">The complete JUnit test suite is working now fine.</p>
 
-
-
-
-<h3>Notes to previous RetroWeaver versions:</h3>
 <ul>
 	<li>RetroWeaver 1.2.2 does not work, as ANT task does not create
 	output directories when weaving classes. See <code><a
