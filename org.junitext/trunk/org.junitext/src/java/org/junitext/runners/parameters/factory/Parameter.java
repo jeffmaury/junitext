@@ -76,7 +76,7 @@ public class Parameter {
 	}
 
 	/**
-	 * @param value
+	 * @param parameter
 	 *            the value to set
 	 */
 	public void setParameter(Object parameter) {
