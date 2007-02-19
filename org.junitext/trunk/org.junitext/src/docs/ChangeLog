@@ -9,7 +9,7 @@ ChangeLog for JUnitExt
 - Fix in weaving JUnit jar in jdk14/samples
 
 0.2.2 2007-02-13 Jochen Hiller
-- Now supporting JDK 1.4 with RetroWaever backward compatibility
+- Now supporting JDK 1.4 with RetroWeaver backward compatibility
 
 0.2.1 2007-01-03 Jochen Hiller
 - Additional support for Prerequisite signatures
