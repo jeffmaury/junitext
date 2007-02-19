@@ -2,8 +2,8 @@
 
 <project name="org.junitext.jdk14.sample" default="test" basedir=".">
 	<description>
-        JUnit 4 - Sample ho to use RetroWeaver
-    </description>
+		JUnit 4 - Sample how to use RetroWeaver
+	</description>
 
 	<property name="build.dir" value="${basedir}/build" />
 	<property name="lib.dir" value="${basedir}/../../lib" />
@@ -17,7 +17,7 @@
 		<taskdef name="retroweaver"
 		         classname="net.sourceforge.retroweaver.ant.RetroWeaverTask">
 			<classpath>
-				<!-- all includes waever -->
+				<!-- all includes weaver -->
 				<pathelement location="${lib.dir}/jdk14/retroweaver-all-${retroweaver.version}.jar" />
 				<!-- and concurrent util -->
 				<pathelement location="${lib.dir}/jdk14/backport-util-concurrent.jar" />
