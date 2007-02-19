@@ -34,7 +34,7 @@ public @interface XMLParameters {
 	/**
 	 * The XML File to create the JavaBeans from.
 	 * 
-	 * @return
+	 * @return the file name
 	 */
 	String value();
 
@@ -45,7 +45,7 @@ public @interface XMLParameters {
 	 * specified, then the default is to use
 	 * {@link org.junitext.runners.parameters.factory.DigesterParameterFactory}.
 	 * 
-	 * @return
+	 * @return the factory class
 	 */
 	Class<? extends ParameterFactory> beanFactory() 
 	                                     default DigesterParameterFactory.class;
