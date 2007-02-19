@@ -46,6 +46,14 @@
 		</javac>
 		<jar basedir="${build.dir}/classes"
 		     destfile="${build.dir}/lib/junitext-tests-${build.version}.jar" />
+		<!-- only compile samples, dont jar them -->
+		<javac srcdir="${basedir}/src/samples" destdir="${build.dir}/classes">
+			<classpath>
+				<fileset dir="${basedir}/lib" includes="*.jar" />
+				<fileset dir="${build.dir}/lib"
+				         includes="junitext-${build.version}.jar" />
+			</classpath>
+		</javac>
 
 		<delete dir="${build.dir}/classes" />
 		<mkdir dir="${build.dir}/classes" />
@@ -196,6 +204,9 @@
 				<exclude name="**/_svn" />
 			</fileset>
 		</copy>
+		<!-- copy build.xml to jdk14 dir -->
+		<copy file="${basedir}/jdk14/sample/build.xml"
+		      tofile="${build.dir}/docs/jdk14/build.xml.txt" />
 
 		<loadfile property="CONTENT_INDEX"
 		          srcFile="${src.docs.dir}/index.html" />
@@ -292,6 +303,7 @@
 				<include name="lib/**/*" />
 				<include name="src/java/**/*" />
 				<include name="src/test/**/*" />
+				<include name="src/samples/**/*" />
 				<include name="src-ui-runners/**/*" />
 				<include name="jdk14/**/*" />
 				<include name=".classpath" />
