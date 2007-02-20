@@ -63,10 +63,12 @@ TODOs for JUnitExt
         - add the ability to set test parameters via setter methods
         - provide alternative parameter factories
         - add support for Spring bean configuration files?
-        - allow sets of parameters to be named and to reflect the name in the 
+        - allow parameter sets to be named and to reflect the name in the 
           test names that are sent to the test runner listeners.
-        - when appropriate, attempt to infer the property type using reflection
-          (this could be particularly useful for collection types)
+        - when appropriate, attempt to infer the property type (java 5 generics)
+          using reflection (this could be particularly useful for collection types)
+        - allow parameter sets to be "disabled"
+        - add support for properties of arrays (auto-convert lists to arrays)
 
 - other frameworks:
 	- make tests with dbUnit, Jammy (UI)

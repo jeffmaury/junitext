@@ -11,7 +11,11 @@
  ******************************************************************************/
 package org.junitext.runners.parameters.factory;
 
+import java.lang.reflect.Array;
+import java.util.List;
+
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.digester.Rule;
 import org.xml.sax.Attributes;
 
@@ -85,7 +89,7 @@ public class SetPropertyWithParameterRule extends Rule {
 		if (parameters[0] != null) {
 
 			if (digester.getLogger().isDebugEnabled()) {
-				StringBuffer logMessage = new StringBuffer();
+				StringBuilder logMessage = new StringBuilder();
 				logMessage.append("[SetPropertyWithParameterRule]{");
 				logMessage.append(digester.getMatch());
 				logMessage.append("} Setting ");
@@ -97,10 +101,47 @@ public class SetPropertyWithParameterRule extends Rule {
 				digester.getLogger().debug(logMessage.toString());
 			}
 
+			if (parameters[0] instanceof List) {
+				// List objects may also represent array properties. Check if
+				// the property is an array instead of a list.
+				Class<?> propertyClass = PropertyUtils.getPropertyType(
+						parentBean, propertyName);
+				if (propertyClass.isArray()) {
+					// It is an array...so we need to convert our list to an
+					// array of the correct type.
+					parameters[0] = listToArray((List) parameters[0],
+							propertyClass.getComponentType());
+				}
+			}
+
 			// Attempt to set the property on the parentBean using the given
 			// object
 			BeanUtils.setProperty(parentBean, propertyName, parameters[0]);
 		}
+	}
+
+	/**
+	 * Converts the given list to an array of the given component type.
+	 * 
+	 * @param parameterAsList
+	 *            the <code>List</code> to convert to an array
+	 * @param componentType
+	 *            specifies the type of array to create
+	 * @return
+	 */
+	private Object listToArray(List<?> parameterAsList, Class<?> componentType) {
+		// This is a tricky bit of Java reflection. Basically, it is not
+		// possible to use the List.toArray(T[]) method because the type of the
+		// array is not known at compile time. Instead, we need to create a
+		// brand new instance of the array with the given component type of the
+		// same size as the list. Then all we need to do is to copy the list
+		// elements into the array.
+		Object newArray = Array.newInstance(componentType, parameterAsList
+				.size());
+		for (int j = 0; j < parameterAsList.size(); j++) {
+			Array.set(newArray, j, parameterAsList.get(j));
+		}
+		return newArray;
 	}
 
 	/**

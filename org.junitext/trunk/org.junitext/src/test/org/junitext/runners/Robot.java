@@ -11,6 +11,7 @@
  ******************************************************************************/
 package org.junitext.runners;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -24,6 +25,7 @@ public class Robot {
 	private String model;
 	private String manufacturer;
 	private Robot bestFriend;
+	private Robot[] arrayOfFriends;
 	
 	private List<Object> mixedList;
 	
@@ -132,6 +134,20 @@ public class Robot {
 		this.mixedList = mixedList;
 	}	
 	
+	/**
+	 * @return the arrayOfFriends
+	 */
+	public Robot[] getArrayOfFriends() {
+		return arrayOfFriends;
+	}
+
+	/**
+	 * @param arrayOfFriends the arrayOfFriends to set
+	 */
+	public void setArrayOfFriends(Robot[] arrayOfFriends) {
+		this.arrayOfFriends = arrayOfFriends;
+	}	
+	
 	@Override
 	public String toString() {
 		StringBuilder newString = new StringBuilder();
@@ -141,10 +157,11 @@ public class Robot {
 		newString.append("model: [").append(model).append("] ");
 		newString.append("bestFriend: [").append(bestFriend).append("] ");
 		
-		newString.append("mixedList: {").append(mixedList).append("}");
-		newString.append("friends: {").append(friends).append("}");
-		newString.append("listsOfFriends: {").append(listsOfFriends).append("}");
-		newString.append("threeLevelListOfFriends: {").append(threeLevelListOfFriends).append("}");
+		newString.append("mixedList: {").append(mixedList).append("} ");
+		newString.append("friends: {").append(friends).append("} ");
+		newString.append("listsOfFriends: {").append(listsOfFriends).append("} ");
+		newString.append("threeLevelListOfFriends: {").append(threeLevelListOfFriends).append("} ");
+		newString.append("arrayOfFriends: {").append(Arrays.toString(arrayOfFriends)).append("} ");
 				
 		return newString.toString();
 	}
