@@ -121,7 +121,8 @@ public class SetPropertyWithParameterRule extends Rule {
 	}
 
 	/**
-	 * Converts the given list to an array of the given component type.
+	 * Converts the given list to an array of the given component type. This
+	 * utility method can even convert multi-dimensional arrays.
 	 * 
 	 * @param parameterAsList
 	 *            the <code>List</code> to convert to an array
@@ -129,17 +130,24 @@ public class SetPropertyWithParameterRule extends Rule {
 	 *            specifies the type of array to create
 	 * @return
 	 */
-	private Object listToArray(List<?> parameterAsList, Class<?> componentType) {
+	private Object listToArray(List<?> listToConvert, Class<?> componentType) {
 		// This is a tricky bit of Java reflection. Basically, it is not
 		// possible to use the List.toArray(T[]) method because the type of the
 		// array is not known at compile time. Instead, we need to create a
 		// brand new instance of the array with the given component type of the
 		// same size as the list. Then all we need to do is to copy the list
 		// elements into the array.
-		Object newArray = Array.newInstance(componentType, parameterAsList
-				.size());
-		for (int j = 0; j < parameterAsList.size(); j++) {
-			Array.set(newArray, j, parameterAsList.get(j));
+		Object newArray = Array
+				.newInstance(componentType, listToConvert.size());
+		for (int j = 0; j < listToConvert.size(); j++) {
+			Object arrayElement = listToConvert.get(j);
+			if (componentType.isArray()) {
+				// We are dealing with a multi-dimensional array. Use recusion
+				// to convert each element into an array.
+				arrayElement = listToArray((List) arrayElement, componentType
+						.getComponentType());
+			}
+			Array.set(newArray, j, arrayElement);
 		}
 		return newArray;
 	}

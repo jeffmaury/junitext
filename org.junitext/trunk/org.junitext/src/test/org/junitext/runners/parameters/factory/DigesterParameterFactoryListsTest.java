@@ -214,7 +214,7 @@ public class DigesterParameterFactoryListsTest {
 		// Verify the expected outcome
 		assertParameterSetsEqual(expectedParamSets, actualParamSets);
 	}
-	
+
 	@Test
 	public void parseBeanWithAnArrayOfBeans() throws Exception {
 		// Create the "input" XML
@@ -223,12 +223,10 @@ public class DigesterParameterFactoryListsTest {
 				+ "<test>"
 				+ "<bean id=\"expectedRobot\" class=\"org.junitext.runners.Robot\" >"
 				+ "<property name=\"name\" value=\"Daneel Olivaw\" />"
-				+ "<property name=\"arrayOfFriends\">" 
-				+ "<list>"
+				+ "<property name=\"arrayOfFriends\">" + "<list>"
 				+ "<bean id=\"friend\" class=\"org.junitext.runners.Robot\" >"
 				+ "<property name=\"name\" value=\"Johnny 5\" />" + "</bean>"
-				+ "</list>"
-				+ "</property>" + "</bean>" + "</test>"
+				+ "</list>" + "</property>" + "</bean>" + "</test>"
 				+ "</tests>";
 		InputStream inputXml = new ByteArrayInputStream(inputString
 				.getBytes("UTF-8"));
@@ -256,5 +254,46 @@ public class DigesterParameterFactoryListsTest {
 		// Verify the expected outcome
 		assertParameterSetsEqual(expectedParamSets, actualParamSets);
 	}
-	
+
+	@Test
+	public void parseBeanWithAMultidimentionalArrayOfStrings() throws Exception {
+		// Create the "input" XML
+		String expectedStringA = "One expected string";
+		String expectedStringB = "Another expected string";
+		String expectedStringC = "One last expected string";
+		String inputString = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\" ?>"
+				+ "<tests>"
+				+ "<test>"
+				+ "<bean id=\"expectedRobot\" class=\"org.junitext.runners.Robot\" >"
+				+ "<property name=\"name\" value=\"Daneel Olivaw\" />"
+				+ "<property name=\"multiDimensionalArrayOfStrings\">"
+				+ "<list>" + "<list>" + "<value>" + expectedStringA
+				+ "</value>" + "<value>" + expectedStringB + "</value>"
+				+ "</list>" + "<list>" + "<value>" + expectedStringC
+				+ "</value>" + "</list>" + "</list>" + "</property>"
+				+ "</bean>" + "</test>" + "</tests>";
+		InputStream inputXml = new ByteArrayInputStream(inputString
+				.getBytes("UTF-8"));
+
+		// Create the expected parameter set
+		Robot expectedRobot = new Robot();
+		expectedRobot.setName("Daneel Olivaw");
+
+		String[][] multiDimensionalArrayOfStrings = {
+				{ expectedStringA, expectedStringB }, { expectedStringC } };
+		expectedRobot
+				.setMultiDimensionalArrayOfStrings(multiDimensionalArrayOfStrings);
+
+		List<ParameterSet> expectedParamSets = new ArrayList<ParameterSet>();
+		expectedParamSets.add(new ParameterSet(null,
+				new Object[] { expectedRobot }));
+
+		// Run the test
+		List<ParameterSet> actualParamSets = testFactory
+				.createParameters(inputXml);
+
+		// Verify the expected outcome
+		assertParameterSetsEqual(expectedParamSets, actualParamSets);
+	}
+
 }
