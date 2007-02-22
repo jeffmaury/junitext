@@ -1,0 +1,76 @@
+<?xml version="1.0"?>
+
+<project name="org.junitext.jdk14.sample" default="test" basedir=".">
+	<description>
+        JUnit 4 - Sample ho to use RetroWeaver
+    </description>
+
+	<property name="build.dir" value="${basedir}/build" />
+	<property name="lib.dir" value="${basedir}/../../lib" />
+	<property name="junit.version" value="4.2" />
+	<property name="_java14.home" value="J:\\j2sdk1.4.2_10" />
+	<property name="retroweaver.version" value="2.0Beta4" />
+
+
+	<target name="prepare">
+		<!-- we use retroweaver ant task -->
+		<taskdef name="retroweaver"
+		         classname="net.sourceforge.retroweaver.ant.RetroWeaverTask">
+			<classpath>
+				<!-- all includes waever -->
+				<pathelement location="${lib.dir}/jdk14/retroweaver-all-${retroweaver.version}.jar" />
+				<!-- and concurrent util -->
+				<pathelement location="${lib.dir}/jdk14/backport-util-concurrent.jar" />
+			</classpath>
+		</taskdef>
+	</target>
+
+	<target name="compile" depends="prepare" description="Compiles sources">
+		<mkdir dir="${build.dir}/classes" />
+		<!-- simple examples -->
+		<javac srcdir="${basedir}/src/java" destdir="${build.dir}/classes" />
+		<javac srcdir="${basedir}/src/test"
+		       destdir="${build.dir}/classes"
+		       classpath="${lib.dir}/junit-${junit.version}.jar" />
+	</target>
+
+	<target name="weave" depends="compile" description="Weaves JDK 1.4 classes">
+		<mkdir dir="${build.dir}/lib" />
+		<!-- weave junit jar -->
+		<retroweaver inputjar="${lib.dir}/junit-${junit.version}.jar"
+		             outputjar="${build.dir}/lib/junit-${junit.version}-jdk14.jar">
+		</retroweaver>
+		<!-- weave sample classes -->
+		<mkdir dir="${build.dir}/classes.weaved" />
+		<retroweaver destdir="${build.dir}/classes.weaved">
+			<fileset dir="${build.dir}/classes">
+				<include name="**/*.class" />
+			</fileset>
+		</retroweaver>
+	</target>
+
+	<target name="test"
+	        depends="weave"
+	        description="Test weaved class files with JDK 1.4">
+		<java jvm="${_java14.home}/bin/java.exe"
+		      classname="org.junit.runner.JUnitCore"
+		      fork="true"
+		      logerror="true">
+			<arg line="p1.C1Test" />
+			<classpath>
+				<pathelement path="${build.dir}/classes.weaved" />
+				<!-- junit pre weaved -->
+				<pathelement path="${build.dir}/lib/junit-${junit.version}-jdk14.jar" />
+				<!-- all includes all runtime classes -->
+				<pathelement path="${lib.dir}/jdk14/retroweaver-all-${retroweaver.version}.jar" />
+				<!-- required for concurrent libs -->
+				<pathelement path="${lib.dir}/jdk14/backport-util-concurrent.jar" />
+			</classpath>
+		</java>
+	</target>
+
+	<target name="clean" description="Cleanup generated files">
+		<delete dir="${build.dir}" />
+	</target>
+
+</project>
