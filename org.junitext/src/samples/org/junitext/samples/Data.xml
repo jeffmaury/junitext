@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<tests>
+  <test>
+     <string id="expected" value="Daneel Olivaw" />
+     <string id="expected" value="Daneel Olivaw" />
+  </test>
+  <test>
+     <string id="expected" value="Daneel Olivaw" />
+     <string id="expected" value="Johnny 5" />
+  </test>
+</tests>
