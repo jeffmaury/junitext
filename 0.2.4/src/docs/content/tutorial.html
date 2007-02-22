@@ -1,0 +1,300 @@
+<h1>Tutorial</h1>
+<h2>How to define prerequisites</h2>
+<p>It happens often, that a test case requires some prerequisites,
+e.g. be online in internet, database is available, database is filled
+with required test data. In this case, the test cases would fail. To use
+the <code>@Igore</code> is not applicable, if I am always switching
+between such configurations.</p>
+<p>The required approach would be to check this during running
+tests. So you can simply add a <code>@Prerequisite(requires="databaseIsAvailable"</code>
+annotation.</p>
+<pre>
+public class TestFillDatabase {
+    <b>@Prerequisite(requires = "databaseIsAvailable")</b>
+    @Test public void fillData() {
+        // ...
+    }
+    
+    public boolean databaseIsAvailable() {
+        boolean isAvailable = ...;
+        return isAvailable;
+    }
+}
+</pre>
+<pre>
+public class TestFillDatabase {
+	<b>@Prerequisite(requires = "databaseIsAvailable")</b>
+	@Test public void fillData() {
+		// ...
+	}
+	public boolean databaseIsAvailable() {
+		boolean isAvailable = ...;
+		return isAvailable ;
+	}
+}
+</pre>
+<p>This specified methods with <code>@Prerequisite(requires =
+"databaseIsAvailable")</code> must be a public method, returning a boolean or
+Boolean value.</p>
+<p>If these methods will be consolidated in helper classes, you can
+also specify static methods within a class to be called using <code>@Prerequisite(requires
+= "databaseIsAvailable", callee="DBHelper")</code>.</p>
+<pre>
+public class TestFillDatabase {
+	@Prerequisite(requires = "databaseIsAvailable", <b>callee="DBHelper"</b>)
+	@Test public void fillData() {
+		// ...
+	}
+}
+public class <b>DBHelper</b> {
+	public <b>static</b> boolean databaseIsAvailable() {
+		boolean isAvailable = ...;
+		return isAvailable ;
+	}
+}
+</pre>
+<p>Since JUnitExt 0.2.1, the called prerequisite method can also be
+implemented with following signatures (lookup with this ordering):</p>
+<pre>
+  public boolean somePrereqMethod (Description desc);
+  public boolean somePrereqMethod (String className, String methodName);
+  public boolean somePrereqMethod ();
+</pre>
+This will allow for dynamic logic based on test description or class and
+method name. See also org.junitext.samples.SimpleTest in distribution.
+</p>
+<p>To run these tests you have to specify to use a specific runner:</p>
+<pre>
+<b>@RunWith(AnnotationRunner.class)</b>
+public class TestFillDatabase {
+	...
+}
+</pre>
+<h2>How to use categories</h2>
+<p>Tests can be categorized, to sort them for different puporses.
+JUnitExt provides a CategoryTextListerner, which prints out at end of
+test run all categories, with status of tests listed: May be <code>Success</code>,
+<code>Ignored</code>, <code>Failed</code>. You can plugin the category
+text listener using following code: (see also <code>org.junitext.samples</code>
+package)</p>
+<pre>
+	JUnitCore core = new JUnitCore();
+	// use for categories special listener, give some statistics
+	core.addListener(new CategoryTextListener(System.out));
+	core.run(SimpleTest.class);
+</pre>
+<p>The output when running thes tests will be:</p>
+<pre>
+I.
+Time: 0
+
+OK (1 test)
+
+Category: equal tests
+  Success testEquals(org.junitext.samples.SimpleTest)
+Category: math tests
+  Ignored divideByZero(org.junitext.samples.SimpleTest)
+</pre>
+<p>A further integration withan IDE (e.g. Eclipse) is planned.</p>
+
+<h2>How to parameterize tests using XML</h2>
+<p>It is sometimes desirable to separate the test data from the tests themselves.
+There are two main reasons for doing so:
+<ul>
+   <li>If the test data has the potential of changing (this is often the case when performing 
+integration testing against external systems).</li>
+   <li>To provide multiple sets of data for testing the same unit of code with 
+differing inputs (the so-called data driven testing pattern).</li>
+</ul>
+</p>
+<p>To address these types of testing needs, JUnit Extensions contains a custom
+test runner that can parameterize tests using data contained in an XML file. The
+XML input file format attempts to mimic the Spring XML bean declaration format, 
+as many developers are familiar with the format.
+</p>
+<p>JUnit 4 has a <code>ParameterizedRunner</code> test runner, however, it 
+gets the test data from a static method defined on the test class itself.  
+<code>XMLParameterizedRunner</code> is similar in behavior to the 
+<code>ParameterizedRunner</code>, with the key exception that the test data
+resides in an XML file.</p>
+<p>Okay, onward with some examples.  This is a tutorial, after all!</p>
+<h3>Defining the test class</h3>
+<p>
+When defining a test class that will use the <code>XMLParameterizedRunner</code>,
+the test class needs the <code>@RunWith</code> attribute specifying that the
+<code>XMLParameterizedRunner</code> should be used. In addition, the <code>
+@XMLParameters</code> annotation needs to be added to tell the 
+<code>XMLParameterizedRunner</code> the name of the data XML file.  Below is an
+example class demonstrating the use of the two annotations:</p>
+<p>
+<pre>
+@RunWith(XMLParameterizedRunner.class)
+public class XMLParameterizedSampleTest {
+	private String expectedName;
+
+	private String actualName;
+
+	@XMLParameters("/org/junitext/samples/Data.xml")
+	public XMLParameterizedSampleTest(String expected, String actual) {
+		this.expectedName = expected;
+		this.actualName = actual;
+	}
+
+	@Test
+	public void namesAreEqual() {
+		assertEquals("The expected name does not equal the actual name.",
+				expectedName, actualName);
+	}
+}
+</pre>
+</p>
+<p>
+The <code>XMLParamterizedRunner</code> will search the classpath for the data
+XML file.  In the example above, it will look for the "Data.xml" file. All
+of the standard rules for loading resources from the classpath apply, 
+so something like "org/junitext/samples/Data.xml" is also completely legal.
+</p>
+<p>
+Also note that the <code>@XMLParameters</code> annotation must be applied to the
+test class's constructor.  If there are multiple <code>@XMLParameters</code> 
+annotations, then <code>XMLParamterizedRunner</code> will only use the first one.
+</p>
+<h3>Defining the test data</h3>
+<p>
+Below is the "Data.xml" for the above example test class:
+</p>
+<pre>
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;ISO-8859-1&quot; ?&gt;
+&lt;tests&gt;
+  &lt;test&gt;
+     &lt;string id=&quot;expected&quot; value=&quot;Daneel Olivaw&quot; /&gt;
+     &lt;string id=&quot;expected&quot; value=&quot;Daneel Olivaw&quot; /&gt;
+  &lt;/test&gt;
+  &lt;test&gt;
+     &lt;string id=&quot;expected&quot; value=&quot;Daneel Olivaw&quot; /&gt;
+     &lt;string id=&quot;expected&quot; value=&quot;Johnny 5&quot; /&gt;
+  &lt;/test&gt;
+&lt;/tests&gt;
+</pre>
+<p>
+For each <code>&lt;test&gt;</code> element encountered, a new instance of the
+test class will be created using the parameters defined within the body of the
+<code>&lt;test&gt;</code> element.  Consequently, each test method contained
+in the test class will be invoked once per <code>&lt;test&gt;</code> element.</p> 
+<h3>Running the test</h3>
+<p>
+Below is the output if you were to run the above test using the standard 
+JUnit 4 test runner:</p>
+<p>
+<pre>
+JUnit version 4.2
+..E
+Time: 0.03
+There was 1 failure:
+1) testRobotData[1](org.junitext.samples.XMLParameterizedSampleTest)
+org.junit.ComparisonFailure: The expected name does not equal the actual name. expected:<[Daneel Olivaw]> but was:<[Johnny 5]>
+	at org.junit.Assert.assertEquals(Assert.java:94)
+	at org.junitext.samples.XMLParameterizedSampleTest.testRobotData(XMLParameterizedSampleTest.java:27)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at org.junit.internal.runners.TestMethodRunner.executeMethodBody(TestMethodRunner.java:99)
+	at org.junit.internal.runners.TestMethodRunner.runUnprotected(TestMethodRunner.java:81)
+	at org.junit.internal.runners.BeforeAndAfterRunner.runProtected(BeforeAndAfterRunner.java:34)
+	at org.junit.internal.runners.TestMethodRunner.runMethod(TestMethodRunner.java:75)
+	at org.junit.internal.runners.TestMethodRunner.run(TestMethodRunner.java:45)
+	at org.junit.internal.runners.TestClassMethodsRunner.invokeTestMethod(TestClassMethodsRunner.java:75)
+	at org.junit.internal.runners.TestClassMethodsRunner.run(TestClassMethodsRunner.java:36)
+	at org.junit.internal.runners.CompositeRunner.run(CompositeRunner.java:29)
+	at org.junit.internal.runners.TestClassRunner$1.runUnprotected(TestClassRunner.java:42)
+	at org.junit.internal.runners.BeforeAndAfterRunner.runProtected(BeforeAndAfterRunner.java:34)
+	at org.junit.internal.runners.TestClassRunner.run(TestClassRunner.java:52)
+	at org.junit.internal.runners.CompositeRunner.run(CompositeRunner.java:29)
+	at org.junit.runner.JUnitCore.run(JUnitCore.java:130)
+	at org.junit.runner.JUnitCore.run(JUnitCore.java:109)
+	at org.junit.runner.JUnitCore.run(JUnitCore.java:100)
+	at org.junit.runner.JUnitCore.runMain(JUnitCore.java:81)
+	at org.junit.runner.JUnitCore.main(JUnitCore.java:44)
+
+FAILURES!!!
+Tests run: 2,  Failures: 1
+</pre>
+</p>
+<p>
+You will notice several things from the test run output:
+<ul>
+  <li>Two tests were run even though the test class only contains one test 
+  method.</li>
+  <li>The second test failed.</li>
+  <li>The test that failed had [1] appended to its name.</li>
+</ul>
+Just like the JUnit 4 <code>ParamterizedRunner</code>, the 
+<code>XMLParameterizedRunner</code> appends an index to each parameterized test 
+so that it is easier to identify the different test runs from each other. In a
+future version of the <code>XMLParameterizedRunner</code> it will be possible to
+specify a unique label for each test run in the XML file.
+</p>
+<p>
+Thanks to the excellent architecture of JUnit 4, <code>XMLParamterizedRunner</code>
+works perfectly with any JUnit test runner.  Here is what the test output looks
+like when the example test is run from within Eclipse:
+</p>
+<p>
+<img src="images/XMLParameterizedTestInEclipse.JPG" border="0" />
+</p>
+<p>
+Of course, <code>XMLParameterizedRunner</code> would be pretty limited if all
+it could handle were <code>String</code>s.  <code>XMLParameterizedRunner</code>
+supports the following value types:
+<ul>
+  <li><code>String</code></li>
+  <li><code>Boolean</code></li>
+  <li>Integer types, including <code>Integer</code>, <code>Short</code></li>,
+  and <code>Long</code></li>
+</ul>
+</p>
+<h3>Supported parameter types</h3>
+<p>
+In addition to basic value types, <code>XMLParameterizedRunner</code> supports
+the creation of complex Java objects that conform to the JavaBeans standard. 
+Beans are declared in very much the same way that they are in 
+<a href="http://www.springframework.org">Spring</a>:
+</p>
+<p>
+<pre>
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;ISO-8859-1&quot; ?&gt;
+&lt;tests&gt;
+  &lt;test&gt;
+    &lt;bean id=&quot;robot&quot; class=&quot;org.junitext.samples.Robot&quot; &gt;
+      &lt;property name=&quot;name&quot; value=&quot;Daneel Olivaw&quot; /&gt;
+      &lt;property name=&quot;id&quot; value=&quot;134&quot; /&gt;
+      &lt;property name=&quot;model&quot; value=&quot;X24R&quot; /&gt;
+      &lt;property name=&quot;manufacturer&quot; value=&quot;Han Fastolfe&quot; /&gt;
+      &lt;property name=&quot;friends&quot;&gt;
+        &lt;list&gt;
+            &lt;bean id=&quot;friend&quot; class=&quot;org.junitext.samples.Robot&quot; &gt;
+              &lt;property name=&quot;name&quot; value=&quot;Johnny 5&quot; /&gt;
+              &lt;property name=&quot;id&quot; value=&quot;5&quot; /&gt;
+              &lt;property name=&quot;model&quot; value=&quot;SAINT&quot; /&gt;
+              &lt;property name=&quot;manufacturer&quot; value=&quot;Nova Laboratories&quot; /&gt;            
+          &lt;/bean&gt;
+        &lt;/list&gt;
+      &lt;/property&gt;
+    &lt;/bean&gt;
+  &lt;/test&gt;
+&lt;/tests&gt;
+</pre>
+</p>
+<p>
+As you can see, <code>XMLParameterizedRunner</code> even supports setting bean
+properties that contain <code>List</code>s.
+</p>
+<p>
+It is important to note, however, that the bean declaration support in the 
+current version of <code>XMLParameterizedRunner</code> is still very rudimentary.
+Support for more advanced bean declarations is planned for future versions.
+</p>
+
+
+
