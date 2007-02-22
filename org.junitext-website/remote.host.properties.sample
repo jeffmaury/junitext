@@ -1,9 +1,0 @@
-# remote.host.properties.sample
-
-# specify these settings for scp/sshexec
-remote.host=shell.sourceforge.net
-remote.port=22
-remote.user=yourname
-remote.password=notused
-remote.keyfile=youropensshfile
-remote.passphrase=yourpassphrase
