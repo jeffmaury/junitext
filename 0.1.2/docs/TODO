@@ -1,0 +1,15 @@
+TODOs for JUnitExt
+==================
+
+- finish documentation, add docs to distribution
+- Add a runner for Multithreaded tests: @RunWith(MTRunner.class)
+	- configure no of threads, max. running time ?
+- Add annotation for @Platform
+	- support OS versions
+	- support JDK versions
+	- support Eclipse versions, use pattern as in Eclipse (ARCH, NL, OS, WS)
+- Test whether JUnit 4 extensions could be plugged into Eclipse JUnit plugins
+- provide declarative test pecifications (as provided by TestNG)
+- probably provide scripting support
+	- check for Groovy, RS, others ?
+	- Use script engine API ?

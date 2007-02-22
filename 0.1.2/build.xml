@@ -1,0 +1,192 @@
+<?xml version="1.0"?>
+
+<project name="org.junitext" default="all">
+	<description>
+        JUnit 4 Extensions
+    </description>
+
+	<property file="build.local.properties" />
+	<property file="build.properties" />
+
+	<target name="prepare">
+		<mkdir dir="${build.dir}" />
+	</target>
+
+	<target name="compile" depends="prepare">
+		<mkdir dir="${build.dir}/lib" />
+
+		<delete dir="${build.dir}/classes" />
+		<mkdir dir="${build.dir}/classes" />
+		<javac srcdir="${basedir}/src/java" destdir="${build.dir}/classes">
+			<classpath>
+				<fileset dir="${basedir}/lib" includes="*.jar" />
+			</classpath>
+		</javac>
+		<jar basedir="${build.dir}/classes"
+		     destfile="${build.dir}/lib/junitext-${build.version}.jar" />
+
+		<delete dir="${build.dir}/classes" />
+		<mkdir dir="${build.dir}/classes" />
+		<javac srcdir="${basedir}/src/test" destdir="${build.dir}/classes">
+			<classpath>
+				<fileset dir="${basedir}/lib" includes="*.jar" />
+				<fileset dir="${build.dir}/lib"
+				         includes="junitext-${build.version}.jar" />
+			</classpath>
+		</javac>
+		<jar basedir="${build.dir}/classes"
+		     destfile="${build.dir}/lib/junitext-tests-${build.version}.jar" />
+
+		<delete dir="${build.dir}/classes" />
+		<mkdir dir="${build.dir}/classes" />
+		<javac srcdir="${basedir}/src-ui-runners/java"
+		       destdir="${build.dir}/classes">
+			<classpath>
+				<fileset dir="${basedir}/lib" includes="*.jar" />
+			</classpath>
+		</javac>
+		<jar basedir="${build.dir}/classes"
+		     destfile="${build.dir}/lib/junit-ui-runners-${build.version.ui-runners}.jar" />
+
+		<delete dir="${build.dir}/classes" />
+		<mkdir dir="${build.dir}/classes" />
+		<javac srcdir="${basedir}/src-ui-runners/test"
+		       destdir="${build.dir}/classes">
+			<classpath>
+				<fileset dir="${basedir}/lib" includes="*.jar" />
+				<fileset dir="${build.dir}/lib"
+				         includes="junit-ui-runners-${build.version.ui-runners}.jar" />
+			</classpath>
+		</javac>
+		<jar basedir="${build.dir}/classes"
+		     destfile="${build.dir}/lib/junit-ui-runners-tests-${build.version.ui-runners}.jar" />
+	</target>
+
+	<target name="tests" depends="compile" description="Run all tests">
+		<delete dir="${build.dir}/tests" />
+		<mkdir dir="${build.dir}/tests" />
+		<!-- ui-runners tests require to be started from test dir -->
+		<junit dir="${basedir}/src-ui-runners/test" fork="true">
+			<test todir="${build.dir}/tests" name="org.junitext.AllTests" />
+			<test todir="${build.dir}/tests"
+			      name="junit.tests.extensions.ExceptionTestCaseTest" />
+			<test todir="${build.dir}/tests"
+			      name="junit.tests.runner.AllTests" />
+			<!-- TODO DOES NOT WORK YET
+			<batchtest todir="${build.dir}/tests">
+				<fileset dir="${project.org.junitext}/test">
+					<include name="org/junitext/**/*" />
+				</fileset>
+			</batchtest>
+			-->
+			<classpath>
+				<fileset dir="${basedir}/lib" includes="*.jar" />
+				<fileset dir="${build.dir}/lib" includes="*.jar" />
+			</classpath>
+			<formatter usefile="true" type="xml" />
+		</junit>
+		<delete dir="${build.dir}/tests/report" />
+		<mkdir dir="${build.dir}/tests/report" />
+		<delete dir="${build.dir}/tests/suites" />
+		<mkdir dir="${build.dir}/tests/suites" />
+		<junitreport todir="${build.dir}/tests/suites">
+			<fileset dir="${build.dir}/tests">
+				<include name="**/*" />
+			</fileset>
+			<report todir="${build.dir}/tests/report" format="frames" />
+		</junitreport>
+	</target>
+
+	<target name="all" depends="tests" description="Make all">
+		<echo message="Build successfully done." />
+	</target>
+
+	<target name="dist" depends="all" description="Create distribution">
+		<delete dir="${build.dir}/dist" />
+		<mkdir dir="${build.dir}/dist" />
+		<zip destfile="${build.dir}/dist/junitext-${build.version}.zip">
+			<zipfileset dir="${build.dir}/lib"
+			            prefix="junitext-${build.version}">
+				<include name="junitext-${build.version}.jar" />
+				<include name="junit-ui-runners-${build.version.ui-runners}.jar" />
+			</zipfileset>
+			<zipfileset dir="${basedir}" prefix="junitext-${build.version}">
+				<include name="build.xml" />
+				<include name="build.properties" />
+				<include name="docs/**/*" />
+				<include name="lib/**/*" />
+				<include name="src/**/*" />
+				<include name="src-ui-runners/**/*" />
+				<include name=".classpath" />
+				<include name=".project" />
+			</zipfileset>
+			<zipfileset dir="${build.dir}/tests/report"
+			            prefix="junitext-${build.version}/docs/tests">
+				<include name="**/*" />
+			</zipfileset>
+		</zip>
+		<echo message="Distributions successfully created." />
+	</target>
+
+	<target name="clean" description="Cleanup all generated files">
+		<delete dir="${build.dir}" />
+	</target>
+
+	<target name="docs-internal">
+		<loadfile property="CONTENT_INDEX"
+		          srcFile="${basedir}/docs-internal/index.html" />
+		<loadfile property="CONTENT_DOWNLOAD"
+		          srcFile="${basedir}/docs-internal/content/download.html" />
+		<loadfile property="CONTENT_IMPLEMENTATION"
+		          srcFile="${basedir}/docs-internal/content/implementation.html" />
+		<loadfile property="CONTENT_LINKS"
+		          srcFile="${basedir}/docs-internal/content/links.html" />
+		<loadfile property="CONTENT_NEWS"
+		          srcFile="${basedir}/docs-internal/content/news.html" />
+		<loadfile property="CONTENT_TUTORIAL"
+		          srcFile="${basedir}/docs-internal/content/tutorial.html" />
+		<copy file="${basedir}/docs-internal/template.html"
+		      tofile="${basedir}/docs/index.html"
+		      filtering="true">
+			<filterset>
+				<filter token="CONTENT" value="${CONTENT_INDEX}" />
+			</filterset>
+		</copy>
+		<copy file="${basedir}/docs-internal/template.html"
+		      tofile="${basedir}/docs/download.html"
+		      filtering="true">
+			<filterset>
+				<filter token="CONTENT" value="${CONTENT_DOWNLOAD}" />
+			</filterset>
+		</copy>
+		<copy file="${basedir}/docs-internal/template.html"
+		      tofile="${basedir}/docs/implementation.html"
+		      filtering="true">
+			<filterset>
+				<filter token="CONTENT" value="${CONTENT_IMPLEMENTATION}" />
+			</filterset>
+		</copy>
+		<copy file="${basedir}/docs-internal/template.html"
+		      tofile="${basedir}/docs/links.html"
+		      filtering="true">
+			<filterset>
+				<filter token="CONTENT" value="${CONTENT_LINKS}" />
+			</filterset>
+		</copy>
+		<copy file="${basedir}/docs-internal/template.html"
+		      tofile="${basedir}/docs/news.html"
+		      filtering="true">
+			<filterset>
+				<filter token="CONTENT" value="${CONTENT_NEWS}" />
+			</filterset>
+		</copy>
+		<copy file="${basedir}/docs-internal/template.html"
+		      tofile="${basedir}/docs/tutorial.html"
+		      filtering="true">
+			<filterset>
+				<filter token="CONTENT" value="${CONTENT_TUTORIAL}" />
+			</filterset>
+		</copy>
+	</target>
+
+</project>
