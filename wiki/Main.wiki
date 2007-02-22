@@ -1,4 +1,4 @@
-#Welcome to JUnitExt
+Welcome to JUnitExt
 
 = Introduction =
 
