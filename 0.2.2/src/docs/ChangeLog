@@ -1,0 +1,38 @@
+ChangeLog for JUnitExt
+======================
+
+0.2.2 2007-02-13 Jochen Hiller
+- Now supporting JDK 1.4 with RetroWaever backward compatibility
+
+0.2.1 2007-01-03 Jochen Hiller
+- Additional support for Prerequisite signatures
+	- will first try to call "public void isXxx (Description desc)"
+	- then try to call "public void isXxx(String className, String methodName)"
+	- and finally fallback to "public void isXxx()"
+	- see Bugfix: http://code.google.com/p/junitext/issues/detail?id=3
+- upated to JUnit 4.2: Added exclude.properties to junit-ui-runners-3.8.2.jar, 
+  because this file has been taken off of junit-4.1.jar
+- added javadocs to distribution
+- Bugfix: added icons to junit-ui-runners-3.8.2.jar"
+	- see http://code.google.com/p/junitext/issues/detail?id=4
+- added more javadocs where missing (overview, package-info, ...)
+
+0.2.0 2006-09-19 Jochen Hiller
+- refactored build for docs
+- removed _svn files from dist
+- updated to junit-4.1
+- added all docs to distribution
+
+0.1.2 2006-05-14 Jochen Hiller
+- restructured documentation, update web site
+- include documentation now with distribution
+
+0.1.1 2006-05-12 Jochen Hiller
+- added first documentation
+
+0.1.0 2006-05-10 Jochen Hiller
+- Initial release published
+- @Prerequisite: Ignore tests based on conditions
+- @Category: Filter and Sort tests based on a Category
+- Annotation based runner, to be used for @RunWith(AnnotationRunner.class)
+- Provide the old UI based runners from JUnit 3.8.2 as prebuilt jar file
