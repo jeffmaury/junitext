@@ -17,5 +17,3 @@ JUnitExt provides these features:
   * Experimental work for JDK 1.4 backward compatibility. 
 
 JUnitExt is implemented in Java, based on JDK 5, annotations etc. The implementation has been done as part of an article about JUnit 4, and has been be made public to OpenSource? community.
-
-Welcome Test !
