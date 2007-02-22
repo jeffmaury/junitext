@@ -1,0 +1,76 @@
+<?xml version="1.0"?>
+
+<project name="library.sourceforge" default="usage">
+	<description>Library project for sourceforge.</description>
+
+	<property file="remote.host.properties" />
+	<property file="sourceforge.properties" />
+
+	<target name="prepare">
+		<tstamp>
+			<format property="NOW" pattern="yyyy-MM-dd-HHmmss" />
+		</tstamp>
+		<echo message="NOW=${NOW}" />
+	</target>
+
+	<target name="website.upload"
+	        depends="prepare"
+	        description="Website upload">
+		<echo message="web.dir=${web.dir}" />
+		<sshexec host="${remote.host}"
+		         port="${remote.port}"
+		         username="${remote.user}"
+		         password="${remote.password}"
+		         trust="true"
+		         keyfile="${remote.keyfile}"
+		         passphrase="${remote.passphrase}"
+		         command="
+cd ${sf.groups} ; 
+mkdir htdocs.${NOW}
+">
+		</sshexec>
+		<scp todir="${remote.user}@${remote.host}:${sf.groups}/htdocs.${NOW}"
+		     port="${remote.port}"
+		     password="${remote.password}"
+		     keyfile="${remote.keyfile}"
+		     passphrase="${remote.passphrase}"
+		     trust="true">
+			<fileset dir="${web.dir}">
+				<include name="**/*" />
+			</fileset>
+		</scp>
+		<sshexec host="${remote.host}"
+		         port="${remote.port}"
+		         username="${remote.user}"
+		         password="${remote.password}"
+		         trust="true"
+		         keyfile="${remote.keyfile}"
+		         passphrase="${remote.passphrase}"
+		         command="
+cd ${sf.groups} ; 
+rm -f htdocs ;
+ln -s htdocs.${NOW} htdocs
+">
+		</sshexec>
+	</target>
+
+	<target name="files.upload" depends="prepare" description="Files upload">
+		<echo message="ftp.dir=${ftp.dir}" />
+		<ftp action="put"
+		     binary="true"
+		     remotedir="incoming"
+		     verbose="true"
+		     server="upload.sourceforge.net"
+		     userid="anonymous"
+		     password=""
+		     newer="false">
+			<fileset dir="${ftp.dir}">
+				<include name="**/*" />
+			</fileset>
+		</ftp>
+	</target>
+
+	<target name="usage" description="Usage">
+		<echo>Usage: website.update</echo>
+	</target>
+</project>
