@@ -167,12 +167,12 @@ Below is the "Data.xml" for the above example test class:
 &lt;?xml version=&quot;1.0&quot; encoding=&quot;ISO-8859-1&quot; ?&gt;
 &lt;tests&gt;
   &lt;test&gt;
-     &lt;string id=&quot;expected&quot; value=&quot;Daneel Olivaw&quot; /&gt;
-     &lt;string id=&quot;expected&quot; value=&quot;Daneel Olivaw&quot; /&gt;
+     &lt;value id=&quot;expected&quot; &gt;Daneel Olivaw&lt;/value&gt;
+     &lt;value id=&quot;actual&quot; &gt;Daneel Olivaw&lt;/value&gt;
   &lt;/test&gt;
   &lt;test&gt;
-     &lt;string id=&quot;expected&quot; value=&quot;Daneel Olivaw&quot; /&gt;
-     &lt;string id=&quot;expected&quot; value=&quot;Johnny 5&quot; /&gt;
+     &lt;value id=&quot;expected&quot; &gt;Daneel Olivaw&lt;/value&gt;
+     &lt;value id=&quot;actual&quot; &gt;Johnny 5&lt;/value&gt;
   &lt;/test&gt;
 &lt;/tests&gt;
 </pre>
@@ -243,21 +243,42 @@ like when the example test is run from within Eclipse:
 <p>
 <img src="images/XMLParameterizedTestInEclipse.JPG" border="0" />
 </p>
+<h3>Creating Value Objects</h3>
 <p>
 Of course, <code>XMLParameterizedRunner</code> would be pretty limited if all
-it could handle were <code>String</code>s.  <code>XMLParameterizedRunner</code>
-supports the following value types:
-<ul>
-  <li><code>String</code></li>
-  <li><code>Boolean</code></li>
-  <li>Integer types, including <code>Integer</code>, <code>Short</code></li>,
-  and <code>Long</code></li>
-</ul>
+it could handle were <code>String</code>s.  To specify a value type other than
+<code>String</code>, use the <code>type</code> attribute.  The following XML
+sample demonstrates how to define different value objects:
 </p>
-<h3>Supported parameter types</h3>
 <p>
-In addition to basic value types, <code>XMLParameterizedRunner</code> supports
-the creation of complex Java objects that conform to the JavaBeans standard. 
+<pre>
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;ISO-8859-1&quot; ?&gt;
+<br>
+&lt;tests&gt;
+   &lt;test id=&quot;equalStrings&quot; &gt;
+      &lt;value id=&quot;string&quot;&gt;A String&lt;/value&gt;
+      &lt;value id=&quot;another string&quot; type=&quot;java.lang.String&quot;&gt;Another String&lt;/value&gt;
+      &lt;value id=&quot;integer&quot; type=&quot;java.lang.Integer&quot;&gt;5&lt;/value&gt;
+      &lt;value id=&quot;long&quot; type=&quot;java.lang.Long&quot;&gt;12932939201&lt;/value&gt;
+      &lt;value id=&quot;short&quot; type=&quot;java.lang.Short&quot;&gt;3&lt;/value&gt;
+      &lt;value id=&quot;float&quot; type=&quot;java.lang.Float&quot;&gt;3.323&lt;/value&gt;
+      &lt;value id=&quot;double&quot; type=&quot;java.lang.Double&quot;&gt;23.3432&lt;/value&gt;
+      &lt;value id=&quot;boolean&quot; type=&quot;java.lang.Boolean&quot;&gt;true&lt;/value&gt;
+   &lt;/test&gt;
+&lt;/tests&gt;
+</pre>
+<p>
+Under the covers, <code>XMLParameterizedRunner</code> is using the 
+<code>ConvertUtils</code> utility class provided by the Jakarta commons-beanutils
+library.  Therefore, it is possible to create any value object which has a 
+registered <code>Converter</code>, but the value tag should only be used for 
+simple value types.  
+</p>
+<h3>Creating Beans</h3>
+<p>
+In addition to creating basic value objects, 
+<code>XMLParameterizedRunner</code> supports the creation of complex Java 
+objects that conform to the JavaBeans standard. 
 Beans are declared in very much the same way that they are in 
 <a href="http://www.springframework.org">Spring</a>:
 </p>

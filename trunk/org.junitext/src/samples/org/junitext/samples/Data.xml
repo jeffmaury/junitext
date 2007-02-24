@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="ISO-8859-1" ?>
 <tests>
   <test id="equalStrings" >
-     <string id="expected" value="Daneel Olivaw" />
-     <string id="expected" value="Daneel Olivaw" />
+     <value id="expected">Daneel Olivaw</value>
+     <value id="actual">Daneel Olivaw</value>
   </test>
   <test id="unequalStrings" >
-     <string id="expected" value="Daneel Olivaw" />
-     <string id="expected" value="Johnny 5" />
+     <value id="expected">Daneel Olivaw</value>
+     <value id="actual">Johnny 5</value>
   </test>
 </tests>
