@@ -147,15 +147,16 @@ public class DigesterParameterFactorySetsTest {
 		// Create the "input" XML
 		String inputString = XML_HEADER + "<property name=\"mixedSet\">"
 				+ "<set>" + "<value>A string value</value>"
-				+ "<value>10232</value>" + "<value>false</value>"
+				+ "<value type=\"java.lang.Integer\">10232</value>" 
+				+ "<value type=\"java.lang.Boolean\">false</value>"
 				+ "</set></property>" + XML_FOOTER;
 		InputStream inputXml = new ByteArrayInputStream(inputString
 				.getBytes("UTF-8"));
 
 		Set<Object> mixedSet = new HashSet<Object>();
 		mixedSet.add("A string value");
-		mixedSet.add("10232");
-		mixedSet.add("false");
+		mixedSet.add(new Integer(10232));
+		mixedSet.add(new Boolean(false));
 
 		expectedRobot.setMixedSet(mixedSet);
 
