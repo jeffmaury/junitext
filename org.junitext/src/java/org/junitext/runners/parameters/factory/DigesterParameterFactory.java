@@ -33,7 +33,7 @@ public class DigesterParameterFactory implements ParameterFactory {
 	 * @see org.junitext.runners.parameters.factory.ParameterFactory#createParameters(java.lang.Class,
 	 *      java.io.File)
 	 */
-	public List<ParameterSet> createParameters(Class<?> testClass, File xmlFile)
+	public List<ParameterList> createParameters(Class<?> testClass, File xmlFile)
 			throws Exception {
 
 		InputStream xmlInput = new FileInputStream(xmlFile);
@@ -50,7 +50,7 @@ public class DigesterParameterFactory implements ParameterFactory {
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<ParameterSet> createParameters(InputStream xmlInput)
+	public List<ParameterList> createParameters(InputStream xmlInput)
 			throws Exception {
 		// Step 1 - Create the digester
 		Digester digester = new Digester();
@@ -63,7 +63,7 @@ public class DigesterParameterFactory implements ParameterFactory {
 		registerCollectionRules(digester);
 
 		// Step 3 - Run the digester against the given input file
-		List<ParameterSet> generatedParamSets = (List<ParameterSet>) digester
+		List<ParameterList> generatedParamSets = (List<ParameterList>) digester
 				.parse(xmlInput);
 
 		return generatedParamSets;
@@ -74,9 +74,9 @@ public class DigesterParameterFactory implements ParameterFactory {
 		digester.addObjectCreate("tests", ArrayList.class);
 
 		// Add a list for each <test> element
-		digester.addObjectCreate("tests/test", ParameterSet.class);
+		digester.addObjectCreate("tests/test", ParameterList.class);
 
-		// Sets the name of the ParameterSet based on the id attribute
+		// Sets the name of the ParameterList based on the id attribute
 		digester.addSetProperties("tests/test", "id", "name");
 
 		// Add the <test> list to the top level <tests> list

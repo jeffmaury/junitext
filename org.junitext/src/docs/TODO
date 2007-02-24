@@ -65,7 +65,7 @@ TODOs for JUnitExt
         - add support for Spring bean configuration files?
         - when appropriate, attempt to infer the property type (java 5 generics)
           using reflection (this could be particularly useful for collection types)
-        - allow parameter sets to be "disabled"
+        - allow parameter lists to be "disabled"
 
 - other frameworks:
 	- make tests with dbUnit, Jammy (UI)

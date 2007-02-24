@@ -15,49 +15,51 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Represents a single "set" of test parameters.
+ * Represents a list of test parameters.
  * 
  * @author Jim Hurne
  */
-public class ParameterSet {
+public class ParameterList {
 
 	private String name;
 	private List<Parameter> parameters;
-	
+
 	/**
-	 * Creates an empty <code>ParameterSet</code>.
+	 * Creates an empty <code>ParameterList</code>.
 	 */
-	public ParameterSet() {
+	public ParameterList() {
 		parameters = new ArrayList<Parameter>();
 	}
 
 	/**
-	 * Creates a new <code>ParameterSet</code> with the given name and the
+	 * Creates a new <code>ParameterList</code> with the given name and the
 	 * given list of parameters.
 	 * 
-	 * @param name the name to assign to this parameterSet
-	 * @param parameters the parameters to assign to this parameterSet
+	 * @param name
+	 *            the name to assign to this <code>ParameterList</code>
+	 * @param parameters
+	 *            the parameters to assign to this <code>ParameterList</code>
 	 */
-	public ParameterSet(String name, List<Parameter> parameters) {
+	public ParameterList(String name, List<Parameter> parameters) {
 		this.name = name;
 		this.parameters = parameters;
 	}
-	
+
 	/**
-	 * Creates a new <code>ParameterSet</code> with the given name from
-	 * an array of <code>Object</code>s.  This constructor will automatically
-	 * create a <code>List&lt;Parameter&lt;</code> where each parameter has
-	 * no name (<code>null</code>).
+	 * Creates a new <code>ParameterList</code> with the given name from an
+	 * array of <code>Object</code>s. This constructor will automatically
+	 * create a <code>List&lt;Parameter&lt;</code> where each parameter has no
+	 * name (<code>null</code>).
 	 * 
 	 * @param name
 	 * @param parameters
 	 */
-	public ParameterSet(String name, Object[] parameters) {
+	public ParameterList(String name, Object[] parameters) {
 		this.parameters = new ArrayList<Parameter>();
-		for(Object param : parameters) {
+		for (Object param : parameters) {
 			this.parameters.add(new Parameter(param));
 		}
-	}	
+	}
 
 	/**
 	 * @return the name
@@ -88,33 +90,35 @@ public class ParameterSet {
 	public void setParameters(List<Parameter> parameters) {
 		this.parameters = parameters;
 	}
-	
+
 	/**
-	 * Adds a parameter to this <code>ParameterSet</code>.
+	 * Adds a parameter to this <code>ParameterList</code>.
 	 * 
 	 * @param parameterToAdd
 	 */
 	public void add(Parameter parameterToAdd) {
 		this.parameters.add(parameterToAdd);
 	}
-	
+
 	/**
-	 * Adds an arbitrary object as a parameter to this <code>ParameterSet</code>.
+	 * Adds an arbitrary object as a parameter to this
+	 * <code>ParameterList</code>.
+	 * 
 	 * @param parameterToAdd
 	 */
 	public void add(Object parameterToAdd) {
 		this.parameters.add(new Parameter(parameterToAdd));
 	}
-	
+
 	/**
-	 * Returns the parameters contained in this <code>ParameterSet</code> as
+	 * Returns the parameters contained in this <code>ParameterList</code> as
 	 * an array of objects.
 	 * 
 	 * @return the parameters as an array of objects
 	 */
 	public Object[] getParameterObjects() {
 		Object[] objects = new Object[parameters.size()];
-		for(int j = 0; j < parameters.size(); j++) {
+		for (int j = 0; j < parameters.size(); j++) {
 			objects[j] = parameters.get(j).getParameter();
 		}
 		return objects;

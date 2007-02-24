@@ -54,6 +54,6 @@ public interface ParameterFactory {
 	 * @throws Exception
 	 *             if there is a problem parsing the XML file
 	 */
-	public List<ParameterSet> createParameters(Class<?> testClass, File xmlFile)
+	public List<ParameterList> createParameters(Class<?> testClass, File xmlFile)
 			throws Exception;
 }

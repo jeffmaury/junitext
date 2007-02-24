@@ -41,12 +41,12 @@ public class DigesterParameterFactoryTest {
 		InputStream inputXml = new ByteArrayInputStream(inputString
 				.getBytes("UTF-8"));
 
-		List<ParameterSet> expectedParamSets = new ArrayList<ParameterSet>();
-		expectedParamSets.add(new ParameterSet(null,
+		List<ParameterList> expectedParamSets = new ArrayList<ParameterList>();
+		expectedParamSets.add(new ParameterList(null,
 				new Object[] { expectedString }));
 
 		// Run the test
-		List<ParameterSet> actualParamSets = testFactory
+		List<ParameterList> actualParamSets = testFactory
 				.createParameters(inputXml);
 
 		// Verify the expected outcome
@@ -62,12 +62,12 @@ public class DigesterParameterFactoryTest {
 		InputStream inputXml = new ByteArrayInputStream(inputString
 				.getBytes("UTF-8"));
 
-		List<ParameterSet> expectedParamSets = new ArrayList<ParameterSet>();
-		expectedParamSets.add(new ParameterSet(null,
+		List<ParameterList> expectedParamSets = new ArrayList<ParameterList>();
+		expectedParamSets.add(new ParameterList(null,
 				new Object[] { expectedInteger }));
 
 		// Run the test
-		List<ParameterSet> actualParamSets = testFactory
+		List<ParameterList> actualParamSets = testFactory
 				.createParameters(inputXml);
 
 		// Verify the expected outcome
@@ -83,12 +83,12 @@ public class DigesterParameterFactoryTest {
 		InputStream inputXml = new ByteArrayInputStream(inputString
 				.getBytes("UTF-8"));
 
-		List<ParameterSet> expectedParamSets = new ArrayList<ParameterSet>();
-		expectedParamSets.add(new ParameterSet(null,
+		List<ParameterList> expectedParamSets = new ArrayList<ParameterList>();
+		expectedParamSets.add(new ParameterList(null,
 				new Object[] { expectedShort }));
 
 		// Run the test
-		List<ParameterSet> actualParamSets = testFactory
+		List<ParameterList> actualParamSets = testFactory
 				.createParameters(inputXml);
 
 		// Verify the expected outcome
@@ -104,12 +104,12 @@ public class DigesterParameterFactoryTest {
 		InputStream inputXml = new ByteArrayInputStream(inputString
 				.getBytes("UTF-8"));
 
-		List<ParameterSet> expectedParamSets = new ArrayList<ParameterSet>();
-		expectedParamSets.add(new ParameterSet(null,
+		List<ParameterList> expectedParamSets = new ArrayList<ParameterList>();
+		expectedParamSets.add(new ParameterList(null,
 				new Object[] { expectedLong }));
 
 		// Run the test
-		List<ParameterSet> actualParamSets = testFactory
+		List<ParameterList> actualParamSets = testFactory
 				.createParameters(inputXml);
 
 		// Verify the expected outcome
@@ -125,12 +125,12 @@ public class DigesterParameterFactoryTest {
 		InputStream inputXml = new ByteArrayInputStream(inputString
 				.getBytes("UTF-8"));
 
-		List<ParameterSet> expectedParamSets = new ArrayList<ParameterSet>();
-		expectedParamSets.add(new ParameterSet(null,
+		List<ParameterList> expectedParamSets = new ArrayList<ParameterList>();
+		expectedParamSets.add(new ParameterList(null,
 				new Object[] { expectedBoolean }));
 
 		// Run the test
-		List<ParameterSet> actualParamSets = testFactory
+		List<ParameterList> actualParamSets = testFactory
 				.createParameters(inputXml);
 
 		// Verify the expected outcome
@@ -174,12 +174,12 @@ public class DigesterParameterFactoryTest {
 
 		expectedRobot.setBestFriend(friend);
 
-		List<ParameterSet> expectedParamSets = new ArrayList<ParameterSet>();
-		expectedParamSets.add(new ParameterSet(null,
+		List<ParameterList> expectedParamSets = new ArrayList<ParameterList>();
+		expectedParamSets.add(new ParameterList(null,
 				new Object[] { expectedRobot }));
 
 		// Run the test
-		List<ParameterSet> actualParamSets = testFactory
+		List<ParameterList> actualParamSets = testFactory
 				.createParameters(inputXml);
 
 		// Verify the expected outcome
@@ -199,12 +199,12 @@ public class DigesterParameterFactoryTest {
 				.getBytes("UTF-8"));
 
 		// Run the test
-		List<ParameterSet> actualParamSets = testFactory
+		List<ParameterList> actualParamSets = testFactory
 				.createParameters(inputXml);
 
 		// Verify that the generated parameter set has the expected name
 		assertEquals("The expected number of paremter sets was not generated.", 1, actualParamSets.size());
-		ParameterSet actualSet = actualParamSets.get(0);
+		ParameterList actualSet = actualParamSets.get(0);
 		assertEquals("The expected parameter set name was not assigned.", expectedName, actualSet.getName());
 	}
 	
@@ -221,12 +221,12 @@ public class DigesterParameterFactoryTest {
 				.getBytes("UTF-8"));
 
 		// Run the test
-		List<ParameterSet> actualParamSets = testFactory
+		List<ParameterList> actualParamSets = testFactory
 				.createParameters(inputXml);
 
 		// Verify that the generated parameter set has the expected name
 		assertEquals("The expected number of paremter sets was not generated.", 1, actualParamSets.size());
-		ParameterSet actualSet = actualParamSets.get(0);
+		ParameterList actualSet = actualParamSets.get(0);
 		assertEquals("The expected parameter set name was not assigned.", expectedName, actualSet.getName());
 	}	
 }
