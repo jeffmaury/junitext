@@ -8,7 +8,10 @@ ChangeLog for JUnitExt
 	- Added support for nested collection objects
 	- Lists of parameters can now be named (using the id or name attributes)
 	- Renamed the ParameterSet class to ParameterList
-
+	- Parameter value objects now use a "value" tag instead of the specific
+      value object tag.  This was done to achieve better conformance with the 
+      Spring bean declaration XML and for better overall consistency.
+      
 0.2.4 2007-02-16 Jochen Hiller, Jim Hurne
 - Refactored test cases and samples
 - Added XMLParameterizedRunner which parameterizes tests via XML

@@ -72,7 +72,7 @@ public class SetPropertyWithParameterRule extends Rule {
 	 *      java.lang.String)
 	 */
 	@Override
-	public void end(String arg0, String arg1) throws Exception {
+	public void end(String namespace, String name) throws Exception {
 
 		// Get the name of the property that we are going to set
 		// This was pushed onto the stack in the begin method.
@@ -157,7 +157,7 @@ public class SetPropertyWithParameterRule extends Rule {
 	 */
 	@Override
 	public String toString() {
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 		sb.append("SetPropertyWithParameterRule[propertyAttribute=");
 		sb.append(propertyAttribute);
 		sb.append("]");
