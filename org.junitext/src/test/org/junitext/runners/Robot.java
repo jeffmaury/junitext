@@ -13,6 +13,7 @@ package org.junitext.runners;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Mock bean that is used in the unit tests for the XMLParameterizedRunner.
@@ -25,14 +26,18 @@ public class Robot {
 	private String model;
 	private String manufacturer;
 	private Robot bestFriend;
+	
 	private Robot[] arrayOfFriends;
 	private String[][] multiDimensionalArrayOfStrings;
-
 	private List<Object> mixedList;
-
 	private List<Robot> friends;
 	private List<List<Robot>> listsOfFriends;
 	private List<List<List<Robot>>> threeLevelListOfFriends;
+	
+	private Map<String, Robot> mapOfFriends;
+	private Map<Robot, Robot> mapWithRobotKey;
+	private Map<String, String> mapWithStringKeyAndValue;
+	private Map<String, List<Robot>> mapWithListsOfRobots;
 
 	public Robot() {
 
@@ -176,6 +181,63 @@ public class Robot {
 			String[][] multidimentionalArrayOfStrings) {
 		this.multiDimensionalArrayOfStrings = multidimentionalArrayOfStrings;
 	}
+	
+	/**
+	 * @return the mapOfFriends
+	 */
+	public Map<String, Robot> getMapOfFriends() {
+		return mapOfFriends;
+	}
+
+	/**
+	 * @param mapOfFriends the mapOfFriends to set
+	 */
+	public void setMapOfFriends(Map<String, Robot> mapOfFriends) {
+		this.mapOfFriends = mapOfFriends;
+	}	
+
+	/**
+	 * @return the mapWithRobotKey
+	 */
+	public Map<Robot, Robot> getMapWithRobotKey() {
+		return mapWithRobotKey;
+	}
+
+	/**
+	 * @param mapWithRobotKey the mapWithRobotKey to set
+	 */
+	public void setMapWithRobotKey(Map<Robot, Robot> mapWithRobotKey) {
+		this.mapWithRobotKey = mapWithRobotKey;
+	}
+
+	/**
+	 * @return the mapWithStringKeyAndValue
+	 */
+	public Map<String, String> getMapWithStringKeyAndValue() {
+		return mapWithStringKeyAndValue;
+	}
+
+	/**
+	 * @param mapWithStringKeyAndValue the mapWithStringKeyAndValue to set
+	 */
+	public void setMapWithStringKeyAndValue(Map<String, String> mapWithString) {
+		this.mapWithStringKeyAndValue = mapWithString;
+	}
+
+	/**
+	 * @return the mapWithListsOfRobots
+	 */
+	public Map<String, List<Robot>> getMapWithListsOfRobots() {
+		return mapWithListsOfRobots;
+	}
+
+	/**
+	 * @param mapWithListsOfRobots the mapWithListsOfRobots to set
+	 */
+	public void setMapWithListsOfRobots(
+			Map<String, List<Robot>> mapWithListsOfRobots) {
+		this.mapWithListsOfRobots = mapWithListsOfRobots;
+	}
 
 	@Override
 	public String toString() {
@@ -198,7 +260,129 @@ public class Robot {
 		newString.append("multidementionalArrayOfStrings: {");
 		newString.append(Arrays.deepToString(multiDimensionalArrayOfStrings));
 		newString.append("} ");
+		
+		newString.append(" mapOfFriends: [");
+		newString.append(mapOfFriends);
+		newString.append("] ");
+		
+		newString.append(" mapWithRobotKey: [");
+		newString.append(mapWithRobotKey);
+		newString.append("] ");		
+		
+		newString.append(" mapWithStringKeyAndValue: [");
+		newString.append(mapWithStringKeyAndValue);
+		newString.append("] ");	
+		
+		newString.append(" mapWithListsOfRobots: [");
+		newString.append(mapWithListsOfRobots);
+		newString.append("] ");			
 
 		return newString.toString();
+	}
+
+	/**
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int PRIME = 31;
+		int result = super.hashCode();
+		result = PRIME * result + Arrays.hashCode(arrayOfFriends);
+		result = PRIME * result + ((bestFriend == null) ? 0 : bestFriend.hashCode());
+		result = PRIME * result + ((friends == null) ? 0 : friends.hashCode());
+		result = PRIME * result + (int) (id ^ (id >>> 32));
+		result = PRIME * result + ((listsOfFriends == null) ? 0 : listsOfFriends.hashCode());
+		result = PRIME * result + ((manufacturer == null) ? 0 : manufacturer.hashCode());
+		result = PRIME * result + ((mapOfFriends == null) ? 0 : mapOfFriends.hashCode());
+		result = PRIME * result + ((mapWithListsOfRobots == null) ? 0 : mapWithListsOfRobots.hashCode());
+		result = PRIME * result + ((mapWithRobotKey == null) ? 0 : mapWithRobotKey.hashCode());
+		result = PRIME * result + ((mapWithStringKeyAndValue == null) ? 0 : mapWithStringKeyAndValue.hashCode());
+		result = PRIME * result + ((mixedList == null) ? 0 : mixedList.hashCode());
+		result = PRIME * result + ((model == null) ? 0 : model.hashCode());
+		result = PRIME * result + Arrays.hashCode(multiDimensionalArrayOfStrings);
+		result = PRIME * result + ((name == null) ? 0 : name.hashCode());
+		result = PRIME * result + ((threeLevelListOfFriends == null) ? 0 : threeLevelListOfFriends.hashCode());
+		return result;
+	}
+
+	/**
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		final Robot other = (Robot) obj;
+		if (!Arrays.equals(arrayOfFriends, other.arrayOfFriends))
+			return false;
+		if (bestFriend == null) {
+			if (other.bestFriend != null)
+				return false;
+		} else if (!bestFriend.equals(other.bestFriend))
+			return false;
+		if (friends == null) {
+			if (other.friends != null)
+				return false;
+		} else if (!friends.equals(other.friends))
+			return false;
+		if (id != other.id)
+			return false;
+		if (listsOfFriends == null) {
+			if (other.listsOfFriends != null)
+				return false;
+		} else if (!listsOfFriends.equals(other.listsOfFriends))
+			return false;
+		if (manufacturer == null) {
+			if (other.manufacturer != null)
+				return false;
+		} else if (!manufacturer.equals(other.manufacturer))
+			return false;
+		if (mapOfFriends == null) {
+			if (other.mapOfFriends != null)
+				return false;
+		} else if (!mapOfFriends.equals(other.mapOfFriends))
+			return false;
+		if (mapWithListsOfRobots == null) {
+			if (other.mapWithListsOfRobots != null)
+				return false;
+		} else if (!mapWithListsOfRobots.equals(other.mapWithListsOfRobots))
+			return false;
+		if (mapWithRobotKey == null) {
+			if (other.mapWithRobotKey != null)
+				return false;
+		} else if (!mapWithRobotKey.equals(other.mapWithRobotKey))
+			return false;
+		if (mapWithStringKeyAndValue == null) {
+			if (other.mapWithStringKeyAndValue != null)
+				return false;
+		} else if (!mapWithStringKeyAndValue.equals(other.mapWithStringKeyAndValue))
+			return false;
+		if (mixedList == null) {
+			if (other.mixedList != null)
+				return false;
+		} else if (!mixedList.equals(other.mixedList))
+			return false;
+		if (model == null) {
+			if (other.model != null)
+				return false;
+		} else if (!model.equals(other.model))
+			return false;
+		if (!Arrays.equals(multiDimensionalArrayOfStrings, other.multiDimensionalArrayOfStrings))
+			return false;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
+		if (threeLevelListOfFriends == null) {
+			if (other.threeLevelListOfFriends != null)
+				return false;
+		} else if (!threeLevelListOfFriends.equals(other.threeLevelListOfFriends))
+			return false;
+		return true;
 	}
 }

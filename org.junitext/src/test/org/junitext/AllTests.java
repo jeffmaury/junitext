@@ -24,12 +24,13 @@ import org.junitext.manipulation.CategorySorterTest;
 import org.junitext.manipulation.PrerequisiteFilterTest;
 import org.junitext.runners.XMLParameterizedTest;
 import org.junitext.runners.parameters.factory.DigesterParameterFactoryListsTest;
+import org.junitext.runners.parameters.factory.DigesterParameterFactoryMapsTest;
 import org.junitext.runners.parameters.factory.DigesterParameterFactoryTest;
 
 @RunWith(Suite.class)
 @SuiteClasses( { PrerequisiteTest.class, PrerequisiteHandlerTest.class, CategoryFilterTest.class,
 		CategorySorterTest.class, PrerequisiteFilterTest.class, XMLParameterizedTest.class,
-		DigesterParameterFactoryTest.class, DigesterParameterFactoryListsTest.class})
+		DigesterParameterFactoryTest.class, DigesterParameterFactoryListsTest.class, DigesterParameterFactoryMapsTest.class})
 public class AllTests {
 	public static Test suite() {
 		return new JUnit4TestAdapter(AllTests.class);
