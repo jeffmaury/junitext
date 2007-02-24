@@ -12,6 +12,7 @@
 package org.junitext.runners.parameters.factory;
 
 import static org.junitext.runners.parameters.factory.DigesterParameterFactoryTestUtilities.assertParameterSetsEqual;
+import static org.junit.Assert.*;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -184,4 +185,48 @@ public class DigesterParameterFactoryTest {
 		// Verify the expected outcome
 		assertParameterSetsEqual(expectedParamSets, actualParamSets);
 	}
+	
+	@Test
+	public void setsParameterSetNameWhenIDAttributeProvided() throws Exception {
+		String expectedName = "testName";
+		String inputString = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\" ?>"
+				+ "<tests>"
+				+ "<test id=\""+ expectedName + "\" >"
+				+ "<string id=\"testString\" value=\"test\" />"
+				+ "</test>"
+				+ "</tests>";
+		InputStream inputXml = new ByteArrayInputStream(inputString
+				.getBytes("UTF-8"));
+
+		// Run the test
+		List<ParameterSet> actualParamSets = testFactory
+				.createParameters(inputXml);
+
+		// Verify that the generated parameter set has the expected name
+		assertEquals("The expected number of paremter sets was not generated.", 1, actualParamSets.size());
+		ParameterSet actualSet = actualParamSets.get(0);
+		assertEquals("The expected parameter set name was not assigned.", expectedName, actualSet.getName());
+	}
+	
+	@Test
+	public void setsParameterSetNameWhenNameAttributeProvided() throws Exception {
+		String expectedName = "testName";
+		String inputString = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\" ?>"
+				+ "<tests>"
+				+ "<test name=\""+ expectedName + "\" >"
+				+ "<string id=\"testString\" value=\"test\" />"
+				+ "</test>"
+				+ "</tests>";
+		InputStream inputXml = new ByteArrayInputStream(inputString
+				.getBytes("UTF-8"));
+
+		// Run the test
+		List<ParameterSet> actualParamSets = testFactory
+				.createParameters(inputXml);
+
+		// Verify that the generated parameter set has the expected name
+		assertEquals("The expected number of paremter sets was not generated.", 1, actualParamSets.size());
+		ParameterSet actualSet = actualParamSets.get(0);
+		assertEquals("The expected parameter set name was not assigned.", expectedName, actualSet.getName());
+	}	
 }

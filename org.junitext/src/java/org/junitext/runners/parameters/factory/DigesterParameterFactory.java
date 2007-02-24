@@ -63,24 +63,21 @@ public class DigesterParameterFactory implements ParameterFactory {
 		registerCollectionRules(digester);
 
 		// Step 3 - Run the digester against the given input file
-		List<List<?>> generatedParmSets = (List<List<?>>) digester
+		List<ParameterSet> generatedParamSets = (List<ParameterSet>) digester
 				.parse(xmlInput);
 
-		// Step 4- Convert our list of lists to a list of object arrays
-		List<ParameterSet> returnParmSet = new ArrayList<ParameterSet>();
-		for (List<?> parmSet : generatedParmSets) {
-			returnParmSet.add(new ParameterSet(null, parmSet.toArray()));
-		}
-
-		return returnParmSet;
+		return generatedParamSets;
 	}
 
 	private void registerBaseRules(Digester digester) {
 		// Add a list for the top level <tests> element
-		digester.addObjectCreate("tests", java.util.ArrayList.class);
+		digester.addObjectCreate("tests", ArrayList.class);
 
 		// Add a list for each <test> element
-		digester.addObjectCreate("tests/test", java.util.ArrayList.class);
+		digester.addObjectCreate("tests/test", ParameterSet.class);
+
+		// Sets the name of the ParameterSet based on the id attribute
+		digester.addSetProperties("tests/test", "id", "name");
 
 		// Add the <test> list to the top level <tests> list
 		digester.addSetNext("tests/test", "add");
