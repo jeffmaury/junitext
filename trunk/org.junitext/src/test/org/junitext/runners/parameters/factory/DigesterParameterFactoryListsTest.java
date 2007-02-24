@@ -146,15 +146,16 @@ public class DigesterParameterFactoryListsTest {
 		// Create the "input" XML
 		String inputString = XML_HEADER + "<property name=\"mixedList\">"
 				+ "<list>" + "<value>A string value</value>"
-				+ "<value>10232</value>" + "<value>false</value>"
+				+ "<value type=\"java.lang.Integer\">10232</value>" 
+				+ "<value type=\"java.lang.Boolean\">false</value>"
 				+ "</list></property>" + XML_FOOTER;
 		InputStream inputXml = new ByteArrayInputStream(inputString
 				.getBytes("UTF-8"));
 
 		List<Object> mixedList = new ArrayList<Object>();
 		mixedList.add("A string value");
-		mixedList.add("10232");
-		mixedList.add("false");
+		mixedList.add(new Integer(10232));
+		mixedList.add(new Boolean(false));
 
 		expectedRobot.setMixedList(mixedList);
 

@@ -97,8 +97,7 @@ public class DigesterParameterFactory implements ParameterFactory {
 		// Add an object set previously with the CallParamRule to the bean
 		// property. This rule is used by the collections as well as properties
 		// that expect beans
-		Rule setPropertyWithObject = new SetPropertyWithParameterRule(
-				"name");
+		Rule setPropertyWithObject = new SetPropertyWithParameterRule("name");
 		digester.addRule("*/bean/property", setPropertyWithObject);
 
 		// Add the bean to the parameter set (or to a <list>)
@@ -117,10 +116,22 @@ public class DigesterParameterFactory implements ParameterFactory {
 		digester.addCallParam("*/bean/property/bean", 0, true);
 	}
 
-	private void registerValueObjectRules(Digester digester) { 
+	private void registerValueObjectRules(Digester digester) {
 		Rule createValueObject = new CreateValueObjectRule("type");
 		digester.addRule("tests/test/value", createValueObject);
 		digester.addSetNext("tests/test/value", "add");
+
+		// Also allow setting bean properties using value elements
+		// This is exactly like the Spring "long" property syntax
+		// We do it this way so that we have full support of the "type"
+		// attribute on the value object.
+		digester.addRule("*/bean/property/value", createValueObject);
+
+		// Since our createValueObject rule runs processing at the very end,
+		// and since the default CallParamRule processes at the beginning
+		// tag, we need to use a custom "CallParamAtEnd" rule.
+		Rule callParamAtEnd = new CallParamAtEndRule(0, true);
+		digester.addRule("*/bean/property/value", callParamAtEnd);
 	}
 
 	private void registerCollectionRules(Digester digester) {
@@ -145,8 +156,9 @@ public class DigesterParameterFactory implements ParameterFactory {
 		digester.addCallParam("*/list", 0, true);
 
 		// -- Rules for basic values nested under lists
-		digester.addCallMethod("*/list/value", "add", 1);
-		digester.addCallParam("*/list/value", 0);
+		Rule createValueObject = new CreateValueObjectRule("type");
+		digester.addRule("*/list/value", createValueObject);
+		digester.addSetNext("*/list/value", "add");
 
 		// -- Rules for lists nested under lists
 		// Create an ArrayList for each nested <list> element
@@ -184,8 +196,9 @@ public class DigesterParameterFactory implements ParameterFactory {
 		digester.addCallParam("*/set", 0, true);
 
 		// -- Rules for basic values nested under sets
-		digester.addCallMethod("*/set/value", "add", 1);
-		digester.addCallParam("*/set/value", 0);
+		Rule createValueObject = new CreateValueObjectRule("type");
+		digester.addRule("*/set/value", createValueObject);
+		digester.addSetNext("*/set/value", "add");
 
 		// -- Rules for sets nested under sets
 		// Create a HashSet for each nested <set> element
@@ -222,9 +235,16 @@ public class DigesterParameterFactory implements ParameterFactory {
 		// -- Key rules
 		// Handle cases where the key is specified as an attribute on the entry
 		digester.addCallParam("*/map/entry", 0, "key");
-		// Handle casses where the key is specified as a child element on the
-		// entry
-		digester.addCallParam("*/map/entry/key/value", 0);
+
+		// Handle casses where the key is specified as a child value element on
+		// the entry
+		Rule createValueObject = new CreateValueObjectRule("type");
+		digester.addRule("*/map/entry/key/value", createValueObject);
+		// Since our createValueObject rule runs processing at the very end,
+		// and since the default CallParamRule processes at the beginning
+		// tag, we need to use a custom "CallParamAtEnd" rule.
+		Rule callParamAtEnd = new CallParamAtEndRule(0, true);
+		digester.addRule("*/map/entry/key/value", callParamAtEnd);
 
 		// Override some of the bean rules, as we want to do something different
 		// here
@@ -238,9 +258,14 @@ public class DigesterParameterFactory implements ParameterFactory {
 		// Handle cases where the value is specified as an attribute on the
 		// entry
 		digester.addCallParam("*/map/entry", 1, "value");
-		// Handle cases where the valie is a string and is specified as an
+		// Handle cases where the value is a value object and is specified as an
 		// element
-		digester.addCallParam("*/map/entry/value", 1);
+		digester.addRule("*/map/entry/value", createValueObject);
+		// Since our createValueObject rule runs processing at the very end,
+		// and since the default CallParamRule processes at the beginning
+		// tag, we need to use a custom "CallParamAtEnd" rule.
+		callParamAtEnd = new CallParamAtEndRule(1, true);
+		digester.addRule("*/map/entry/value", callParamAtEnd);
 
 		// Override some of the bean rules, as we want to do something different
 		// here

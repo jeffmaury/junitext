@@ -17,10 +17,8 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -102,6 +100,36 @@ public class DigesterParameterFactoryMapsTest {
 		// Verify the expected outcome
 		assertParameterSetsEqual(expectedParamSets, actualParamSets);
 	}
+	
+	@Test
+	public void parseBeanWithMapWithValueObjectKeyAsElement() throws Exception {
+		// Create the "input" XML
+		String inputString = XML_HEADER + "<property name=\"mixedMap\" >"
+				+ "<map>" + "<entry>" + "<key>" 
+				+ "<value type=\"java.lang.Integer\">123</value>"
+				+ "</key>"
+				+ "<bean id=\"friend\" class=\"org.junitext.runners.Robot\" >"
+				+ "<property name=\"name\" value=\"Johnny 5\" />" + "</bean>"
+				+ "</entry>" + "</map>" + "</property>" + XML_FOOTER;
+		InputStream inputXml = new ByteArrayInputStream(inputString
+				.getBytes("UTF-8"));
+
+		Map<Object, Object> expectedMapFriends = new HashMap<Object, Object>();
+		expectedMapFriends.put(new Integer(123), friend);
+		expectedRobot.setMixedMap(expectedMapFriends);
+
+		List<ParameterList> expectedParamSets = new ArrayList<ParameterList>();
+		expectedParamSets.add(new ParameterList(null,
+				new Object[] { expectedRobot }));
+
+		// Run the test
+		List<ParameterList> actualParamSets = testFactory
+				.createParameters(inputXml);
+
+		// Verify the expected outcome
+		assertParameterSetsEqual(expectedParamSets, actualParamSets);
+	}
+	
 
 	@Test
 	public void parseBeanWithMapWithStringValueAsElement() throws Exception {
@@ -128,6 +156,34 @@ public class DigesterParameterFactoryMapsTest {
 		// Verify the expected outcome
 		assertParameterSetsEqual(expectedParamSets, actualParamSets);
 	}
+	
+	@Test
+	public void parseBeanWithMapWithValueObjectValueAsElement() throws Exception {
+		// Create the "input" XML
+		String inputString = XML_HEADER
+				+ "<property name=\"mixedMap\" >" + "<map>"
+				+ "<entry key=\"Friend\">" 
+				+ "<value type=\"java.lang.Long\">3292932</value>"
+				+ "</entry>" + "</map>" + "</property>" + XML_FOOTER;
+		InputStream inputXml = new ByteArrayInputStream(inputString
+				.getBytes("UTF-8"));
+
+		Map<Object, Object> expectedMap = new HashMap<Object, Object>();
+		expectedMap.put("Friend", new Long(3292932));
+		expectedRobot.setMixedMap(expectedMap);
+
+		List<ParameterList> expectedParamSets = new ArrayList<ParameterList>();
+		expectedParamSets.add(new ParameterList(null,
+				new Object[] { expectedRobot }));
+
+		// Run the test
+		List<ParameterList> actualParamSets = testFactory
+				.createParameters(inputXml);
+
+		// Verify the expected outcome
+		assertParameterSetsEqual(expectedParamSets, actualParamSets);
+	}
+	
 
 	@Test
 	public void parseBeanWithMapWithStringValueAsAttribute() throws Exception {
