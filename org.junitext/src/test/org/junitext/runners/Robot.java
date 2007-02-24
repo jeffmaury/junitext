@@ -39,6 +39,7 @@ public class Robot {
 	private Map<Robot, Robot> mapWithRobotKey;
 	private Map<String, String> mapWithStringKeyAndValue;
 	private Map<String, List<Robot>> mapWithListsOfRobots;
+	private Map<Object, Object> mixedMap;
 
 	private Set<Robot> setOfFriends;
 	private Set<Set<Robot>> setOfSets;
@@ -250,6 +251,21 @@ public class Robot {
 	}
 
 	/**
+	 * @return the mixedMap
+	 */
+	public Map<Object, Object> getMixedMap() {
+		return mixedMap;
+	}
+
+	/**
+	 * @param mixedMap
+	 *            the mixedMap to set
+	 */
+	public void setMixedMap(Map<Object, Object> mixedMap) {
+		this.mixedMap = mixedMap;
+	}
+
+	/**
 	 * @return the setOfFriends
 	 */
 	public Set<Robot> getSetOfFriends() {
@@ -348,22 +364,26 @@ public class Robot {
 		newString.append(mapWithListsOfRobots);
 		newString.append("] ");
 
+		newString.append(" mixedMap: [");
+		newString.append(mixedMap);
+		newString.append("] ");
+
 		newString.append(" setOfFriends: [");
 		newString.append(setOfFriends);
 		newString.append("] ");
-		
+
 		newString.append(" setOfSets: [");
 		newString.append(setOfSets);
 		newString.append("] ");
-		
+
 		newString.append(" threeLevelSetofFriends: [");
 		newString.append(threeLevelSetofFriends);
 		newString.append("] ");
-				
+
 		newString.append(" mixedSet: [");
 		newString.append(mixedSet);
 		newString.append("] ");
-		
+
 		return newString.toString();
 	}
 
@@ -397,6 +417,8 @@ public class Robot {
 						: mapWithStringKeyAndValue.hashCode());
 		result = PRIME * result
 				+ ((mixedList == null) ? 0 : mixedList.hashCode());
+		result = PRIME * result
+				+ ((mixedMap == null) ? 0 : mixedMap.hashCode());
 		result = PRIME * result
 				+ ((mixedSet == null) ? 0 : mixedSet.hashCode());
 		result = PRIME * result + ((model == null) ? 0 : model.hashCode());
@@ -479,6 +501,11 @@ public class Robot {
 			if (other.mixedList != null)
 				return false;
 		} else if (!mixedList.equals(other.mixedList))
+			return false;
+		if (mixedMap == null) {
+			if (other.mixedMap != null)
+				return false;
+		} else if (!mixedMap.equals(other.mixedMap))
 			return false;
 		if (mixedSet == null) {
 			if (other.mixedSet != null)

@@ -150,7 +150,7 @@ public class DigesterParameterFactory implements ParameterFactory {
 				new Class[] { Boolean.class });
 		digester.addCallParam("tests/test/boolean", 0, "value");
 	}
-	
+
 	private void registerCollectionRules(Digester digester) {
 		registerListRules(digester);
 		registerSetRules(digester);
@@ -158,11 +158,11 @@ public class DigesterParameterFactory implements ParameterFactory {
 	}
 
 	private void registerListRules(Digester digester) {
-		//NOTE: Most of the rules for lists are already defined under 
-		//registerBaseRules.  This is because the <tests> element is also
-		//a list, so the general rules there also get applied for lists as
-		//bean properties.
-		
+		// NOTE: Most of the rules for lists are already defined under
+		// registerBaseRules. This is because the <tests> element is also
+		// a list, so the general rules there also get applied for lists as
+		// bean properties.
+
 		// -- Rules for List Processing
 		// Create an ArrayList for each <list> element
 		digester.addObjectCreate("*/list", ArrayList.class);
@@ -171,7 +171,7 @@ public class DigesterParameterFactory implements ParameterFactory {
 		// added to the properties of the parent bean (or added to another
 		// collection)
 		digester.addCallParam("*/list", 0, true);
-		
+
 		// -- Rules for basic values nested under lists
 		digester.addCallMethod("*/list/value", "add", 1);
 		digester.addCallParam("*/list/value", 0);
@@ -179,18 +179,29 @@ public class DigesterParameterFactory implements ParameterFactory {
 		// -- Rules for lists nested under lists
 		// Create an ArrayList for each nested <list> element
 		digester.addObjectCreate("*/list/list", ArrayList.class);
-
 		// If the list is nested within another list, add it to the parent list
 		digester.addSetNext("*/list/list", "add");
+
+		// -- Rules for sets nested under lists
+		// Create an HashSet for each nested <set> element
+		digester.addObjectCreate("*/list/set", HashSet.class);
+		// If the set is nested within a list, add it to the parent list
+		digester.addSetNext("*/list/set", "add");
+
+		// -- Rules for maps nested under lists
+		// Create an HashSet for each nested <map> element
+		digester.addObjectCreate("*/list/map", HashMap.class);
+		// If the map is nested within a list, add it to the parent list
+		digester.addSetNext("*/list/map", "add");
 	}
-	
+
 	private void registerSetRules(Digester digester) {
-		//NOTE: Most of the rules for sets are already defined under 
-		//registerBaseRules.  This is because the <tests> element is also
-		//a list, and list and sets have similar method names,
-		//so the general rules there also get applied for sets as
-		//bean properties.
-		
+		// NOTE: Most of the rules for sets are already defined under
+		// registerBaseRules. This is because the <tests> element is also
+		// a list, and list and sets have similar method names,
+		// so the general rules there also get applied for sets as
+		// bean properties.
+
 		// -- Rules for Set Processing
 		// Create a HashSet for each <set> element
 		digester.addObjectCreate("*/set", HashSet.class);
@@ -199,53 +210,93 @@ public class DigesterParameterFactory implements ParameterFactory {
 		// added to the properties of the parent bean (or added to another
 		// collection)
 		digester.addCallParam("*/set", 0, true);
-		
+
 		// -- Rules for basic values nested under sets
 		digester.addCallMethod("*/set/value", "add", 1);
 		digester.addCallParam("*/set/value", 0);
 
-		// -- Rules for lists nested under sets
+		// -- Rules for sets nested under sets
 		// Create a HashSet for each nested <set> element
 		digester.addObjectCreate("*/set/set", HashSet.class);
-
-		// If the list is nested within another set, add it to the parent list
+		// If the set is nested within another set, add it to the parent set
 		digester.addSetNext("*/set/set", "add");
-	}	
-	
+
+		// -- Rules for lists nested under sets
+		// Create an ArrayList for each nested <list> element
+		digester.addObjectCreate("*/set/list", ArrayList.class);
+		// If the set is nested within a set, add it to the parent set
+		digester.addSetNext("*/set/list", "add");
+
+		// -- Rules for maps nested under sets
+		// Create an HashMap for each nested <map> element
+		digester.addObjectCreate("*/set/map", HashMap.class);
+		// If the map is nested within a set, add it to the parent set
+		digester.addSetNext("*/set/map", "add");
+
+	}
+
 	private void registerMapRules(Digester digester) {
-		//-- Base Map Rules
+		// -- Base Map Rules
 		digester.addObjectCreate("*/map", HashMap.class);
-		
+
 		// Add the newly created Map as a parameter so that it can be
 		// added to the properties of the parent bean (or added to another
 		// collection)
-		digester.addCallParam("*/map", 0, true);		
-		
-		//-- Entry rules
+		digester.addCallParam("*/map", 0, true);
+
+		// -- Entry rules
 		digester.addCallMethod("*/map/entry", "put", 2);
-		
-		//-- Key rules
-		//Handle cases where the key is specified as an attribute on the entry
+
+		// -- Key rules
+		// Handle cases where the key is specified as an attribute on the entry
 		digester.addCallParam("*/map/entry", 0, "key");
-		//Handle casses where the key is specified as a child element on the entry
+		// Handle casses where the key is specified as a child element on the
+		// entry
 		digester.addCallParam("*/map/entry/key/value", 0);
 
-		//Override some of the bean rules, as we want to do something different here
-		digester.addObjectCreate("*/map/entry/key/bean", "java.lang.Object", "class");
+		// Override some of the bean rules, as we want to do something different
+		// here
+		digester.addObjectCreate("*/map/entry/key/bean", "java.lang.Object",
+				"class");
 
-		//Add the bean to be used as the key for the current map entry
+		// Add the bean to be used as the key for the current map entry
 		digester.addCallParam("*/map/entry/key/bean", 0, true);
-	
-		//-- Value rules
-		//Handle cases where the value is specified as an attribute on the entry
+
+		// -- Value rules
+		// Handle cases where the value is specified as an attribute on the
+		// entry
 		digester.addCallParam("*/map/entry", 1, "value");
-		//Handle cases where the valie is a string and is specified as an element
+		// Handle cases where the valie is a string and is specified as an
+		// element
 		digester.addCallParam("*/map/entry/value", 1);
 
-		//Override some of the bean rules, as we want to do something different here
-		digester.addObjectCreate("*/map/entry/bean", "java.lang.Object", "class");
+		// Override some of the bean rules, as we want to do something different
+		// here
+		digester.addObjectCreate("*/map/entry/bean", "java.lang.Object",
+				"class");
 
-		//Add beans as parameters for value objects
+		// Add beans as parameters for value objects
 		digester.addCallParam("*/map/entry/bean", 1, true);
+
+		// -- Maps nested in Entry rules
+		// Create a HashMap for each nested <map> element
+		digester.addObjectCreate("*/map/entry/map", HashMap.class);
+		// If the map is nested within an entry of a map, treat it as the
+		// value of the entry
+		digester.addCallParam("*/map/entry/map", 1, true);
+
+		// -- Lists nested in Entry rules
+		// Create an ArrayList for each nested <list> element
+		digester.addObjectCreate("*/map/entry/list", ArrayList.class);
+		// If the list is nested within an entry of a map, treat it as the
+		// value of the entry
+		digester.addCallParam("*/map/entry/list", 1, true);
+
+		// -- Sets nested in Entry rules
+		// Create an ArrayList for each nested <list> element
+		digester.addObjectCreate("*/map/entry/set", HashSet.class);
+		// If the set is nested within an entry of a map, treat it as the
+		// value of the entry
+		digester.addCallParam("*/map/entry/set", 1, true);
 	}
 }
