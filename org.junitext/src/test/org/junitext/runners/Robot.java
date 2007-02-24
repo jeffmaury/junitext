@@ -14,6 +14,7 @@ package org.junitext.runners;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Mock bean that is used in the unit tests for the XMLParameterizedRunner.
@@ -26,18 +27,23 @@ public class Robot {
 	private String model;
 	private String manufacturer;
 	private Robot bestFriend;
-	
+
 	private Robot[] arrayOfFriends;
 	private String[][] multiDimensionalArrayOfStrings;
 	private List<Object> mixedList;
 	private List<Robot> friends;
 	private List<List<Robot>> listsOfFriends;
 	private List<List<List<Robot>>> threeLevelListOfFriends;
-	
+
 	private Map<String, Robot> mapOfFriends;
 	private Map<Robot, Robot> mapWithRobotKey;
 	private Map<String, String> mapWithStringKeyAndValue;
 	private Map<String, List<Robot>> mapWithListsOfRobots;
+
+	private Set<Robot> setOfFriends;
+	private Set<Set<Robot>> setOfSets;
+	private Set<Set<Set<Robot>>> threeLevelSetofFriends;
+	private Set<Object> mixedSet;
 
 	public Robot() {
 
@@ -181,7 +187,7 @@ public class Robot {
 			String[][] multidimentionalArrayOfStrings) {
 		this.multiDimensionalArrayOfStrings = multidimentionalArrayOfStrings;
 	}
-	
+
 	/**
 	 * @return the mapOfFriends
 	 */
@@ -190,11 +196,12 @@ public class Robot {
 	}
 
 	/**
-	 * @param mapOfFriends the mapOfFriends to set
+	 * @param mapOfFriends
+	 *            the mapOfFriends to set
 	 */
 	public void setMapOfFriends(Map<String, Robot> mapOfFriends) {
 		this.mapOfFriends = mapOfFriends;
-	}	
+	}
 
 	/**
 	 * @return the mapWithRobotKey
@@ -204,7 +211,8 @@ public class Robot {
 	}
 
 	/**
-	 * @param mapWithRobotKey the mapWithRobotKey to set
+	 * @param mapWithRobotKey
+	 *            the mapWithRobotKey to set
 	 */
 	public void setMapWithRobotKey(Map<Robot, Robot> mapWithRobotKey) {
 		this.mapWithRobotKey = mapWithRobotKey;
@@ -218,7 +226,8 @@ public class Robot {
 	}
 
 	/**
-	 * @param mapWithStringKeyAndValue the mapWithStringKeyAndValue to set
+	 * @param mapWithStringKeyAndValue
+	 *            the mapWithStringKeyAndValue to set
 	 */
 	public void setMapWithStringKeyAndValue(Map<String, String> mapWithString) {
 		this.mapWithStringKeyAndValue = mapWithString;
@@ -232,11 +241,73 @@ public class Robot {
 	}
 
 	/**
-	 * @param mapWithListsOfRobots the mapWithListsOfRobots to set
+	 * @param mapWithListsOfRobots
+	 *            the mapWithListsOfRobots to set
 	 */
 	public void setMapWithListsOfRobots(
 			Map<String, List<Robot>> mapWithListsOfRobots) {
 		this.mapWithListsOfRobots = mapWithListsOfRobots;
+	}
+
+	/**
+	 * @return the setOfFriends
+	 */
+	public Set<Robot> getSetOfFriends() {
+		return setOfFriends;
+	}
+
+	/**
+	 * @param setOfFriends
+	 *            the setOfFriends to set
+	 */
+	public void setSetOfFriends(Set<Robot> setOfFriends) {
+		this.setOfFriends = setOfFriends;
+	}
+
+	/**
+	 * @return the mixedSet
+	 */
+	public Set<Object> getMixedSet() {
+		return mixedSet;
+	}
+
+	/**
+	 * @param mixedSet
+	 *            the mixedSet to set
+	 */
+	public void setMixedSet(Set<Object> mixedSet) {
+		this.mixedSet = mixedSet;
+	}
+
+	/**
+	 * @return the setOfSets
+	 */
+	public Set<Set<Robot>> getSetOfSets() {
+		return setOfSets;
+	}
+
+	/**
+	 * @param setOfSets
+	 *            the setOfSets to set
+	 */
+	public void setSetOfSets(Set<Set<Robot>> setofSets) {
+		this.setOfSets = setofSets;
+	}
+
+	/**
+	 * @return the threeLevelSetofFriends
+	 */
+	public Set<Set<Set<Robot>>> getThreeLevelSetofFriends() {
+		return threeLevelSetofFriends;
+	}
+
+	/**
+	 * @param threeLevelSetofFriends
+	 *            the threeLevelSetofFriends to set
+	 */
+	public void setThreeLevelSetofFriends(
+			Set<Set<Set<Robot>>> threeLevelSetofFriends) {
+		this.threeLevelSetofFriends = threeLevelSetofFriends;
 	}
 
 	@Override
@@ -260,23 +331,39 @@ public class Robot {
 		newString.append("multidementionalArrayOfStrings: {");
 		newString.append(Arrays.deepToString(multiDimensionalArrayOfStrings));
 		newString.append("} ");
-		
+
 		newString.append(" mapOfFriends: [");
 		newString.append(mapOfFriends);
 		newString.append("] ");
-		
+
 		newString.append(" mapWithRobotKey: [");
 		newString.append(mapWithRobotKey);
-		newString.append("] ");		
-		
+		newString.append("] ");
+
 		newString.append(" mapWithStringKeyAndValue: [");
 		newString.append(mapWithStringKeyAndValue);
-		newString.append("] ");	
-		
+		newString.append("] ");
+
 		newString.append(" mapWithListsOfRobots: [");
 		newString.append(mapWithListsOfRobots);
-		newString.append("] ");			
+		newString.append("] ");
 
+		newString.append(" setOfFriends: [");
+		newString.append(setOfFriends);
+		newString.append("] ");
+		
+		newString.append(" setOfSets: [");
+		newString.append(setOfSets);
+		newString.append("] ");
+		
+		newString.append(" threeLevelSetofFriends: [");
+		newString.append(threeLevelSetofFriends);
+		newString.append("] ");
+				
+		newString.append(" mixedSet: [");
+		newString.append(mixedSet);
+		newString.append("] ");
+		
 		return newString.toString();
 	}
 
@@ -288,20 +375,46 @@ public class Robot {
 		final int PRIME = 31;
 		int result = super.hashCode();
 		result = PRIME * result + Arrays.hashCode(arrayOfFriends);
-		result = PRIME * result + ((bestFriend == null) ? 0 : bestFriend.hashCode());
+		result = PRIME * result
+				+ ((bestFriend == null) ? 0 : bestFriend.hashCode());
 		result = PRIME * result + ((friends == null) ? 0 : friends.hashCode());
 		result = PRIME * result + (int) (id ^ (id >>> 32));
-		result = PRIME * result + ((listsOfFriends == null) ? 0 : listsOfFriends.hashCode());
-		result = PRIME * result + ((manufacturer == null) ? 0 : manufacturer.hashCode());
-		result = PRIME * result + ((mapOfFriends == null) ? 0 : mapOfFriends.hashCode());
-		result = PRIME * result + ((mapWithListsOfRobots == null) ? 0 : mapWithListsOfRobots.hashCode());
-		result = PRIME * result + ((mapWithRobotKey == null) ? 0 : mapWithRobotKey.hashCode());
-		result = PRIME * result + ((mapWithStringKeyAndValue == null) ? 0 : mapWithStringKeyAndValue.hashCode());
-		result = PRIME * result + ((mixedList == null) ? 0 : mixedList.hashCode());
+		result = PRIME * result
+				+ ((listsOfFriends == null) ? 0 : listsOfFriends.hashCode());
+		result = PRIME * result
+				+ ((manufacturer == null) ? 0 : manufacturer.hashCode());
+		result = PRIME * result
+				+ ((mapOfFriends == null) ? 0 : mapOfFriends.hashCode());
+		result = PRIME
+				* result
+				+ ((mapWithListsOfRobots == null) ? 0 : mapWithListsOfRobots
+						.hashCode());
+		result = PRIME * result
+				+ ((mapWithRobotKey == null) ? 0 : mapWithRobotKey.hashCode());
+		result = PRIME
+				* result
+				+ ((mapWithStringKeyAndValue == null) ? 0
+						: mapWithStringKeyAndValue.hashCode());
+		result = PRIME * result
+				+ ((mixedList == null) ? 0 : mixedList.hashCode());
+		result = PRIME * result
+				+ ((mixedSet == null) ? 0 : mixedSet.hashCode());
 		result = PRIME * result + ((model == null) ? 0 : model.hashCode());
-		result = PRIME * result + Arrays.hashCode(multiDimensionalArrayOfStrings);
+		result = PRIME * result
+				+ Arrays.hashCode(multiDimensionalArrayOfStrings);
 		result = PRIME * result + ((name == null) ? 0 : name.hashCode());
-		result = PRIME * result + ((threeLevelListOfFriends == null) ? 0 : threeLevelListOfFriends.hashCode());
+		result = PRIME * result
+				+ ((setOfFriends == null) ? 0 : setOfFriends.hashCode());
+		result = PRIME * result
+				+ ((setOfSets == null) ? 0 : setOfSets.hashCode());
+		result = PRIME
+				* result
+				+ ((threeLevelListOfFriends == null) ? 0
+						: threeLevelListOfFriends.hashCode());
+		result = PRIME
+				* result
+				+ ((threeLevelSetofFriends == null) ? 0
+						: threeLevelSetofFriends.hashCode());
 		return result;
 	}
 
@@ -359,29 +472,52 @@ public class Robot {
 		if (mapWithStringKeyAndValue == null) {
 			if (other.mapWithStringKeyAndValue != null)
 				return false;
-		} else if (!mapWithStringKeyAndValue.equals(other.mapWithStringKeyAndValue))
+		} else if (!mapWithStringKeyAndValue
+				.equals(other.mapWithStringKeyAndValue))
 			return false;
 		if (mixedList == null) {
 			if (other.mixedList != null)
 				return false;
 		} else if (!mixedList.equals(other.mixedList))
 			return false;
+		if (mixedSet == null) {
+			if (other.mixedSet != null)
+				return false;
+		} else if (!mixedSet.equals(other.mixedSet))
+			return false;
 		if (model == null) {
 			if (other.model != null)
 				return false;
 		} else if (!model.equals(other.model))
 			return false;
-		if (!Arrays.equals(multiDimensionalArrayOfStrings, other.multiDimensionalArrayOfStrings))
+		if (!Arrays.equals(multiDimensionalArrayOfStrings,
+				other.multiDimensionalArrayOfStrings))
 			return false;
 		if (name == null) {
 			if (other.name != null)
 				return false;
 		} else if (!name.equals(other.name))
 			return false;
+		if (setOfFriends == null) {
+			if (other.setOfFriends != null)
+				return false;
+		} else if (!setOfFriends.equals(other.setOfFriends))
+			return false;
+		if (setOfSets == null) {
+			if (other.setOfSets != null)
+				return false;
+		} else if (!setOfSets.equals(other.setOfSets))
+			return false;
 		if (threeLevelListOfFriends == null) {
 			if (other.threeLevelListOfFriends != null)
 				return false;
-		} else if (!threeLevelListOfFriends.equals(other.threeLevelListOfFriends))
+		} else if (!threeLevelListOfFriends
+				.equals(other.threeLevelListOfFriends))
+			return false;
+		if (threeLevelSetofFriends == null) {
+			if (other.threeLevelSetofFriends != null)
+				return false;
+		} else if (!threeLevelSetofFriends.equals(other.threeLevelSetofFriends))
 			return false;
 		return true;
 	}
