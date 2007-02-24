@@ -25,6 +25,7 @@ import org.junitext.manipulation.PrerequisiteFilterTest;
 import org.junitext.runners.XMLParameterizedTest;
 import org.junitext.runners.parameters.factory.DigesterParameterFactoryListsTest;
 import org.junitext.runners.parameters.factory.DigesterParameterFactoryMapsTest;
+import org.junitext.runners.parameters.factory.DigesterParameterFactoryMixedCollectionsTest;
 import org.junitext.runners.parameters.factory.DigesterParameterFactorySetsTest;
 import org.junitext.runners.parameters.factory.DigesterParameterFactoryTest;
 
@@ -35,7 +36,8 @@ import org.junitext.runners.parameters.factory.DigesterParameterFactoryTest;
 		DigesterParameterFactoryTest.class,
 		DigesterParameterFactoryListsTest.class,
 		DigesterParameterFactoryMapsTest.class,
-		DigesterParameterFactorySetsTest.class })
+		DigesterParameterFactorySetsTest.class,
+		DigesterParameterFactoryMixedCollectionsTest.class })
 public class AllTests {
 	public static Test suite() {
 		return new JUnit4TestAdapter(AllTests.class);

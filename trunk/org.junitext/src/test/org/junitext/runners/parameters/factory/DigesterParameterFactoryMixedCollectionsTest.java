@@ -26,7 +26,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junitext.runners.Robot;
 
-public class DigesterParameterFactoryMapsTest {
+public class DigesterParameterFactoryMixedCollectionsTest {
 	private static final String XML_HEADER = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\" ?>"
 			+ "<tests>"
 			+ "<test>"
@@ -49,19 +49,23 @@ public class DigesterParameterFactoryMapsTest {
 	}
 
 	@Test
-	public void parseBeanWithMapWithStringKeyAsAttribute() throws Exception {
+	public void parseBeanWithListOfSets() throws Exception {
 		// Create the "input" XML
-		String inputString = XML_HEADER + "<property name=\"mapOfFriends\" >"
-				+ "<map>" + "<entry key=\"Friend\">"
+		String inputString = XML_HEADER + "<property name=\"mixedList\">"
+				+ "<list>" + "<set>"
 				+ "<bean id=\"friend\" class=\"org.junitext.runners.Robot\" >"
 				+ "<property name=\"name\" value=\"Johnny 5\" />" + "</bean>"
-				+ "</entry>" + "</map>" + "</property>" + XML_FOOTER;
+				+ "</set>" + "</list>" + "</property>" + XML_FOOTER;
 		InputStream inputXml = new ByteArrayInputStream(inputString
 				.getBytes("UTF-8"));
 
-		Map<String, Robot> expectedMapFriends = new HashMap<String, Robot>();
-		expectedMapFriends.put("Friend", friend);
-		expectedRobot.setMapOfFriends(expectedMapFriends);
+		Set<Robot> expectedSet = new HashSet<Robot>();
+		expectedSet.add(friend);
+
+		List<Object> mixedList = new ArrayList<Object>();
+		mixedList.add(expectedSet);
+
+		expectedRobot.setMixedList(mixedList);
 
 		List<ParameterSet> expectedParamSets = new ArrayList<ParameterSet>();
 		expectedParamSets.add(new ParameterSet(null,
@@ -76,139 +80,116 @@ public class DigesterParameterFactoryMapsTest {
 	}
 
 	@Test
-	public void parseBeanWithMapWithStringKeyAsElement() throws Exception {
+	public void parseBeanWithListOfMaps() throws Exception {
 		// Create the "input" XML
-		String inputString = XML_HEADER + "<property name=\"mapOfFriends\" >"
-				+ "<map>" + "<entry>" + "<key>" + "<value>Friend</value>"
-				+ "</key>"
+		String inputString = XML_HEADER + "<property name=\"mixedList\">"
+				+ "<list>" + "<map>" + "<entry key=\"Friend\">"
 				+ "<bean id=\"friend\" class=\"org.junitext.runners.Robot\" >"
 				+ "<property name=\"name\" value=\"Johnny 5\" />" + "</bean>"
-				+ "</entry>" + "</map>" + "</property>" + XML_FOOTER;
-		InputStream inputXml = new ByteArrayInputStream(inputString
-				.getBytes("UTF-8"));
-
-		Map<String, Robot> expectedMapFriends = new HashMap<String, Robot>();
-		expectedMapFriends.put("Friend", friend);
-		expectedRobot.setMapOfFriends(expectedMapFriends);
-
-		List<ParameterSet> expectedParamSets = new ArrayList<ParameterSet>();
-		expectedParamSets.add(new ParameterSet(null,
-				new Object[] { expectedRobot }));
-
-		// Run the test
-		List<ParameterSet> actualParamSets = testFactory
-				.createParameters(inputXml);
-
-		// Verify the expected outcome
-		assertParameterSetsEqual(expectedParamSets, actualParamSets);
-	}
-
-	@Test
-	public void parseBeanWithMapWithStringValueAsElement() throws Exception {
-		// Create the "input" XML
-		String inputString = XML_HEADER
-				+ "<property name=\"mapWithStringKeyAndValue\" >" + "<map>"
-				+ "<entry key=\"Friend\">" + "<value>String Value</value>"
-				+ "</entry>" + "</map>" + "</property>" + XML_FOOTER;
-		InputStream inputXml = new ByteArrayInputStream(inputString
-				.getBytes("UTF-8"));
-
-		Map<String, String> expectedMap = new HashMap<String, String>();
-		expectedMap.put("Friend", "String Value");
-		expectedRobot.setMapWithStringKeyAndValue(expectedMap);
-
-		List<ParameterSet> expectedParamSets = new ArrayList<ParameterSet>();
-		expectedParamSets.add(new ParameterSet(null,
-				new Object[] { expectedRobot }));
-
-		// Run the test
-		List<ParameterSet> actualParamSets = testFactory
-				.createParameters(inputXml);
-
-		// Verify the expected outcome
-		assertParameterSetsEqual(expectedParamSets, actualParamSets);
-	}
-
-	@Test
-	public void parseBeanWithMapWithStringValueAsAttribute() throws Exception {
-		// Create the "input" XML
-		String inputString = XML_HEADER
-				+ "<property name=\"mapWithStringKeyAndValue\" >" + "<map>"
-				+ "<entry key=\"Friend\" value=\"String Value\" />" + "</map>"
-				+ "</property>" + XML_FOOTER;
-		InputStream inputXml = new ByteArrayInputStream(inputString
-				.getBytes("UTF-8"));
-
-		Map<String, String> expectedMap = new HashMap<String, String>();
-		expectedMap.put("Friend", "String Value");
-		expectedRobot.setMapWithStringKeyAndValue(expectedMap);
-
-		List<ParameterSet> expectedParamSets = new ArrayList<ParameterSet>();
-		expectedParamSets.add(new ParameterSet(null,
-				new Object[] { expectedRobot }));
-
-		// Run the test
-		List<ParameterSet> actualParamSets = testFactory
-				.createParameters(inputXml);
-
-		// Verify the expected outcome
-		assertParameterSetsEqual(expectedParamSets, actualParamSets);
-	}
-
-	@Test
-	public void parseBeanWithMapWithBeanAsKey() throws Exception {
-		// Create the "input" XML
-		String inputString = XML_HEADER
-				+ "<property name=\"mapWithRobotKey\" >"
-				+ "<map>"
-				+ "<entry>"
-				+ "<key>"
-				+ "<bean id=\"friend\" class=\"org.junitext.runners.Robot\" >"
-				+ "<property name=\"name\" value=\"Marvin the Paranoid Android\" />"
-				+ "</bean>" + "</key>"
-				+ "<bean id=\"friend\" class=\"org.junitext.runners.Robot\" >"
-				+ "<property name=\"name\" value=\"Johnny 5\" />" + "</bean>"
-				+ "</entry>" + "</map>" + "</property>" + XML_FOOTER;
-		InputStream inputXml = new ByteArrayInputStream(inputString
-				.getBytes("UTF-8"));
-
-		Robot key = new Robot();
-		key.setName("Marvin the Paranoid Android");
-
-		Map<Robot, Robot> expectedMapFriends = new HashMap<Robot, Robot>();
-		expectedMapFriends.put(key, friend);
-		expectedRobot.setMapWithRobotKey(expectedMapFriends);
-
-		List<ParameterSet> expectedParamSets = new ArrayList<ParameterSet>();
-		expectedParamSets.add(new ParameterSet(null,
-				new Object[] { expectedRobot }));
-
-		// Run the test
-		List<ParameterSet> actualParamSets = testFactory
-				.createParameters(inputXml);
-
-		// Verify the expected outcome
-		assertParameterSetsEqual(expectedParamSets, actualParamSets);
-	}
-
-	@Test
-	public void parseBeanWithMapOfMapValues() throws Exception {
-		// Create the "input" XML
-		String inputString = XML_HEADER + "<property name=\"mixedMap\">"
-				+ "<map>" + "<entry key=\"key\">" + "<map>"
-				+ "<entry key=\"innerKey\">"
-				+ "<bean id=\"friend\" class=\"org.junitext.runners.Robot\" >"
-				+ "<property name=\"name\" value=\"Johnny 5\" />" + "</bean>"
-				+ "</entry>" + "</map>" + "</entry>" + "</map>" + "</property>"
+				+ "</entry>" + "</map>" + "</list>" + "</property>"
 				+ XML_FOOTER;
 		InputStream inputXml = new ByteArrayInputStream(inputString
 				.getBytes("UTF-8"));
 
-		Map<String, Robot> innerMap = new HashMap<String, Robot>();
-		innerMap.put("innerKey", friend);
+		Map<String, Robot> expectedMap = new HashMap<String, Robot>();
+		expectedMap.put("Friend", friend);
+
+		List<Object> mixedList = new ArrayList<Object>();
+		mixedList.add(expectedMap);
+
+		expectedRobot.setMixedList(mixedList);
+
+		List<ParameterSet> expectedParamSets = new ArrayList<ParameterSet>();
+		expectedParamSets.add(new ParameterSet(null,
+				new Object[] { expectedRobot }));
+
+		// Run the test
+		List<ParameterSet> actualParamSets = testFactory
+				.createParameters(inputXml);
+
+		// Verify the expected outcome
+		assertParameterSetsEqual(expectedParamSets, actualParamSets);
+	}
+
+	@Test
+	public void parseBeanWithSetOfLists() throws Exception {
+		// Create the "input" XML
+		String inputString = XML_HEADER + "<property name=\"mixedSet\">"
+				+ "<set>" + "<list>"
+				+ "<bean id=\"friend\" class=\"org.junitext.runners.Robot\" >"
+				+ "<property name=\"name\" value=\"Johnny 5\" />" + "</bean>"
+				+ "</list>" + "</set>" + "</property>" + XML_FOOTER;
+		InputStream inputXml = new ByteArrayInputStream(inputString
+				.getBytes("UTF-8"));
+
+		List<Robot> expectedList = new ArrayList<Robot>();
+		expectedList.add(friend);
+
+		Set<Object> mixedSet = new HashSet<Object>();
+		mixedSet.add(expectedList);
+
+		expectedRobot.setMixedSet(mixedSet);
+
+		List<ParameterSet> expectedParamSets = new ArrayList<ParameterSet>();
+		expectedParamSets.add(new ParameterSet(null,
+				new Object[] { expectedRobot }));
+
+		// Run the test
+		List<ParameterSet> actualParamSets = testFactory
+				.createParameters(inputXml);
+
+		// Verify the expected outcome
+		assertParameterSetsEqual(expectedParamSets, actualParamSets);
+	}
+
+	@Test
+	public void parseBeanWithSetOfMaps() throws Exception {
+		// Create the "input" XML
+		String inputString = XML_HEADER + "<property name=\"mixedSet\">"
+				+ "<set>" + "<map>" + "<entry key=\"Friend\">"
+				+ "<bean id=\"friend\" class=\"org.junitext.runners.Robot\" >"
+				+ "<property name=\"name\" value=\"Johnny 5\" />" + "</bean>"
+				+ "</entry>" + "</map>" + "</set>" + "</property>" + XML_FOOTER;
+		InputStream inputXml = new ByteArrayInputStream(inputString
+				.getBytes("UTF-8"));
+
+		Map<String, Robot> expectedMap = new HashMap<String, Robot>();
+		expectedMap.put("Friend", friend);
+
+		Set<Object> mixedSet = new HashSet<Object>();
+		mixedSet.add(expectedMap);
+
+		expectedRobot.setMixedSet(mixedSet);
+
+		List<ParameterSet> expectedParamSets = new ArrayList<ParameterSet>();
+		expectedParamSets.add(new ParameterSet(null,
+				new Object[] { expectedRobot }));
+
+		// Run the test
+		List<ParameterSet> actualParamSets = testFactory
+				.createParameters(inputXml);
+
+		// Verify the expected outcome
+		assertParameterSetsEqual(expectedParamSets, actualParamSets);
+	}
+
+	@Test
+	public void parseBeanWithMapOfListValues() throws Exception {
+		// Create the "input" XML
+		String inputString = XML_HEADER + "<property name=\"mixedMap\">"
+				+ "<map>" + "<entry key=\"key\">" + "<list>"
+				+ "<bean id=\"friend\" class=\"org.junitext.runners.Robot\" >"
+				+ "<property name=\"name\" value=\"Johnny 5\" />" + "</bean>"
+				+ "</list>" + "</entry>" + "</map>" + "</property>"
+				+ XML_FOOTER;
+		InputStream inputXml = new ByteArrayInputStream(inputString
+				.getBytes("UTF-8"));
+
+		List<Robot> expected = new ArrayList<Robot>();
+		expected.add(friend);
 
 		Map<Object, Object> mixedMap = new HashMap<Object, Object>();
-		mixedMap.put("key", innerMap);
+		mixedMap.put("key", expected);
 		expectedRobot.setMixedMap(mixedMap);
 
 		List<ParameterSet> expectedParamSets = new ArrayList<ParameterSet>();
@@ -224,23 +205,21 @@ public class DigesterParameterFactoryMapsTest {
 	}
 
 	@Test
-	public void parseBeanWithMapOfMapKeys() throws Exception {
+	public void parseBeanWithMapOfSetValues() throws Exception {
 		// Create the "input" XML
 		String inputString = XML_HEADER + "<property name=\"mixedMap\">"
-				+ "<map>" + "<entry>" + "<key>" + "<map>"
-				+ "<entry key=\"innerKey\">"
+				+ "<map>" + "<entry key=\"key\">" + "<set>"
 				+ "<bean id=\"friend\" class=\"org.junitext.runners.Robot\" >"
 				+ "<property name=\"name\" value=\"Johnny 5\" />" + "</bean>"
-				+ "</entry>" + "</map>" + "</key>" + "<value>value</value>"
-				+ "</entry>" + "</map>" + "</property>" + XML_FOOTER;
+				+ "</set>" + "</entry>" + "</map>" + "</property>" + XML_FOOTER;
 		InputStream inputXml = new ByteArrayInputStream(inputString
 				.getBytes("UTF-8"));
 
-		Map<String, Robot> innerMap = new HashMap<String, Robot>();
-		innerMap.put("innerKey", friend);
+		Set<Robot> expected = new HashSet<Robot>();
+		expected.add(friend);
 
 		Map<Object, Object> mixedMap = new HashMap<Object, Object>();
-		mixedMap.put(innerMap, "value");
+		mixedMap.put("key", expected);
 		expectedRobot.setMixedMap(mixedMap);
 
 		List<ParameterSet> expectedParamSets = new ArrayList<ParameterSet>();
@@ -254,4 +233,67 @@ public class DigesterParameterFactoryMapsTest {
 		// Verify the expected outcome
 		assertParameterSetsEqual(expectedParamSets, actualParamSets);
 	}
+
+	@Test
+	public void parseBeanWithMapOfListKeys() throws Exception {
+		// Create the "input" XML
+		String inputString = XML_HEADER + "<property name=\"mixedMap\">"
+				+ "<map>" + "<entry>" + "<key>" + "<list>"
+				+ "<bean id=\"friend\" class=\"org.junitext.runners.Robot\" >"
+				+ "<property name=\"name\" value=\"Johnny 5\" />" + "</bean>"
+				+ "</list>" + "</key>" + "<value>value</value>" + "</entry>"
+				+ "</map>" + "</property>" + XML_FOOTER;
+		InputStream inputXml = new ByteArrayInputStream(inputString
+				.getBytes("UTF-8"));
+
+		List<Robot> expected = new ArrayList<Robot>();
+		expected.add(friend);
+
+		Map<Object, Object> mixedMap = new HashMap<Object, Object>();
+		mixedMap.put(expected, "value");
+		expectedRobot.setMixedMap(mixedMap);
+
+		List<ParameterSet> expectedParamSets = new ArrayList<ParameterSet>();
+		expectedParamSets.add(new ParameterSet(null,
+				new Object[] { expectedRobot }));
+
+		// Run the test
+		List<ParameterSet> actualParamSets = testFactory
+				.createParameters(inputXml);
+
+		// Verify the expected outcome
+		assertParameterSetsEqual(expectedParamSets, actualParamSets);
+	}
+
+	@Test
+	public void parseBeanWithMapOfSetKeys() throws Exception {
+		// Create the "input" XML
+		String inputString = XML_HEADER + "<property name=\"mixedMap\">"
+				+ "<map>" + "<entry>" + "<key>" + "<set>"
+				+ "<bean id=\"friend\" class=\"org.junitext.runners.Robot\" >"
+				+ "<property name=\"name\" value=\"Johnny 5\" />" + "</bean>"
+				+ "</set>" + "</key>" + "<value>value</value>" + "</entry>"
+				+ "</map>" + "</property>" + XML_FOOTER;
+		InputStream inputXml = new ByteArrayInputStream(inputString
+				.getBytes("UTF-8"));
+
+		Set<Robot> expected = new HashSet<Robot>();
+		expected.add(friend);
+
+		Map<Object, Object> mixedMap = new HashMap<Object, Object>();
+		mixedMap.put(expected, "value");
+		expectedRobot.setMixedMap(mixedMap);
+
+		List<ParameterSet> expectedParamSets = new ArrayList<ParameterSet>();
+		expectedParamSets.add(new ParameterSet(null,
+				new Object[] { expectedRobot }));
+
+		// Run the test
+		List<ParameterSet> actualParamSets = testFactory
+				.createParameters(inputXml);
+
+		// Verify the expected outcome
+		assertParameterSetsEqual(expectedParamSets, actualParamSets);
+	}
+
 }
