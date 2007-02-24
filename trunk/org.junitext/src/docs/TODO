@@ -68,7 +68,6 @@ TODOs for JUnitExt
         - when appropriate, attempt to infer the property type (java 5 generics)
           using reflection (this could be particularly useful for collection types)
         - allow parameter sets to be "disabled"
-        - add support for properties of arrays (auto-convert lists to arrays)
 
 - other frameworks:
 	- make tests with dbUnit, Jammy (UI)
