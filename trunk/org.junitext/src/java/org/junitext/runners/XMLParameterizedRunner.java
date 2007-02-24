@@ -44,7 +44,7 @@ public class XMLParameterizedRunner extends TestClassRunner {
 		/**
 		 * The parameters for this particular test run.
 		 */
-		private final ParameterSet fParemeterSet;
+		private final ParameterSet fParameterSet;
 
 		/**
 		 * The number that this test run represents.
@@ -64,7 +64,7 @@ public class XMLParameterizedRunner extends TestClassRunner {
 		 */
 		private TestClassRunnerForXMLParameters(Class<?> klass, ParameterSet paremeterSet, int i) throws Exception {
 			super(klass);
-			fParemeterSet= paremeterSet;
+			fParameterSet= paremeterSet;
 			fParameterSetNumber= i;
 			fConstructor= getConstructor();
 			validateConstructor();
@@ -73,24 +73,27 @@ public class XMLParameterizedRunner extends TestClassRunner {
 		/**
 		 * Creates a new instance of the test class.  This method overrides the 
 		 * <code>org.junit.internal.runners.TestClassMethodsRunner.createTest()</code>
-		 * method and instead creats the test class using the parameterized constructor.
+		 * method and instead creates the test class using the parameterized constructor.
 		 * 
 		 * @see org.junit.internal.runners.TestClassMethodsRunner#createTest()
 		 */
 		@Override
 		protected Object createTest() throws Exception {
-			return fConstructor.newInstance(fParemeterSet.getParameterObjects());
+			return fConstructor.newInstance(fParameterSet.getParameterObjects());
 		}
 		
 		/**
 		 * Gets the name of the test class for display in end-user runners.  This 
 		 * method overrides the <code>org.junit.internal.runners.TestClassMethodsRunner.getName()</code>
-		 * method to return a name that is based on the parameter set number.
+		 * method to return a name that is based on the parameter set.
 		 * 
 		 * @see org.junit.internal.runners.TestClassMethodsRunner#getName()
 		 */
 		@Override
 		protected String getName() {
+			if(fParameterSet.getName() != null) {
+				return String.format("[%s] %s", fParameterSetNumber, fParameterSet.getName());				
+			}
 			return String.format("[%s]", fParameterSetNumber);
 		}
 		
@@ -128,7 +131,7 @@ public class XMLParameterizedRunner extends TestClassRunner {
 		 */
 		public void validateConstructor() throws Exception {
 			Class[] constructorParams = fConstructor.getParameterTypes();
-			final List<Parameter> parameters = fParemeterSet.getParameters();
+			final List<Parameter> parameters = fParameterSet.getParameters();
 			if(constructorParams.length != parameters.size()) {
 				throw new Exception("For test set [" +fParameterSetNumber + "], the parameter set does not contain the right number of parameters for the constuctor [" + fConstructor.toString() + "].");
 			}

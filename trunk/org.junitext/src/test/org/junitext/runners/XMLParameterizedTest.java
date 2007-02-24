@@ -46,22 +46,22 @@ public class XMLParameterizedTest {
 			ArrayList<Parameter> dataSet = new ArrayList<Parameter>();
 			dataSet.add(new Parameter(new Robot("Daneel Olivaw", 134, "X24R", "Han Fastolfe")));
 			dataSet.add(new Parameter(new Robot("Daneel Olivaw", 134, "X24R", "Han Fastolfe")));
-			data.add(new ParameterSet(null, dataSet));
+			data.add(new ParameterSet("Equal Robots", dataSet));
 
 			dataSet = new ArrayList<Parameter>();
 			dataSet.add(new Parameter(new Robot("Johnny 5", 5, "SAINT", "Nova Laboratories")));
 			dataSet.add(new Parameter(new Robot("Johnny 5", 5, "SAINT", "Nova Laboratories")));
-			data.add(new ParameterSet(null, dataSet));
+			data.add(new ParameterSet("Equal Robots", dataSet));
 
 			dataSet = new ArrayList<Parameter>();
 			dataSet.add(new Parameter(new Robot("Johnny 5", 5, "SAINT", "Nova Laboratories")));
 			dataSet.add(new Parameter(new Robot("Daneel Olivaw", 134, "X24R", "Han Fastolfe")));
-			data.add(new ParameterSet(null, dataSet));
+			data.add(new ParameterSet("Unequal Robots", dataSet));
 
 			dataSet = new ArrayList<Parameter>();
 			dataSet.add(new Parameter(new Robot("Daneel Olivaw", 134, "X24R", "Han Fastolfe")));
 			dataSet.add(new Parameter(new Robot("Johnny 5", 5, "SAINT", "Nova Laboratories")));
-			data.add(new ParameterSet(null, dataSet));
+			data.add(new ParameterSet("Unequal Robots", dataSet));
 
 			return data;
 		}
@@ -114,7 +114,7 @@ public class XMLParameterizedTest {
 	public void plansNamedCorrectly() throws Exception {
 		Runner runner = Request.aClass(RobotTest.class).getRunner();
 		Description description = runner.getDescription();
-		assertEquals("[0]", description.getChildren().get(0).getDisplayName());
+		assertEquals("[0] Equal Robots", description.getChildren().get(0).getDisplayName());
 	}
 
 	private static String fLog;

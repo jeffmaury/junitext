@@ -2,8 +2,11 @@ ChangeLog for JUnitExt
 ======================
 
 0.x.x 2007-02-24 Jim Hurne
-- Added support for sets and maps for XMLParameterizedRunner input XML
-- Added support for nested collection objects for XMLParameterizedRunner input XML
+- XMLParameterizedRunner input XML enhancements
+	- Added support for bean properties that are arrays
+	- Added support for sets and maps
+	- Added support for nested collection objects
+	- Lists of parameters can now be named (using the id or name attributes)
 
 0.2.4 2007-02-16 Jochen Hiller, Jim Hurne
 - Refactored test cases and samples

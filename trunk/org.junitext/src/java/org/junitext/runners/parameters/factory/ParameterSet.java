@@ -28,7 +28,7 @@ public class ParameterSet {
 	 * Creates an empty <code>ParameterSet</code>.
 	 */
 	public ParameterSet() {
-		
+		parameters = new ArrayList<Parameter>();
 	}
 
 	/**
@@ -39,6 +39,7 @@ public class ParameterSet {
 	 * @param parameters the parameters to assign to this parameterSet
 	 */
 	public ParameterSet(String name, List<Parameter> parameters) {
+		this.name = name;
 		this.parameters = parameters;
 	}
 	
@@ -86,6 +87,23 @@ public class ParameterSet {
 	 */
 	public void setParameters(List<Parameter> parameters) {
 		this.parameters = parameters;
+	}
+	
+	/**
+	 * Adds a parameter to this <code>ParameterSet</code>.
+	 * 
+	 * @param parameterToAdd
+	 */
+	public void add(Parameter parameterToAdd) {
+		this.parameters.add(parameterToAdd);
+	}
+	
+	/**
+	 * Adds an arbitrary object as a parameter to this <code>ParameterSet</code>.
+	 * @param parameterToAdd
+	 */
+	public void add(Object parameterToAdd) {
+		this.parameters.add(new Parameter(parameterToAdd));
 	}
 	
 	/**
