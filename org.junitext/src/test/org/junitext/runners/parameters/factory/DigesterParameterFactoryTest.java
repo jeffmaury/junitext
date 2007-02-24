@@ -36,8 +36,14 @@ public class DigesterParameterFactoryTest {
 	public void parseString() throws Exception {
 		String expectedString = "This is the expected string value.";
 		String inputString = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\" ?>"
-				+ "<tests>" + "<test>" + "<string id=\"testString\" value=\""
-				+ expectedString + "\" />" + "</test>" + "</tests>";
+				+ "<tests>" 
+				+ "<test>" 
+				+ "<value id=\"testString\">"
+				+ expectedString 
+				+ "</value>" 
+				+ "</test>" 
+				+ "</tests>";
+		
 		InputStream inputXml = new ByteArrayInputStream(inputString
 				.getBytes("UTF-8"));
 
@@ -57,8 +63,13 @@ public class DigesterParameterFactoryTest {
 	public void parseInteger() throws Exception {
 		Integer expectedInteger = 5;
 		String inputString = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\" ?>"
-				+ "<tests>" + "<test>" + "<int id=\"testInteger\" value=\""
-				+ expectedInteger + "\" />" + "</test>" + "</tests>";
+				+ "<tests>" 
+				+ "<test>" 
+				+ "<value id=\"testInteger\" type=\"java.lang.Integer\">"
+				+ expectedInteger 
+				+ "</value>" 
+				+ "</test>" 
+				+ "</tests>";
 		InputStream inputXml = new ByteArrayInputStream(inputString
 				.getBytes("UTF-8"));
 
@@ -78,8 +89,13 @@ public class DigesterParameterFactoryTest {
 	public void parseShort() throws Exception {
 		Short expectedShort = 5;
 		String inputString = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\" ?>"
-				+ "<tests>" + "<test>" + "<short id=\"testShort\" value=\""
-				+ expectedShort + "\" />" + "</test>" + "</tests>";
+				+ "<tests>" 
+				+ "<test>" 
+				+ "<value id=\"testShort\" type=\"java.lang.Short\">"
+				+ expectedShort 
+				+ "</value>" 
+				+ "</test>" 
+				+ "</tests>";
 		InputStream inputXml = new ByteArrayInputStream(inputString
 				.getBytes("UTF-8"));
 
@@ -99,8 +115,13 @@ public class DigesterParameterFactoryTest {
 	public void parseLong() throws Exception {
 		Long expectedLong = 5L;
 		String inputString = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\" ?>"
-				+ "<tests>" + "<test>" + "<long id=\"testLong\" value=\""
-				+ expectedLong + "\" />" + "</test>" + "</tests>";
+				+ "<tests>" 
+				+ "<test>" 
+				+ "<value id=\"testLong\" type=\"java.lang.Long\">"
+				+ expectedLong 
+				+ "</value>" 
+				+ "</test>" 
+				+ "</tests>";
 		InputStream inputXml = new ByteArrayInputStream(inputString
 				.getBytes("UTF-8"));
 
@@ -120,8 +141,13 @@ public class DigesterParameterFactoryTest {
 	public void parseBoolean() throws Exception {
 		Boolean expectedBoolean = false;
 		String inputString = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\" ?>"
-				+ "<tests>" + "<test>" + "<boolean id=\"testString\" value=\""
-				+ expectedBoolean + "\" />" + "</test>" + "</tests>";
+				+ "<tests>" 
+				+ "<test>" 
+				+ "<value id=\"testString\" type=\"java.lang.Boolean\">"
+				+ expectedBoolean 
+				+ "</value>" 
+				+ "</test>" 
+				+ "</tests>";
 		InputStream inputXml = new ByteArrayInputStream(inputString
 				.getBytes("UTF-8"));
 

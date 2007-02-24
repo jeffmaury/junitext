@@ -20,6 +20,7 @@ import java.util.HashSet;
 import java.util.List;
 
 import org.apache.commons.digester.Digester;
+import org.apache.commons.digester.Rule;
 
 /**
  * Creates sets of test parameters by parsing input XML using the Jakarta
@@ -96,7 +97,7 @@ public class DigesterParameterFactory implements ParameterFactory {
 		// Add an object set previously with the CallParamRule to the bean
 		// property. This rule is used by the collections as well as properties
 		// that expect beans
-		SetPropertyWithParameterRule setPropertyWithObject = new SetPropertyWithParameterRule(
+		Rule setPropertyWithObject = new SetPropertyWithParameterRule(
 				"name");
 		digester.addRule("*/bean/property", setPropertyWithObject);
 
@@ -116,36 +117,10 @@ public class DigesterParameterFactory implements ParameterFactory {
 		digester.addCallParam("*/bean/property/bean", 0, true);
 	}
 
-	private void registerValueObjectRules(Digester digester) {
-		// All of the basic object rules work the same. If we encounter
-		// a basic object, then record the "value" of the basic object
-		// as a parameter that is used to call the add method on the current
-		// <test> list.
-
-		// -- Rules for Strings
-		digester.addCallMethod("tests/test/string", "add", 1,
-				new Class[] { String.class });
-		digester.addCallParam("tests/test/string", 0, "value");
-
-		// -- Rules for Integers
-		digester.addCallMethod("tests/test/int", "add", 1,
-				new Class[] { Integer.class });
-		digester.addCallParam("tests/test/int", 0, "value");
-
-		// -- Rules for the Shorts
-		digester.addCallMethod("tests/test/short", "add", 1,
-				new Class[] { Short.class });
-		digester.addCallParam("tests/test/short", 0, "value");
-
-		// -- Rules for the Longs
-		digester.addCallMethod("tests/test/long", "add", 1,
-				new Class[] { Long.class });
-		digester.addCallParam("tests/test/long", 0, "value");
-
-		// -- Rules for the Booleans
-		digester.addCallMethod("tests/test/boolean", "add", 1,
-				new Class[] { Boolean.class });
-		digester.addCallParam("tests/test/boolean", 0, "value");
+	private void registerValueObjectRules(Digester digester) { 
+		Rule createValueObject = new CreateValueObjectRule("type");
+		digester.addRule("tests/test/value", createValueObject);
+		digester.addSetNext("tests/test/value", "add");
 	}
 
 	private void registerCollectionRules(Digester digester) {
