@@ -15,9 +15,12 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
+import org.apache.commons.digester.CallMethodRule;
 import org.apache.commons.digester.Digester;
+import org.apache.commons.digester.Rule;
 
 /**
  * Creates sets of test parameters by parsing input XML using the Jakarta
@@ -148,8 +151,18 @@ public class DigesterParameterFactory implements ParameterFactory {
 				new Class[] { Boolean.class });
 		digester.addCallParam("tests/test/boolean", 0, "value");
 	}
-
+	
 	private void registerCollectionRules(Digester digester) {
+		registerListRules(digester);
+		registerMapRules(digester);
+	}
+
+	private void registerListRules(Digester digester) {
+		//NOTE: Most of the rules for lists are already defined under 
+		//registerBaseRules.  This is because the <tests> element is also
+		//a list, so the general rules there also get applied for lists as
+		//bean properties.
+		
 		// -- Rules for List Processing
 		// Create an ArrayList for each <list> element
 		digester.addObjectCreate("*/list", ArrayList.class);
@@ -169,5 +182,42 @@ public class DigesterParameterFactory implements ParameterFactory {
 
 		// If the list is nested within another list, add it to the parent list
 		digester.addSetNext("*/list/list", "add");
+	}
+	
+	private void registerMapRules(Digester digester) {
+		//-- Base Map Rules
+		digester.addObjectCreate("*/map", HashMap.class);
+		
+		// Add the newly created Map as a parameter so that it can be
+		// added to the properties of the parent bean (or added to another
+		// collection)
+		digester.addCallParam("*/map", 0, true);		
+		
+		//-- Entry rules
+		digester.addCallMethod("*/map/entry", "put", 2);
+		
+		//-- Key rules
+		//Handle cases where the key is specified as an attribute on the entry
+		digester.addCallParam("*/map/entry", 0, "key");
+		//Handle casses where the key is specified as a child element on the entry
+		digester.addCallParam("*/map/entry/key/value", 0);
+
+		//Override some of the bean rules, as we want to do something different here
+		digester.addObjectCreate("*/map/entry/key/bean", "java.lang.Object", "class");
+
+		//Add the bean to be used as the key for the current map entry
+		digester.addCallParam("*/map/entry/key/bean", 0, true);
+	
+		//-- Value rules
+		//Handle cases where the value is specified as an attribute on the entry
+		digester.addCallParam("*/map/entry", 1, "value");
+		//Handle cases where the valie is a string and is specified as an element
+		digester.addCallParam("*/map/entry/value", 1);
+
+		//Override some of the bean rules, as we want to do something different here
+		digester.addObjectCreate("*/map/entry/bean", "java.lang.Object", "class");
+
+		//Add beans as parameters for value objects
+		digester.addCallParam("*/map/entry/bean", 1, true);
 	}
 }
