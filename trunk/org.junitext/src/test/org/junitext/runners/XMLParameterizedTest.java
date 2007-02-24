@@ -30,7 +30,7 @@ import org.junitext.XMLParameters;
 import org.junitext.runners.XMLParameterizedRunner;
 import org.junitext.runners.parameters.factory.Parameter;
 import org.junitext.runners.parameters.factory.ParameterFactory;
-import org.junitext.runners.parameters.factory.ParameterSet;
+import org.junitext.runners.parameters.factory.ParameterList;
 
 public class XMLParameterizedTest {
 
@@ -39,29 +39,29 @@ public class XMLParameterizedTest {
 		/**
 		 * @see org.junitext.runners.parameters.factory.ParameterFactory#createParameters(java.lang.Class, java.io.File)
 		 */
-		public List<ParameterSet> createParameters(Class<?> klass, File xmlFile)
+		public List<ParameterList> createParameters(Class<?> klass, File xmlFile)
 				throws Exception {
-			ArrayList<ParameterSet> data = new ArrayList<ParameterSet>();
+			ArrayList<ParameterList> data = new ArrayList<ParameterList>();
 
 			ArrayList<Parameter> dataSet = new ArrayList<Parameter>();
 			dataSet.add(new Parameter(new Robot("Daneel Olivaw", 134, "X24R", "Han Fastolfe")));
 			dataSet.add(new Parameter(new Robot("Daneel Olivaw", 134, "X24R", "Han Fastolfe")));
-			data.add(new ParameterSet("Equal Robots", dataSet));
+			data.add(new ParameterList("Equal Robots", dataSet));
 
 			dataSet = new ArrayList<Parameter>();
 			dataSet.add(new Parameter(new Robot("Johnny 5", 5, "SAINT", "Nova Laboratories")));
 			dataSet.add(new Parameter(new Robot("Johnny 5", 5, "SAINT", "Nova Laboratories")));
-			data.add(new ParameterSet("Equal Robots", dataSet));
+			data.add(new ParameterList("Equal Robots", dataSet));
 
 			dataSet = new ArrayList<Parameter>();
 			dataSet.add(new Parameter(new Robot("Johnny 5", 5, "SAINT", "Nova Laboratories")));
 			dataSet.add(new Parameter(new Robot("Daneel Olivaw", 134, "X24R", "Han Fastolfe")));
-			data.add(new ParameterSet("Unequal Robots", dataSet));
+			data.add(new ParameterList("Unequal Robots", dataSet));
 
 			dataSet = new ArrayList<Parameter>();
 			dataSet.add(new Parameter(new Robot("Daneel Olivaw", 134, "X24R", "Han Fastolfe")));
 			dataSet.add(new Parameter(new Robot("Johnny 5", 5, "SAINT", "Nova Laboratories")));
-			data.add(new ParameterSet("Unequal Robots", dataSet));
+			data.add(new ParameterList("Unequal Robots", dataSet));
 
 			return data;
 		}

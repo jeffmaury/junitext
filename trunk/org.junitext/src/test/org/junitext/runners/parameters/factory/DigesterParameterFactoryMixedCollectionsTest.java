@@ -67,12 +67,12 @@ public class DigesterParameterFactoryMixedCollectionsTest {
 
 		expectedRobot.setMixedList(mixedList);
 
-		List<ParameterSet> expectedParamSets = new ArrayList<ParameterSet>();
-		expectedParamSets.add(new ParameterSet(null,
+		List<ParameterList> expectedParamSets = new ArrayList<ParameterList>();
+		expectedParamSets.add(new ParameterList(null,
 				new Object[] { expectedRobot }));
 
 		// Run the test
-		List<ParameterSet> actualParamSets = testFactory
+		List<ParameterList> actualParamSets = testFactory
 				.createParameters(inputXml);
 
 		// Verify the expected outcome
@@ -99,12 +99,12 @@ public class DigesterParameterFactoryMixedCollectionsTest {
 
 		expectedRobot.setMixedList(mixedList);
 
-		List<ParameterSet> expectedParamSets = new ArrayList<ParameterSet>();
-		expectedParamSets.add(new ParameterSet(null,
+		List<ParameterList> expectedParamSets = new ArrayList<ParameterList>();
+		expectedParamSets.add(new ParameterList(null,
 				new Object[] { expectedRobot }));
 
 		// Run the test
-		List<ParameterSet> actualParamSets = testFactory
+		List<ParameterList> actualParamSets = testFactory
 				.createParameters(inputXml);
 
 		// Verify the expected outcome
@@ -130,12 +130,12 @@ public class DigesterParameterFactoryMixedCollectionsTest {
 
 		expectedRobot.setMixedSet(mixedSet);
 
-		List<ParameterSet> expectedParamSets = new ArrayList<ParameterSet>();
-		expectedParamSets.add(new ParameterSet(null,
+		List<ParameterList> expectedParamSets = new ArrayList<ParameterList>();
+		expectedParamSets.add(new ParameterList(null,
 				new Object[] { expectedRobot }));
 
 		// Run the test
-		List<ParameterSet> actualParamSets = testFactory
+		List<ParameterList> actualParamSets = testFactory
 				.createParameters(inputXml);
 
 		// Verify the expected outcome
@@ -161,12 +161,12 @@ public class DigesterParameterFactoryMixedCollectionsTest {
 
 		expectedRobot.setMixedSet(mixedSet);
 
-		List<ParameterSet> expectedParamSets = new ArrayList<ParameterSet>();
-		expectedParamSets.add(new ParameterSet(null,
+		List<ParameterList> expectedParamSets = new ArrayList<ParameterList>();
+		expectedParamSets.add(new ParameterList(null,
 				new Object[] { expectedRobot }));
 
 		// Run the test
-		List<ParameterSet> actualParamSets = testFactory
+		List<ParameterList> actualParamSets = testFactory
 				.createParameters(inputXml);
 
 		// Verify the expected outcome
@@ -192,12 +192,12 @@ public class DigesterParameterFactoryMixedCollectionsTest {
 		mixedMap.put("key", expected);
 		expectedRobot.setMixedMap(mixedMap);
 
-		List<ParameterSet> expectedParamSets = new ArrayList<ParameterSet>();
-		expectedParamSets.add(new ParameterSet(null,
+		List<ParameterList> expectedParamSets = new ArrayList<ParameterList>();
+		expectedParamSets.add(new ParameterList(null,
 				new Object[] { expectedRobot }));
 
 		// Run the test
-		List<ParameterSet> actualParamSets = testFactory
+		List<ParameterList> actualParamSets = testFactory
 				.createParameters(inputXml);
 
 		// Verify the expected outcome
@@ -222,12 +222,12 @@ public class DigesterParameterFactoryMixedCollectionsTest {
 		mixedMap.put("key", expected);
 		expectedRobot.setMixedMap(mixedMap);
 
-		List<ParameterSet> expectedParamSets = new ArrayList<ParameterSet>();
-		expectedParamSets.add(new ParameterSet(null,
+		List<ParameterList> expectedParamSets = new ArrayList<ParameterList>();
+		expectedParamSets.add(new ParameterList(null,
 				new Object[] { expectedRobot }));
 
 		// Run the test
-		List<ParameterSet> actualParamSets = testFactory
+		List<ParameterList> actualParamSets = testFactory
 				.createParameters(inputXml);
 
 		// Verify the expected outcome
@@ -253,12 +253,12 @@ public class DigesterParameterFactoryMixedCollectionsTest {
 		mixedMap.put(expected, "value");
 		expectedRobot.setMixedMap(mixedMap);
 
-		List<ParameterSet> expectedParamSets = new ArrayList<ParameterSet>();
-		expectedParamSets.add(new ParameterSet(null,
+		List<ParameterList> expectedParamSets = new ArrayList<ParameterList>();
+		expectedParamSets.add(new ParameterList(null,
 				new Object[] { expectedRobot }));
 
 		// Run the test
-		List<ParameterSet> actualParamSets = testFactory
+		List<ParameterList> actualParamSets = testFactory
 				.createParameters(inputXml);
 
 		// Verify the expected outcome
@@ -284,12 +284,12 @@ public class DigesterParameterFactoryMixedCollectionsTest {
 		mixedMap.put(expected, "value");
 		expectedRobot.setMixedMap(mixedMap);
 
-		List<ParameterSet> expectedParamSets = new ArrayList<ParameterSet>();
-		expectedParamSets.add(new ParameterSet(null,
+		List<ParameterList> expectedParamSets = new ArrayList<ParameterList>();
+		expectedParamSets.add(new ParameterList(null,
 				new Object[] { expectedRobot }));
 
 		// Run the test
-		List<ParameterSet> actualParamSets = testFactory
+		List<ParameterList> actualParamSets = testFactory
 				.createParameters(inputXml);
 
 		// Verify the expected outcome

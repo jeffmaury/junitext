@@ -61,12 +61,12 @@ public class DigesterParameterFactorySetsTest {
 		expectedSet.add(friend);
 		expectedRobot.setSetOfFriends(expectedSet);
 
-		List<ParameterSet> expectedParamSets = new ArrayList<ParameterSet>();
-		expectedParamSets.add(new ParameterSet(null,
+		List<ParameterList> expectedParamSets = new ArrayList<ParameterList>();
+		expectedParamSets.add(new ParameterList(null,
 				new Object[] { expectedRobot }));
 
 		// Run the test
-		List<ParameterSet> actualParamSets = testFactory
+		List<ParameterList> actualParamSets = testFactory
 				.createParameters(inputXml);
 
 		// Verify the expected outcome
@@ -90,12 +90,12 @@ public class DigesterParameterFactorySetsTest {
 		expectedSet.add(innerSet);
 		expectedRobot.setSetOfSets(expectedSet);
 
-		List<ParameterSet> expectedParamSets = new ArrayList<ParameterSet>();
-		expectedParamSets.add(new ParameterSet(null,
+		List<ParameterList> expectedParamSets = new ArrayList<ParameterList>();
+		expectedParamSets.add(new ParameterList(null,
 				new Object[] { expectedRobot }));
 
 		// Run the test
-		List<ParameterSet> actualParamSets = testFactory
+		List<ParameterList> actualParamSets = testFactory
 				.createParameters(inputXml);
 
 		// Verify the expected outcome
@@ -124,12 +124,12 @@ public class DigesterParameterFactorySetsTest {
 		expectedSet.add(outerSet);
 		expectedRobot.setThreeLevelSetofFriends(expectedSet);
 
-		List<ParameterSet> expectedParamSets = new ArrayList<ParameterSet>();
-		expectedParamSets.add(new ParameterSet(null,
+		List<ParameterList> expectedParamSets = new ArrayList<ParameterList>();
+		expectedParamSets.add(new ParameterList(null,
 				new Object[] { expectedRobot }));
 
 		// Run the test
-		List<ParameterSet> actualParamSets = testFactory
+		List<ParameterList> actualParamSets = testFactory
 				.createParameters(inputXml);
 
 		// Verify the expected outcome
@@ -159,12 +159,12 @@ public class DigesterParameterFactorySetsTest {
 
 		expectedRobot.setMixedSet(mixedSet);
 
-		List<ParameterSet> expectedParamSets = new ArrayList<ParameterSet>();
-		expectedParamSets.add(new ParameterSet(null,
+		List<ParameterList> expectedParamSets = new ArrayList<ParameterList>();
+		expectedParamSets.add(new ParameterList(null,
 				new Object[] { expectedRobot }));
 
 		// Run the test
-		List<ParameterSet> actualParamSets = testFactory
+		List<ParameterList> actualParamSets = testFactory
 				.createParameters(inputXml);
 
 		// Verify the expected outcome

@@ -30,8 +30,8 @@ public class DigesterParameterFactoryTestUtilities {
 	 * @param acutalParamSets
 	 */
 	public static void assertParameterSetsEqual(
-			List<ParameterSet> expectedParamSets,
-			List<ParameterSet> acutalParamSets) {
+			List<ParameterList> expectedParamSets,
+			List<ParameterList> acutalParamSets) {
 		assertEquals("The correct number of paramter sets were not created.",
 				expectedParamSets.size(), acutalParamSets.size());
 

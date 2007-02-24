@@ -7,6 +7,7 @@ ChangeLog for JUnitExt
 	- Added support for sets and maps
 	- Added support for nested collection objects
 	- Lists of parameters can now be named (using the id or name attributes)
+	- Renamed the ParameterSet class to ParameterList
 
 0.2.4 2007-02-16 Jochen Hiller, Jim Hurne
 - Refactored test cases and samples

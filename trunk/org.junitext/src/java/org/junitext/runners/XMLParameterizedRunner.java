@@ -27,78 +27,89 @@ import org.junit.internal.runners.TestClassRunner;
 import org.junitext.XMLParameters;
 import org.junitext.runners.parameters.factory.Parameter;
 import org.junitext.runners.parameters.factory.ParameterFactory;
-import org.junitext.runners.parameters.factory.ParameterSet;
+import org.junitext.runners.parameters.factory.ParameterList;
 
 /**
- * A custom JUnit test runner that allows tests to be parameterized by JavaBeans instanciated with data 
- * in an XML file.
+ * A custom JUnit test runner that allows tests to be parameterized by JavaBeans
+ * instanciated with data in an XML file.
+ * 
  * @author Jim Hurne
  */
 public class XMLParameterizedRunner extends TestClassRunner {
-	//TODO Don't use any of the internal JUnit classes
+	// TODO Don't use any of the internal JUnit classes
 
 	/**
 	 * Runs each individual "test" created by the XML.
 	 */
-	private static class TestClassRunnerForXMLParameters extends TestClassMethodsRunner {
+	private static class TestClassRunnerForXMLParameters extends
+			TestClassMethodsRunner {
 		/**
 		 * The parameters for this particular test run.
 		 */
-		private final ParameterSet fParameterSet;
+		private final ParameterList parameterList;
 
 		/**
 		 * The number that this test run represents.
 		 */
-		private final int fParameterSetNumber;
+		private final int parameterListNumber;
 
 		/**
 		 * The constructor to use when creating the test.
 		 */
-		private final Constructor<?> fConstructor;
+		private final Constructor<?> constructor;
 
 		/**
 		 * Constructs a new <code>TestClassRunnerForXMLParameters</code>.
-		 * @param klass the test class
-		 * @param parameters the parameters to use when constructing the test class instance
-		 * @param i the parameter set number
+		 * 
+		 * @param klass
+		 *            the test class
+		 * @param parameters
+		 *            the parameters to use when constructing the test class
+		 *            instance
+		 * @param i
+		 *            the parameter set number
 		 */
-		private TestClassRunnerForXMLParameters(Class<?> klass, ParameterSet paremeterSet, int i) throws Exception {
+		private TestClassRunnerForXMLParameters(Class<?> klass,
+				ParameterList paremeterList, int i) throws Exception {
 			super(klass);
-			fParameterSet= paremeterSet;
-			fParameterSetNumber= i;
-			fConstructor= getConstructor();
+			parameterList = paremeterList;
+			parameterListNumber = i;
+			constructor = getConstructor();
 			validateConstructor();
 		}
 
 		/**
-		 * Creates a new instance of the test class.  This method overrides the 
+		 * Creates a new instance of the test class. This method overrides the
 		 * <code>org.junit.internal.runners.TestClassMethodsRunner.createTest()</code>
-		 * method and instead creates the test class using the parameterized constructor.
+		 * method and instead creates the test class using the parameterized
+		 * constructor.
 		 * 
 		 * @see org.junit.internal.runners.TestClassMethodsRunner#createTest()
 		 */
 		@Override
 		protected Object createTest() throws Exception {
-			return fConstructor.newInstance(fParameterSet.getParameterObjects());
+			return constructor.newInstance(parameterList.getParameterObjects());
 		}
-		
+
 		/**
-		 * Gets the name of the test class for display in end-user runners.  This 
-		 * method overrides the <code>org.junit.internal.runners.TestClassMethodsRunner.getName()</code>
+		 * Gets the name of the test class for display in end-user runners. This
+		 * method overrides the
+		 * <code>org.junit.internal.runners.TestClassMethodsRunner.getName()</code>
 		 * method to return a name that is based on the parameter set.
 		 * 
 		 * @see org.junit.internal.runners.TestClassMethodsRunner#getName()
 		 */
 		@Override
 		protected String getName() {
-			if(fParameterSet.getName() != null) {
-				return String.format("[%s] %s", fParameterSetNumber, fParameterSet.getName());				
+			if (parameterList.getName() != null) {
+				return String.format("[%s] %s", parameterListNumber,
+						parameterList.getName());
 			}
-			return String.format("[%s]", fParameterSetNumber);
+			return String.format("[%s]", parameterListNumber);
 		}
-		
+
 		/**
-		 * Gets the name of an individual test method.  This method overrides the 
+		 * Gets the name of an individual test method. This method overrides the
 		 * <code>org.junit.internal.runners.TestClassMethodsRunner.testName(java.lang.reflect.Method)</code>
 		 * method to construct a name based on the parameter set number.
 		 * 
@@ -106,120 +117,154 @@ public class XMLParameterizedRunner extends TestClassRunner {
 		 */
 		@Override
 		protected String testName(final Method method) {
-			return String.format("%s[%s]", method.getName(), fParameterSetNumber);
+			return String.format("%s[%s]", method.getName(),
+					parameterListNumber);
 		}
 
 		/**
-		 * Finds and returns the constructor for the class under test.  The constructor returned
-		 * is the first constructor to have the <code>XMLBeanParamaters</code> annotation. 
+		 * Finds and returns the constructor for the class under test. The
+		 * constructor returned is the first constructor to have the
+		 * <code>XMLBeanParamaters</code> annotation.
+		 * 
 		 * @return
 		 */
 		private Constructor<?> getConstructor() throws Exception {
-			Constructor[] constructors= getTestClass().getConstructors();
-			for(Constructor<?> constructor: constructors) {
-				if(constructor.isAnnotationPresent(XMLParameters.class)) {
+			Constructor[] constructors = getTestClass().getConstructors();
+			for (Constructor<?> constructor : constructors) {
+				if (constructor.isAnnotationPresent(XMLParameters.class)) {
 					return constructor;
 				}
 			}
-			//We should never get here, as this should have been validated previously.
-			throw new Exception("No constructor with the XMLParameters annotation exists for class "
-					+ getName());			
+			// We should never get here, as this should have been validated
+			// previously.
+			throw new Exception(
+					"No constructor with the XMLParameters annotation exists for class "
+							+ getName());
 		}
-		
+
 		/**
 		 * @throws Exception
 		 */
 		public void validateConstructor() throws Exception {
-			Class[] constructorParams = fConstructor.getParameterTypes();
-			final List<Parameter> parameters = fParameterSet.getParameters();
-			if(constructorParams.length != parameters.size()) {
-				throw new Exception("For test set [" +fParameterSetNumber + "], the parameter set does not contain the right number of parameters for the constuctor [" + fConstructor.toString() + "].");
+			Class[] constructorParams = constructor.getParameterTypes();
+			final List<Parameter> parameters = parameterList.getParameters();
+			if (constructorParams.length != parameters.size()) {
+				throw new Exception(
+						"For test set ["
+								+ parameterListNumber
+								+ "], the parameter set does not contain the right number of parameters for the constuctor ["
+								+ constructor.toString() + "].");
 			}
-			
-			for(int j = 0; j < parameters.size(); j++) {
-				if(!parameters.get(j).getParameter().getClass().equals(constructorParams[j])) {
-					throw new Exception("For test set [" +fParameterSetNumber + "], parameter [" + j + "] is not of the right type for constructor [" + fConstructor.toString() + "]. " +
-							            "Expected [" + constructorParams[j].toString() + "] but was [" + parameters.get(j).getParameter().getClass().toString() + "].");
+
+			for (int j = 0; j < parameters.size(); j++) {
+				if (!parameters.get(j).getParameter().getClass().equals(
+						constructorParams[j])) {
+					throw new Exception("For test set ["
+							+ parameterListNumber
+							+ "], parameter ["
+							+ j
+							+ "] is not of the right type for constructor ["
+							+ constructor.toString()
+							+ "]. "
+							+ "Expected ["
+							+ constructorParams[j].toString()
+							+ "] but was ["
+							+ parameters.get(j).getParameter().getClass()
+									.toString() + "].");
 				}
 			}
 		}
 	}
-	
+
 	/**
 	 * @author Jim Hurne
 	 */
 	private static class RunAllXMLParameterMethods extends CompositeRunner {
 		private final Class<?> fKlass;
-		
-		private final List<ParameterSet> parametersList;
+
+		private final List<ParameterList> parametersList;
 
 		public RunAllXMLParameterMethods(Class<?> klass) throws Exception {
 			super(klass.getName());
-			fKlass= klass;
-			int i= 0;
+			fKlass = klass;
+			int i = 0;
 			parametersList = getParametersList();
-			for (final ParameterSet parameterSet : parametersList) {
-				super.add(new TestClassRunnerForXMLParameters(klass, parameterSet, i++));
+			for (final ParameterList parameterList : parametersList) {
+				super.add(new TestClassRunnerForXMLParameters(klass,
+						parameterList, i++));
 			}
 		}
 
 		@SuppressWarnings("unchecked")
-		private List<ParameterSet> getParametersList() throws IllegalAccessException, InvocationTargetException, Exception {
+		private List<ParameterList> getParametersList()
+				throws IllegalAccessException, InvocationTargetException,
+				Exception {
 			XMLParameters annotation = getParameterAnnotation();
-			ParameterFactory parameterFactory = annotation.beanFactory().newInstance();
-			return parameterFactory.createParameters(fKlass, lookupXmlFile(annotation.value()));
+			ParameterFactory parameterFactory = annotation.beanFactory()
+					.newInstance();
+			return parameterFactory.createParameters(fKlass,
+					lookupXmlFile(annotation.value()));
 		}
-		
+
 		private File lookupXmlFile(String fileName) {
 			try {
 				URL fileURL = getClass().getResource(fileName);
-				if(fileURL == null) {
-					//Don't do anything here...just return null
-					//This way we can let the XMLBeanFactorys decide what to do if the file is not found
-					//or is invalid.					
+				if (fileURL == null) {
+					// Don't do anything here...just return null
+					// This way we can let the XMLBeanFactorys decide what to do
+					// if the file is not found
+					// or is invalid.
 					return null;
 				}
 				return new File(new URI(fileURL.toString()));
 			} catch (URISyntaxException e) {
-				//Don't do anything here...just return null
-				//This way we can let the XMLBeanFactorys decide what to do if the file is not found
-				//or is invalid.
+				// Don't do anything here...just return null
+				// This way we can let the XMLBeanFactorys decide what to do if
+				// the file is not found
+				// or is invalid.
 				return null;
 			}
 		}
-		
+
 		@SuppressWarnings("unchecked")
 		private XMLParameters getParameterAnnotation() throws Exception {
 			for (Constructor constructor : fKlass.getConstructors()) {
-				if(constructor.isAnnotationPresent(XMLParameters.class)) {
-					return (XMLParameters) constructor.getAnnotation(XMLParameters.class);
+				if (constructor.isAnnotationPresent(XMLParameters.class)) {
+					return (XMLParameters) constructor
+							.getAnnotation(XMLParameters.class);
 				}
 			}
-			throw new Exception("No constructor with the XMLParameters annotation exists for class "
-					+ getName());			
+			throw new Exception(
+					"No constructor with the XMLParameters annotation exists for class "
+							+ getName());
 		}
-	}	
-	
+	}
+
 	/**
 	 * Constructs a new <code>XMLBeanParamterizedRunner</code>.
-	 * @param klass the test class
-	 * @throws Exception if there is a problem constructing the new test runner
+	 * 
+	 * @param klass
+	 *            the test class
+	 * @throws Exception
+	 *             if there is a problem constructing the new test runner
 	 */
 	public XMLParameterizedRunner(final Class<?> klass) throws Exception {
 		super(klass, new RunAllXMLParameterMethods(klass));
-	}	
-	
+	}
+
 	/**
-	 * Validates that the methods of the test class are all valid.  This overriden version 
+	 * Validates that the methods of the test class are all valid. This
+	 * overriden version
 	 * <code>org.junit.internal.runners.TestClassRunner.validate(org.junit.internal.runners.MethodValidator)</code>
-	 * drops the "parameterless constructor" requirement. 
+	 * drops the "parameterless constructor" requirement.
+	 * 
 	 * @see org.junit.internal.runners.TestClassRunner#validate(org.junit.internal.runners.MethodValidator)
 	 */
 	@Override
 	protected void validate(MethodValidator methodValidator) {
-		//We need to override the validate method becuase the test class
-		//no longer requires a parameterless constructor
+		// We need to override the validate method becuase the test class
+		// no longer requires a parameterless constructor
 		methodValidator.validateStaticMethods();
 		methodValidator.validateInstanceMethods();
-	}	
+	}
 }
