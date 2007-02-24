@@ -16,11 +16,10 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
-import org.apache.commons.digester.CallMethodRule;
 import org.apache.commons.digester.Digester;
-import org.apache.commons.digester.Rule;
 
 /**
  * Creates sets of test parameters by parsing input XML using the Jakarta
@@ -154,6 +153,7 @@ public class DigesterParameterFactory implements ParameterFactory {
 	
 	private void registerCollectionRules(Digester digester) {
 		registerListRules(digester);
+		registerSetRules(digester);
 		registerMapRules(digester);
 	}
 
@@ -183,6 +183,34 @@ public class DigesterParameterFactory implements ParameterFactory {
 		// If the list is nested within another list, add it to the parent list
 		digester.addSetNext("*/list/list", "add");
 	}
+	
+	private void registerSetRules(Digester digester) {
+		//NOTE: Most of the rules for sets are already defined under 
+		//registerBaseRules.  This is because the <tests> element is also
+		//a list, and list and sets have similar method names,
+		//so the general rules there also get applied for sets as
+		//bean properties.
+		
+		// -- Rules for Set Processing
+		// Create a HashSet for each <set> element
+		digester.addObjectCreate("*/set", HashSet.class);
+
+		// Add the newly created Set as a parameter so that it can be
+		// added to the properties of the parent bean (or added to another
+		// collection)
+		digester.addCallParam("*/set", 0, true);
+		
+		// -- Rules for basic values nested under sets
+		digester.addCallMethod("*/set/value", "add", 1);
+		digester.addCallParam("*/set/value", 0);
+
+		// -- Rules for lists nested under sets
+		// Create a HashSet for each nested <set> element
+		digester.addObjectCreate("*/set/set", HashSet.class);
+
+		// If the list is nested within another set, add it to the parent list
+		digester.addSetNext("*/set/set", "add");
+	}	
 	
 	private void registerMapRules(Digester digester) {
 		//-- Base Map Rules
