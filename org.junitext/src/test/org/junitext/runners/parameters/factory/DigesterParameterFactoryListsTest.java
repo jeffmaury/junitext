@@ -113,12 +113,16 @@ public class DigesterParameterFactoryListsTest {
 				+ "<list>" + "<value>A string value</value>"
 				+ "<value type=\"java.lang.Integer\">10232</value>" 
 				+ "<value type=\"java.lang.Boolean\">false</value>"
+				+ "<value><null/></value>"
+				+ "<value></value>"
 				+ "</list></property>" + XML_FOOTER;
 
 		List<Object> mixedList = new ArrayList<Object>();
 		mixedList.add("A string value");
 		mixedList.add(new Integer(10232));
 		mixedList.add(new Boolean(false));
+		mixedList.add(null);
+		mixedList.add("");
 
 		expectedRobot.setMixedList(mixedList);
 

@@ -119,7 +119,11 @@ public class DigesterParameterFactory implements ParameterFactory {
 	private void registerValueObjectRules(Digester digester) {
 		Rule createValueObject = new CreateValueObjectRule("type");
 		digester.addRule("tests/test/value", createValueObject);
-		digester.addSetNext("tests/test/value", "add");
+		digester.addSetNext("tests/test/value", "add", Object.class.getName());
+
+		// Handle nulls for all value elements
+		Rule flagNull = new FlagValueObjectIsNullRule();
+		digester.addRule("*/value/null", flagNull);
 
 		// Also allow setting bean properties using value elements
 		// This is exactly like the Spring "long" property syntax
@@ -158,7 +162,7 @@ public class DigesterParameterFactory implements ParameterFactory {
 		// -- Rules for basic values nested under lists
 		Rule createValueObject = new CreateValueObjectRule("type");
 		digester.addRule("*/list/value", createValueObject);
-		digester.addSetNext("*/list/value", "add");
+		digester.addSetNext("*/list/value", "add", Object.class.getName());
 
 		// -- Rules for lists nested under lists
 		// Create an ArrayList for each nested <list> element
@@ -198,7 +202,7 @@ public class DigesterParameterFactory implements ParameterFactory {
 		// -- Rules for basic values nested under sets
 		Rule createValueObject = new CreateValueObjectRule("type");
 		digester.addRule("*/set/value", createValueObject);
-		digester.addSetNext("*/set/value", "add");
+		digester.addSetNext("*/set/value", "add", Object.class.getName());
 
 		// -- Rules for sets nested under sets
 		// Create a HashSet for each nested <set> element

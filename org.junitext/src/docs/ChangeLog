@@ -11,6 +11,8 @@ ChangeLog for JUnitExt
 	- Parameter value objects now use a "value" tag instead of the specific
       value object tag.  This was done to achieve better conformance with the 
       Spring bean declaration XML and for better overall consistency.
+    - Added support for the <null/> tag to indicate that a value should be set
+      to null.
       
 0.2.4 2007-02-16 Jochen Hiller, Jim Hurne
 - Refactored test cases and samples

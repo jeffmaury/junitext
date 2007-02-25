@@ -24,6 +24,13 @@ import org.xml.sax.Attributes;
  * that the type of the value object is <code>String</code>.
  * </p>
  * <p>
+ * To indicate that a <code>null</code> value object should be created, the
+ * {@link org.junitext.runners.parameters.factory.FlagValueObjectIsNullRule} 
+ * can be used.  If the <code>FlagValueObjectIsNullRule</code> has executed, 
+ * then <code>CreateValueObjectRule</code> will push <code>null</code> onto
+ * the object stack instead of a new value object.
+ * </p>
+ * <p>
  * When the end tag is reached, the created object will be popped. Note that
  * this means that if you are going to do anything with value objects created
  * with this rule, it has to be done after this rules body text call is made and
@@ -36,9 +43,12 @@ import org.xml.sax.Attributes;
  */
 public class CreateValueObjectRule extends Rule {
 
-	private static final String VALUE_OBJECT_TYPE_STACK = "org.junitext.runners.parameters.factory."
+	protected static final String VALUE_OBJECT_TYPE_STACK = "org.junitext.runners.parameters.factory."
 			+ "CreateValueObjectRule.valueObjectType";
 
+	protected static final String VALUE_OBJECT_IS_NULL = "org.junitext.runners.parameters.factory."
+		+ "CreateValueObjectRule.isNull";	
+	
 	private final String typeAttributeName;
 
 	/**
@@ -81,6 +91,9 @@ public class CreateValueObjectRule extends Rule {
 
 		// Push the value type onto the value type stack
 		digester.push(VALUE_OBJECT_TYPE_STACK, valueType);
+		
+		//Also initialize the "isNull" flag to false
+		digester.push(VALUE_OBJECT_IS_NULL, false);
 	}
 
 	/**
@@ -90,6 +103,25 @@ public class CreateValueObjectRule extends Rule {
 	@Override
 	public void body(String namespace, String name, String bodyText)
 			throws Exception {
+		
+		//Check the isNull flag to see if we need to create a null
+		boolean isNull = (Boolean) digester.pop(VALUE_OBJECT_IS_NULL);
+		
+		if(isNull) {
+
+			if (digester.getLogger().isDebugEnabled()) {
+				StringBuilder logMessage = new StringBuilder();
+				logMessage.append("[CreateValueObjectRule]{");
+				logMessage.append(digester.getMatch());
+				logMessage.append("} Creating a null");
+				digester.getLogger().debug(logMessage.toString());
+			}
+			
+			//Push null onto the stack
+			digester.push(null);
+			return;
+		}
+		
 		// Get defined value type, and the class object representing the value
 		// type
 		String valueType = (String) digester.pop(VALUE_OBJECT_TYPE_STACK);
@@ -124,7 +156,7 @@ public class CreateValueObjectRule extends Rule {
 			digester.getLogger().debug(
 					"[CreateValueObjectRule] Popping value object");
 		}
-		digester.pop();
+		digester.pop(); 
 	}
 
 	/**

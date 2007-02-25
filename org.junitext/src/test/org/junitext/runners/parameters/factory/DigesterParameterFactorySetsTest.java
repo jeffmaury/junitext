@@ -106,15 +106,19 @@ public class DigesterParameterFactorySetsTest {
 				+ "<set>" + "<value>A string value</value>"
 				+ "<value type=\"java.lang.Integer\">10232</value>" 
 				+ "<value type=\"java.lang.Boolean\">false</value>"
+				+ "<value><null/></value>"
+				+ "<value></value>"
 				+ "</set></property>" + XML_FOOTER;
 
 		Set<Object> mixedSet = new HashSet<Object>();
 		mixedSet.add("A string value");
 		mixedSet.add(new Integer(10232));
 		mixedSet.add(new Boolean(false));
+		mixedSet.add(null);
+		mixedSet.add("");
 
 		expectedRobot.setMixedSet(mixedSet);
 
 		executeParseTest(testFactory, inputString, expectedRobot);
-	}
+	}	
 }

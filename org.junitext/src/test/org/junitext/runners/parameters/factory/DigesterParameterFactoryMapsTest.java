@@ -59,16 +59,16 @@ public class DigesterParameterFactoryMapsTest {
 	}
 
 	@Test
-	public void parseBeanWithMapWithStringKeyAsElement() throws Exception {
+	public void parseBeanWithMapWithNullKey() throws Exception {
 		// Create the "input" XML
 		String inputString = XML_HEADER + "<property name=\"mapOfFriends\" >"
-				+ "<map>" + "<entry>" + "<key>" + "<value>Friend</value>"
+				+ "<map>" + "<entry>" + "<key>" + "<value><null/></value>"
 				+ "</key>"
 				+ "<bean id=\"friend\" class=\"org.junitext.runners.Robot\" >"
 				+ "<property name=\"name\" value=\"Johnny 5\" />" + "</bean>"
 				+ "</entry>" + "</map>" + "</property>" + XML_FOOTER;
 		Map<String, Robot> expectedMapFriends = new HashMap<String, Robot>();
-		expectedMapFriends.put("Friend", friend);
+		expectedMapFriends.put(null, friend);
 		expectedRobot.setMapOfFriends(expectedMapFriends);
 
 		executeParseTest(testFactory, inputString, expectedRobot);
@@ -107,6 +107,21 @@ public class DigesterParameterFactoryMapsTest {
 
 		executeParseTest(testFactory, inputString, expectedRobot);
 	}
+	
+	@Test
+	public void parseBeanWithMapWithNullValue() throws Exception {
+		// Create the "input" XML
+		String inputString = XML_HEADER
+				+ "<property name=\"mapWithStringKeyAndValue\" >" + "<map>"
+				+ "<entry key=\"Friend\">" + "<value><null/></value>"
+				+ "</entry>" + "</map>" + "</property>" + XML_FOOTER;
+
+		Map<String, String> expectedMap = new HashMap<String, String>();
+		expectedMap.put("Friend", null);
+		expectedRobot.setMapWithStringKeyAndValue(expectedMap);
+
+		executeParseTest(testFactory, inputString, expectedRobot);
+	}	
 	
 	@Test
 	public void parseBeanWithMapWithValueObjectValueAsElement() throws Exception {

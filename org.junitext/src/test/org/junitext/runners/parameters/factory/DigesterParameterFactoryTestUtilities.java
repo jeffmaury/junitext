@@ -12,7 +12,7 @@
 package org.junitext.runners.parameters.factory;
 
 import static org.junit.Assert.assertEquals;
-import static org.junitext.runners.parameters.factory.DigesterParameterFactoryTestUtilities.assertParameterSetsEqual;
+import static org.junit.Assert.assertNull;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -110,14 +110,28 @@ public class DigesterParameterFactoryTestUtilities {
 					expectedParamSet.length, actualParamSet.length);
 
 			for (int k = 0; k < expectedParamSet.length; k++) {
-				assertEquals(
-						"The actual parameter object is not of the expected type.",
-						expectedParamSet[k].getClass(), actualParamSet[k]
-								.getClass());
-				assertEquals(
-						"The actual parameter object does not equal the expected parameter object.",
-						expectedParamSet[k].toString(), actualParamSet[k]
-								.toString());
+				if (expectedParamSet[k] == null) {
+					assertNull(
+							"The actual parameter object is not null when it expected to be.",
+							actualParamSet[k]);
+				} else {
+					assertEquals(
+							"The actual parameter object is not of the expected type.",
+							expectedParamSet[k].getClass(), actualParamSet[k]
+									.getClass());
+					assertEquals(
+							"The actual parameter object does not equal the expected parameter object.",
+							expectedParamSet[k].toString(), actualParamSet[k]
+									.toString());
+
+					// Make double-sure that the two objects are equal. This is
+					// important becuase the string representation of two
+					// objects
+					// may be equal while the two objects themselves are not.
+					assertEquals(
+							"The actual parameter object does not equal the expected parameter object.",
+							expectedParamSet[k], actualParamSet[k]);
+				}
 			}
 		}
 	}
