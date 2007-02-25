@@ -66,9 +66,6 @@ TODOs for JUnitExt
         - when appropriate, attempt to infer the property type (Java 5 generics)
           using reflection (this could be particularly useful for collection types)
         - allow parameter lists to be "disabled"
-        - automatically un-box value objects to primitives if the constructor 
-          takes the primitive instead of the value object (because of how the
-          test runner is implemented, Java 5 auto boxing doesn't work).
 
 - other frameworks:
 	- make tests with dbUnit, Jammy (UI)

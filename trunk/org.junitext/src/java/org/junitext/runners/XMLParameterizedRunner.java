@@ -145,6 +145,7 @@ public class XMLParameterizedRunner extends TestClassRunner {
 		/**
 		 * @throws Exception
 		 */
+		@SuppressWarnings("unchecked")
 		public void validateConstructor() throws Exception {
 			Class[] constructorParams = constructor.getParameterTypes();
 			final List<Parameter> parameters = parameterList.getParameters();
@@ -157,21 +158,65 @@ public class XMLParameterizedRunner extends TestClassRunner {
 			}
 
 			for (int j = 0; j < parameters.size(); j++) {
-				if (!parameters.get(j).getParameter().getClass().equals(
-						constructorParams[j])) {
-					throw new Exception("For test set ["
-							+ parameterListNumber
-							+ "], parameter ["
-							+ j
-							+ "] is not of the right type for constructor ["
-							+ constructor.toString()
-							+ "]. "
-							+ "Expected ["
-							+ constructorParams[j].toString()
-							+ "] but was ["
-							+ parameters.get(j).getParameter().getClass()
-									.toString() + "].");
+				Class<?> parameterClass = parameters.get(j).getParameter().getClass();
+				if (constructorParams[j].isAssignableFrom(parameterClass))
+					continue;
+				
+				//Handle the special case of primatives and boxed objects
+				if(constructorParams[j].isPrimitive() || parameterClass.isPrimitive()) {
+					//Check to for boolean and Boolean
+					if(constructorParams[j].equals(Boolean.TYPE) &&
+							parameterClass.equals(Boolean.class))
+						continue;
+										
+					//Check to for byte and Byte
+					if(constructorParams[j].equals(Byte.TYPE) &&
+							parameterClass.equals(Byte.class))
+						continue;
+										
+					//Check to for char and Character
+					if(constructorParams[j].equals(Character.TYPE) &&
+							parameterClass.equals(Character.class))
+						continue;
+										
+					//Check to for short and Short
+					if(constructorParams[j].equals(Short.TYPE) &&
+							parameterClass.equals(Short.class))
+						continue;
+										
+					//Check to for int and Integer
+					if(constructorParams[j].equals(Integer.TYPE) &&
+							parameterClass.equals(Integer.class))
+						continue;
+										
+					//Check to for long and Long
+					if(constructorParams[j].equals(Long.TYPE) &&
+							parameterClass.equals(Long.class))
+						continue;
+										
+					//Check to for float and Float
+					if(constructorParams[j].equals(Float.TYPE) &&
+							parameterClass.equals(Float.class))
+						continue;
+										
+					//Check to for doube and Double
+					if(constructorParams[j].equals(Double.TYPE) &&
+							parameterClass.equals(Double.class))
+						continue;
 				}
+				
+				//If we got here, then the constructor argument and test 
+				//parameter are incompatable.
+				throw new Exception("For test set ["
+						+ parameterListNumber
+						+ "], parameter ["
+						+ j
+						+ "] is not of the right type for constructor ["
+						+ constructor.toString()
+						+ "]. Expected ["
+						+ constructorParams[j].toString()
+						+ "] but was ["
+						+ parameterClass.toString() + "].");
 			}
 		}
 	}

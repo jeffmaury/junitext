@@ -12,6 +12,7 @@
 package org.junitext.runners;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -26,6 +27,7 @@ import org.junit.runner.Request;
 import org.junit.runner.Result;
 import org.junit.runner.RunWith;
 import org.junit.runner.Runner;
+import org.junit.runner.notification.Failure;
 import org.junitext.XMLParameters;
 import org.junitext.runners.XMLParameterizedRunner;
 import org.junitext.runners.parameters.factory.Parameter;
@@ -37,30 +39,39 @@ public class XMLParameterizedTest {
 	static public class DummyBeanFactory implements ParameterFactory {
 
 		/**
-		 * @see org.junitext.runners.parameters.factory.ParameterFactory#createParameters(java.lang.Class, java.io.File)
+		 * @see org.junitext.runners.parameters.factory.ParameterFactory#createParameters(java.lang.Class,
+		 *      java.io.File)
 		 */
 		public List<ParameterList> createParameters(Class<?> klass, File xmlFile)
 				throws Exception {
 			ArrayList<ParameterList> params = new ArrayList<ParameterList>();
 
 			ArrayList<Parameter> paramList = new ArrayList<Parameter>();
-			paramList.add(new Parameter(new Robot("Daneel Olivaw", 134, "X24R", "Han Fastolfe")));
-			paramList.add(new Parameter(new Robot("Daneel Olivaw", 134, "X24R", "Han Fastolfe")));
+			paramList.add(new Parameter(new Robot("Daneel Olivaw", 134, "X24R",
+					"Han Fastolfe")));
+			paramList.add(new Parameter(new Robot("Daneel Olivaw", 134, "X24R",
+					"Han Fastolfe")));
 			params.add(new ParameterList("Equal Robots", paramList));
 
 			paramList = new ArrayList<Parameter>();
-			paramList.add(new Parameter(new Robot("Johnny 5", 5, "SAINT", "Nova Laboratories")));
-			paramList.add(new Parameter(new Robot("Johnny 5", 5, "SAINT", "Nova Laboratories")));
+			paramList.add(new Parameter(new Robot("Johnny 5", 5, "SAINT",
+					"Nova Laboratories")));
+			paramList.add(new Parameter(new Robot("Johnny 5", 5, "SAINT",
+					"Nova Laboratories")));
 			params.add(new ParameterList("Equal Robots", paramList));
 
 			paramList = new ArrayList<Parameter>();
-			paramList.add(new Parameter(new Robot("Johnny 5", 5, "SAINT", "Nova Laboratories")));
-			paramList.add(new Parameter(new Robot("Daneel Olivaw", 134, "X24R", "Han Fastolfe")));
+			paramList.add(new Parameter(new Robot("Johnny 5", 5, "SAINT",
+					"Nova Laboratories")));
+			paramList.add(new Parameter(new Robot("Daneel Olivaw", 134, "X24R",
+					"Han Fastolfe")));
 			params.add(new ParameterList("Unequal Robots", paramList));
 
 			paramList = new ArrayList<Parameter>();
-			paramList.add(new Parameter(new Robot("Daneel Olivaw", 134, "X24R", "Han Fastolfe")));
-			paramList.add(new Parameter(new Robot("Johnny 5", 5, "SAINT", "Nova Laboratories")));
+			paramList.add(new Parameter(new Robot("Daneel Olivaw", 134, "X24R",
+					"Han Fastolfe")));
+			paramList.add(new Parameter(new Robot("Johnny 5", 5, "SAINT",
+					"Nova Laboratories")));
 			params.add(new ParameterList("Unequal Robots", paramList));
 
 			return params;
@@ -114,7 +125,8 @@ public class XMLParameterizedTest {
 	public void plansNamedCorrectly() throws Exception {
 		Runner runner = Request.aClass(RobotTest.class).getRunner();
 		Description description = runner.getDescription();
-		assertEquals("[0] Equal Robots", description.getChildren().get(0).getDisplayName());
+		assertEquals("[0] Equal Robots", description.getChildren().get(0)
+				.getDisplayName());
 	}
 
 	private static String fLog;
@@ -206,5 +218,87 @@ public class XMLParameterizedTest {
 	public void validateClassCatchesIncorrectTypeOfParameters() {
 		Result result = JUnitCore.runClasses(EmptyTest.class);
 		assertEquals(1, result.getFailureCount());
+	}
+
+	/**
+	 * Mock parameter factory that will create a parameter list of value objects
+	 * which need to be unboxed.
+	 */
+	static public class ValueObjectParameterFactory implements ParameterFactory {
+
+		/**
+		 * Returns a parameter list of primative values.
+		 * 
+		 * @see org.junitext.runners.parameters.factory.ParameterFactory#createParameters(java.lang.Class,
+		 *      java.io.File)
+		 */
+		public List<ParameterList> createParameters(Class<?> testClass,
+				File xmlFile) throws Exception {
+			ArrayList<ParameterList> params = new ArrayList<ParameterList>();
+
+			ArrayList<Parameter> dataSet = new ArrayList<Parameter>();
+			dataSet.add(new Parameter(new Boolean(true)));
+			dataSet.add(new Parameter(new Byte((byte) 1)));
+			dataSet.add(new Parameter(new Character('a')));
+			dataSet.add(new Parameter(new Short((short) 2)));
+			dataSet.add(new Parameter(new Integer(3)));
+			dataSet.add(new Parameter(new Long(100L)));
+			dataSet.add(new Parameter(new Float(2.0f)));
+			dataSet.add(new Parameter(new Double(3.14)));
+			params.add(new ParameterList("Primatives", dataSet));
+
+			return params;
+		}
+	}
+
+	// This is our "mock" test class for testing un-boxing of primatives
+	@RunWith(XMLParameterizedRunner.class)
+	static public class ParameterizedWithPrimatives {
+
+		private boolean booleanValue;
+		private byte byteValue;
+		private char charValue;
+		private short shortValue;
+		private int intValue;
+		private long longValue;
+		private float floatValue;
+		private double doubleValue;
+
+		@XMLParameters(value = "Robots.xml", parameterFactory = ValueObjectParameterFactory.class)
+		public ParameterizedWithPrimatives(boolean booleanValue, byte byteValue,
+				char charValue, short shortValue, int intValue, long longValue,
+				float floatValue, double doubleValue) {
+			
+			this.booleanValue = booleanValue;
+			this.byteValue = byteValue;
+			this.charValue = charValue;
+			this.shortValue = shortValue;
+			this.intValue = intValue;
+			this.longValue = longValue;
+			this.floatValue = floatValue;
+			this.doubleValue = doubleValue;
+		}
+		
+		@Test
+		public void allPrimativesEqualExpected() throws Exception {
+			assertEquals(booleanValue, true);
+			assertEquals(byteValue, (byte) 1);
+			assertEquals(charValue, 'a');
+			assertEquals(shortValue, (short) 2);
+			assertEquals(intValue, 3);
+			assertEquals(longValue, 100L);
+			assertEquals(floatValue, 2.0f);
+			assertEquals(doubleValue, 3.14);
+		}
+	}
+	
+	@Test
+	public void unboxesPrimatives() throws Exception {
+		Result result = JUnitCore.runClasses(ParameterizedWithPrimatives.class);
+		assertEquals("The primative test did not run.", 1, result.getRunCount());
+		List<Failure> failures = result.getFailures();
+		for(Failure failure : failures) {
+			fail("The primative test failed: " + failure);
+		}
 	}
 }
