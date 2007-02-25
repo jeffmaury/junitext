@@ -47,6 +47,6 @@ public @interface XMLParameters {
 	 * 
 	 * @return the factory class
 	 */
-	Class<? extends ParameterFactory> beanFactory() 
+	Class<? extends ParameterFactory> parameterFactory() 
 	                                     default DigesterParameterFactory.class;
 }

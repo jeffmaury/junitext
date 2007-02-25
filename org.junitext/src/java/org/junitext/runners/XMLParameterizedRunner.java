@@ -200,7 +200,7 @@ public class XMLParameterizedRunner extends TestClassRunner {
 				throws IllegalAccessException, InvocationTargetException,
 				Exception {
 			XMLParameters annotation = getParameterAnnotation();
-			ParameterFactory parameterFactory = annotation.beanFactory()
+			ParameterFactory parameterFactory = annotation.parameterFactory()
 					.newInstance();
 			return parameterFactory.createParameters(fKlass,
 					lookupXmlFile(annotation.value()));

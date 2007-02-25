@@ -41,29 +41,29 @@ public class XMLParameterizedTest {
 		 */
 		public List<ParameterList> createParameters(Class<?> klass, File xmlFile)
 				throws Exception {
-			ArrayList<ParameterList> data = new ArrayList<ParameterList>();
+			ArrayList<ParameterList> params = new ArrayList<ParameterList>();
 
-			ArrayList<Parameter> dataSet = new ArrayList<Parameter>();
-			dataSet.add(new Parameter(new Robot("Daneel Olivaw", 134, "X24R", "Han Fastolfe")));
-			dataSet.add(new Parameter(new Robot("Daneel Olivaw", 134, "X24R", "Han Fastolfe")));
-			data.add(new ParameterList("Equal Robots", dataSet));
+			ArrayList<Parameter> paramList = new ArrayList<Parameter>();
+			paramList.add(new Parameter(new Robot("Daneel Olivaw", 134, "X24R", "Han Fastolfe")));
+			paramList.add(new Parameter(new Robot("Daneel Olivaw", 134, "X24R", "Han Fastolfe")));
+			params.add(new ParameterList("Equal Robots", paramList));
 
-			dataSet = new ArrayList<Parameter>();
-			dataSet.add(new Parameter(new Robot("Johnny 5", 5, "SAINT", "Nova Laboratories")));
-			dataSet.add(new Parameter(new Robot("Johnny 5", 5, "SAINT", "Nova Laboratories")));
-			data.add(new ParameterList("Equal Robots", dataSet));
+			paramList = new ArrayList<Parameter>();
+			paramList.add(new Parameter(new Robot("Johnny 5", 5, "SAINT", "Nova Laboratories")));
+			paramList.add(new Parameter(new Robot("Johnny 5", 5, "SAINT", "Nova Laboratories")));
+			params.add(new ParameterList("Equal Robots", paramList));
 
-			dataSet = new ArrayList<Parameter>();
-			dataSet.add(new Parameter(new Robot("Johnny 5", 5, "SAINT", "Nova Laboratories")));
-			dataSet.add(new Parameter(new Robot("Daneel Olivaw", 134, "X24R", "Han Fastolfe")));
-			data.add(new ParameterList("Unequal Robots", dataSet));
+			paramList = new ArrayList<Parameter>();
+			paramList.add(new Parameter(new Robot("Johnny 5", 5, "SAINT", "Nova Laboratories")));
+			paramList.add(new Parameter(new Robot("Daneel Olivaw", 134, "X24R", "Han Fastolfe")));
+			params.add(new ParameterList("Unequal Robots", paramList));
 
-			dataSet = new ArrayList<Parameter>();
-			dataSet.add(new Parameter(new Robot("Daneel Olivaw", 134, "X24R", "Han Fastolfe")));
-			dataSet.add(new Parameter(new Robot("Johnny 5", 5, "SAINT", "Nova Laboratories")));
-			data.add(new ParameterList("Unequal Robots", dataSet));
+			paramList = new ArrayList<Parameter>();
+			paramList.add(new Parameter(new Robot("Daneel Olivaw", 134, "X24R", "Han Fastolfe")));
+			paramList.add(new Parameter(new Robot("Johnny 5", 5, "SAINT", "Nova Laboratories")));
+			params.add(new ParameterList("Unequal Robots", paramList));
 
-			return data;
+			return params;
 		}
 
 	}
@@ -75,7 +75,7 @@ public class XMLParameterizedTest {
 
 		private Robot actual;
 
-		@XMLParameters(value = "Robots.xml", beanFactory = DummyBeanFactory.class)
+		@XMLParameters(value = "Robots.xml", parameterFactory = DummyBeanFactory.class)
 		public RobotTest(Robot expectedRobot, Robot actualRobot) {
 			this.expected = expectedRobot;
 			this.actual = actualRobot;
@@ -131,7 +131,7 @@ public class XMLParameterizedTest {
 			fLog += "after ";
 		}
 
-		@XMLParameters(value = "Robots.xml", beanFactory = DummyBeanFactory.class)
+		@XMLParameters(value = "Robots.xml", parameterFactory = DummyBeanFactory.class)
 		public BeforeAndAfter(Robot expectedRobot, Robot actualRobot) {
 		}
 	}
@@ -169,7 +169,7 @@ public class XMLParameterizedTest {
 			return 0;
 		}
 
-		@XMLParameters(value = "Robots.xml", beanFactory = DummyBeanFactory.class)
+		@XMLParameters(value = "Robots.xml", parameterFactory = DummyBeanFactory.class)
 		public IncorrectTest(Robot expectedRobot, Robot actualRobot) {
 		}
 	}
@@ -183,7 +183,7 @@ public class XMLParameterizedTest {
 	@RunWith(XMLParameterizedRunner.class)
 	static public class IncorrectNumberOfParameters {
 
-		@XMLParameters(value = "Robots.xml", beanFactory = DummyBeanFactory.class)
+		@XMLParameters(value = "Robots.xml", parameterFactory = DummyBeanFactory.class)
 		public IncorrectNumberOfParameters(Robot robot) {
 		}
 	}
@@ -197,7 +197,7 @@ public class XMLParameterizedTest {
 	@RunWith(XMLParameterizedRunner.class)
 	static public class IncorrectParameterTypes {
 
-		@XMLParameters(value = "Robots.xml", beanFactory = DummyBeanFactory.class)
+		@XMLParameters(value = "Robots.xml", parameterFactory = DummyBeanFactory.class)
 		public IncorrectParameterTypes(Robot robot, String anotherArgument) {
 		}
 	}
