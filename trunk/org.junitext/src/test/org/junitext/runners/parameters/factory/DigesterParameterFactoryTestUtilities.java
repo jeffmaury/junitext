@@ -12,7 +12,11 @@
 package org.junitext.runners.parameters.factory;
 
 import static org.junit.Assert.assertEquals;
+import static org.junitext.runners.parameters.factory.DigesterParameterFactoryTestUtilities.assertParameterSetsEqual;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -20,6 +24,67 @@ import java.util.List;
  * 
  */
 public class DigesterParameterFactoryTestUtilities {
+
+	/**
+	 * Runs a <code>DigesterParameterFactory</code> test using the given input
+	 * string and a single expected test parameter. After the parsing has been
+	 * completed, the results of the test are verified against the given test
+	 * parameter.
+	 * <p>
+	 * This convenience method is the equivalent of calling:
+	 * </p>
+	 * <p>
+	 * <code>exectueParseTest(testFactory, inputString, new Object[] { expectedParam })
+	 * </code>
+	 * </p>
+	 * 
+	 * @param testFactory
+	 *            the test <code>DigesterParameterFactory</code> to run the
+	 *            test with.
+	 * @param inputString
+	 *            the test input XML in the form of a <code>String</code>.
+	 * @param expectedParam
+	 *            the singly expected test parameter
+	 * @throws Exception
+	 */
+	public static void executeParseTest(DigesterParameterFactory testFactory,
+			String inputString, Object expectedParam) throws Exception {
+
+		executeParseTest(testFactory, inputString,
+				new Object[] { expectedParam });
+	}
+
+	/**
+	 * Runs a <code>DigesterParameterFactory</code> test using the given input
+	 * string and expected test parameters. After the parsing has been
+	 * completed, the results of the test are verified against the given
+	 * parameters.
+	 * 
+	 * @param testFactory
+	 *            the test <code>DigesterParameterFactory</code> to run the
+	 *            test with.
+	 * @param inputString
+	 *            the test input XML in the form of a <code>String</code>.
+	 * @param expectedParams
+	 *            an object array of expected test parameters.
+	 * @throws Exception
+	 */
+	public static void executeParseTest(DigesterParameterFactory testFactory,
+			String inputString, Object[] expectedParams) throws Exception {
+
+		InputStream inputXml = new ByteArrayInputStream(inputString
+				.getBytes("UTF-8"));
+
+		List<ParameterList> expectedParamLists = new ArrayList<ParameterList>();
+		expectedParamLists.add(new ParameterList(null, expectedParams));
+
+		// Run the test
+		List<ParameterList> actualParamSets = testFactory
+				.createParameters(inputXml);
+
+		// Verify the expected outcome
+		assertParameterSetsEqual(expectedParamLists, actualParamSets);
+	}
 
 	/**
 	 * Asserts that two lists of parameter sets are equal. Individual objects in

@@ -11,12 +11,11 @@
  ******************************************************************************/
 package org.junitext.runners.parameters.factory;
 
-import static org.junitext.runners.parameters.factory.DigesterParameterFactoryTestUtilities.assertParameterSetsEqual;
+import static org.junitext.runners.parameters.factory.DigesterParameterFactoryTestUtilities.executeParseTest;
 import static org.junit.Assert.*;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Before;
@@ -38,20 +37,8 @@ public class DigesterParameterFactoryTest {
 		String inputString = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\" ?>"
 				+ "<tests>" + "<test>" + "<value id=\"testString\">"
 				+ expectedString + "</value>" + "</test>" + "</tests>";
-
-		InputStream inputXml = new ByteArrayInputStream(inputString
-				.getBytes("UTF-8"));
-
-		List<ParameterList> expectedParamSets = new ArrayList<ParameterList>();
-		expectedParamSets.add(new ParameterList(null,
-				new Object[] { expectedString }));
-
-		// Run the test
-		List<ParameterList> actualParamSets = testFactory
-				.createParameters(inputXml);
-
-		// Verify the expected outcome
-		assertParameterSetsEqual(expectedParamSets, actualParamSets);
+		
+		executeParseTest(testFactory, inputString, expectedString);
 	}
 
 	@Test
@@ -61,19 +48,8 @@ public class DigesterParameterFactoryTest {
 				+ "<tests>" + "<test>"
 				+ "<value id=\"testInteger\" type=\"java.lang.Integer\">"
 				+ expectedInteger + "</value>" + "</test>" + "</tests>";
-		InputStream inputXml = new ByteArrayInputStream(inputString
-				.getBytes("UTF-8"));
 
-		List<ParameterList> expectedParamSets = new ArrayList<ParameterList>();
-		expectedParamSets.add(new ParameterList(null,
-				new Object[] { expectedInteger }));
-
-		// Run the test
-		List<ParameterList> actualParamSets = testFactory
-				.createParameters(inputXml);
-
-		// Verify the expected outcome
-		assertParameterSetsEqual(expectedParamSets, actualParamSets);
+		executeParseTest(testFactory, inputString, expectedInteger);
 	}
 
 	@Test
@@ -83,19 +59,8 @@ public class DigesterParameterFactoryTest {
 				+ "<tests>" + "<test>"
 				+ "<value id=\"testShort\" type=\"java.lang.Short\">"
 				+ expectedShort + "</value>" + "</test>" + "</tests>";
-		InputStream inputXml = new ByteArrayInputStream(inputString
-				.getBytes("UTF-8"));
 
-		List<ParameterList> expectedParamSets = new ArrayList<ParameterList>();
-		expectedParamSets.add(new ParameterList(null,
-				new Object[] { expectedShort }));
-
-		// Run the test
-		List<ParameterList> actualParamSets = testFactory
-				.createParameters(inputXml);
-
-		// Verify the expected outcome
-		assertParameterSetsEqual(expectedParamSets, actualParamSets);
+		executeParseTest(testFactory, inputString, expectedShort);
 	}
 
 	@Test
@@ -105,19 +70,8 @@ public class DigesterParameterFactoryTest {
 				+ "<tests>" + "<test>"
 				+ "<value id=\"testLong\" type=\"java.lang.Long\">"
 				+ expectedLong + "</value>" + "</test>" + "</tests>";
-		InputStream inputXml = new ByteArrayInputStream(inputString
-				.getBytes("UTF-8"));
 
-		List<ParameterList> expectedParamSets = new ArrayList<ParameterList>();
-		expectedParamSets.add(new ParameterList(null,
-				new Object[] { expectedLong }));
-
-		// Run the test
-		List<ParameterList> actualParamSets = testFactory
-				.createParameters(inputXml);
-
-		// Verify the expected outcome
-		assertParameterSetsEqual(expectedParamSets, actualParamSets);
+		executeParseTest(testFactory, inputString, expectedLong);
 	}
 
 	@Test
@@ -127,19 +81,8 @@ public class DigesterParameterFactoryTest {
 				+ "<tests>" + "<test>"
 				+ "<value id=\"testString\" type=\"java.lang.Boolean\">"
 				+ expectedBoolean + "</value>" + "</test>" + "</tests>";
-		InputStream inputXml = new ByteArrayInputStream(inputString
-				.getBytes("UTF-8"));
 
-		List<ParameterList> expectedParamSets = new ArrayList<ParameterList>();
-		expectedParamSets.add(new ParameterList(null,
-				new Object[] { expectedBoolean }));
-
-		// Run the test
-		List<ParameterList> actualParamSets = testFactory
-				.createParameters(inputXml);
-
-		// Verify the expected outcome
-		assertParameterSetsEqual(expectedParamSets, actualParamSets);
+		executeParseTest(testFactory, inputString, expectedBoolean);
 	}
 
 	@Test
@@ -166,8 +109,6 @@ public class DigesterParameterFactoryTest {
 				+ "<value>Nova Laboratories</value>" + "</property>"
 				+ "</bean>" + "</property>" + "</bean>" + "</test>"
 				+ "</tests>";
-		InputStream inputXml = new ByteArrayInputStream(inputString
-				.getBytes("UTF-8"));
 
 		// Create the expected parameter set
 		Robot expectedRobot = new Robot();
@@ -184,16 +125,7 @@ public class DigesterParameterFactoryTest {
 
 		expectedRobot.setBestFriend(friend);
 
-		List<ParameterList> expectedParamSets = new ArrayList<ParameterList>();
-		expectedParamSets.add(new ParameterList(null,
-				new Object[] { expectedRobot }));
-
-		// Run the test
-		List<ParameterList> actualParamSets = testFactory
-				.createParameters(inputXml);
-
-		// Verify the expected outcome
-		assertParameterSetsEqual(expectedParamSets, actualParamSets);
+		executeParseTest(testFactory, inputString, expectedRobot);
 	}
 
 	@Test
@@ -216,8 +148,6 @@ public class DigesterParameterFactoryTest {
 				+ "<property name=\"manufacturer\" value=\"Nova Laboratories\" />"
 				+ "</bean>" + "</property>" + "</bean>" + "</test>"
 				+ "</tests>";
-		InputStream inputXml = new ByteArrayInputStream(inputString
-				.getBytes("UTF-8"));
 
 		// Create the expected parameter set
 		Robot expectedRobot = new Robot();
@@ -234,16 +164,7 @@ public class DigesterParameterFactoryTest {
 
 		expectedRobot.setBestFriend(friend);
 
-		List<ParameterList> expectedParamSets = new ArrayList<ParameterList>();
-		expectedParamSets.add(new ParameterList(null,
-				new Object[] { expectedRobot }));
-
-		// Run the test
-		List<ParameterList> actualParamSets = testFactory
-				.createParameters(inputXml);
-
-		// Verify the expected outcome
-		assertParameterSetsEqual(expectedParamSets, actualParamSets);
+		executeParseTest(testFactory, inputString, expectedRobot);
 	}
 
 	@Test

@@ -11,13 +11,9 @@
  ******************************************************************************/
 package org.junitext.runners.parameters.factory;
 
-import static org.junitext.runners.parameters.factory.DigesterParameterFactoryTestUtilities.assertParameterSetsEqual;
+import static org.junitext.runners.parameters.factory.DigesterParameterFactoryTestUtilities.executeParseTest;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.junit.Before;
@@ -54,23 +50,12 @@ public class DigesterParameterFactoryMapsTest {
 				+ "<bean id=\"friend\" class=\"org.junitext.runners.Robot\" >"
 				+ "<property name=\"name\" value=\"Johnny 5\" />" + "</bean>"
 				+ "</entry>" + "</map>" + "</property>" + XML_FOOTER;
-		InputStream inputXml = new ByteArrayInputStream(inputString
-				.getBytes("UTF-8"));
 
 		Map<String, Robot> expectedMapFriends = new HashMap<String, Robot>();
 		expectedMapFriends.put("Friend", friend);
 		expectedRobot.setMapOfFriends(expectedMapFriends);
 
-		List<ParameterList> expectedParamSets = new ArrayList<ParameterList>();
-		expectedParamSets.add(new ParameterList(null,
-				new Object[] { expectedRobot }));
-
-		// Run the test
-		List<ParameterList> actualParamSets = testFactory
-				.createParameters(inputXml);
-
-		// Verify the expected outcome
-		assertParameterSetsEqual(expectedParamSets, actualParamSets);
+		executeParseTest(testFactory, inputString, expectedRobot);
 	}
 
 	@Test
@@ -82,23 +67,11 @@ public class DigesterParameterFactoryMapsTest {
 				+ "<bean id=\"friend\" class=\"org.junitext.runners.Robot\" >"
 				+ "<property name=\"name\" value=\"Johnny 5\" />" + "</bean>"
 				+ "</entry>" + "</map>" + "</property>" + XML_FOOTER;
-		InputStream inputXml = new ByteArrayInputStream(inputString
-				.getBytes("UTF-8"));
-
 		Map<String, Robot> expectedMapFriends = new HashMap<String, Robot>();
 		expectedMapFriends.put("Friend", friend);
 		expectedRobot.setMapOfFriends(expectedMapFriends);
 
-		List<ParameterList> expectedParamSets = new ArrayList<ParameterList>();
-		expectedParamSets.add(new ParameterList(null,
-				new Object[] { expectedRobot }));
-
-		// Run the test
-		List<ParameterList> actualParamSets = testFactory
-				.createParameters(inputXml);
-
-		// Verify the expected outcome
-		assertParameterSetsEqual(expectedParamSets, actualParamSets);
+		executeParseTest(testFactory, inputString, expectedRobot);
 	}
 	
 	@Test
@@ -111,23 +84,12 @@ public class DigesterParameterFactoryMapsTest {
 				+ "<bean id=\"friend\" class=\"org.junitext.runners.Robot\" >"
 				+ "<property name=\"name\" value=\"Johnny 5\" />" + "</bean>"
 				+ "</entry>" + "</map>" + "</property>" + XML_FOOTER;
-		InputStream inputXml = new ByteArrayInputStream(inputString
-				.getBytes("UTF-8"));
 
 		Map<Object, Object> expectedMapFriends = new HashMap<Object, Object>();
 		expectedMapFriends.put(new Integer(123), friend);
 		expectedRobot.setMixedMap(expectedMapFriends);
 
-		List<ParameterList> expectedParamSets = new ArrayList<ParameterList>();
-		expectedParamSets.add(new ParameterList(null,
-				new Object[] { expectedRobot }));
-
-		// Run the test
-		List<ParameterList> actualParamSets = testFactory
-				.createParameters(inputXml);
-
-		// Verify the expected outcome
-		assertParameterSetsEqual(expectedParamSets, actualParamSets);
+		executeParseTest(testFactory, inputString, expectedRobot);
 	}
 	
 
@@ -138,23 +100,12 @@ public class DigesterParameterFactoryMapsTest {
 				+ "<property name=\"mapWithStringKeyAndValue\" >" + "<map>"
 				+ "<entry key=\"Friend\">" + "<value>String Value</value>"
 				+ "</entry>" + "</map>" + "</property>" + XML_FOOTER;
-		InputStream inputXml = new ByteArrayInputStream(inputString
-				.getBytes("UTF-8"));
 
 		Map<String, String> expectedMap = new HashMap<String, String>();
 		expectedMap.put("Friend", "String Value");
 		expectedRobot.setMapWithStringKeyAndValue(expectedMap);
 
-		List<ParameterList> expectedParamSets = new ArrayList<ParameterList>();
-		expectedParamSets.add(new ParameterList(null,
-				new Object[] { expectedRobot }));
-
-		// Run the test
-		List<ParameterList> actualParamSets = testFactory
-				.createParameters(inputXml);
-
-		// Verify the expected outcome
-		assertParameterSetsEqual(expectedParamSets, actualParamSets);
+		executeParseTest(testFactory, inputString, expectedRobot);
 	}
 	
 	@Test
@@ -165,23 +116,12 @@ public class DigesterParameterFactoryMapsTest {
 				+ "<entry key=\"Friend\">" 
 				+ "<value type=\"java.lang.Long\">3292932</value>"
 				+ "</entry>" + "</map>" + "</property>" + XML_FOOTER;
-		InputStream inputXml = new ByteArrayInputStream(inputString
-				.getBytes("UTF-8"));
 
 		Map<Object, Object> expectedMap = new HashMap<Object, Object>();
 		expectedMap.put("Friend", new Long(3292932));
 		expectedRobot.setMixedMap(expectedMap);
 
-		List<ParameterList> expectedParamSets = new ArrayList<ParameterList>();
-		expectedParamSets.add(new ParameterList(null,
-				new Object[] { expectedRobot }));
-
-		// Run the test
-		List<ParameterList> actualParamSets = testFactory
-				.createParameters(inputXml);
-
-		// Verify the expected outcome
-		assertParameterSetsEqual(expectedParamSets, actualParamSets);
+		executeParseTest(testFactory, inputString, expectedRobot);
 	}
 	
 
@@ -192,23 +132,12 @@ public class DigesterParameterFactoryMapsTest {
 				+ "<property name=\"mapWithStringKeyAndValue\" >" + "<map>"
 				+ "<entry key=\"Friend\" value=\"String Value\" />" + "</map>"
 				+ "</property>" + XML_FOOTER;
-		InputStream inputXml = new ByteArrayInputStream(inputString
-				.getBytes("UTF-8"));
 
 		Map<String, String> expectedMap = new HashMap<String, String>();
 		expectedMap.put("Friend", "String Value");
 		expectedRobot.setMapWithStringKeyAndValue(expectedMap);
 
-		List<ParameterList> expectedParamSets = new ArrayList<ParameterList>();
-		expectedParamSets.add(new ParameterList(null,
-				new Object[] { expectedRobot }));
-
-		// Run the test
-		List<ParameterList> actualParamSets = testFactory
-				.createParameters(inputXml);
-
-		// Verify the expected outcome
-		assertParameterSetsEqual(expectedParamSets, actualParamSets);
+		executeParseTest(testFactory, inputString, expectedRobot);
 	}
 
 	@Test
@@ -225,8 +154,6 @@ public class DigesterParameterFactoryMapsTest {
 				+ "<bean id=\"friend\" class=\"org.junitext.runners.Robot\" >"
 				+ "<property name=\"name\" value=\"Johnny 5\" />" + "</bean>"
 				+ "</entry>" + "</map>" + "</property>" + XML_FOOTER;
-		InputStream inputXml = new ByteArrayInputStream(inputString
-				.getBytes("UTF-8"));
 
 		Robot key = new Robot();
 		key.setName("Marvin the Paranoid Android");
@@ -235,16 +162,7 @@ public class DigesterParameterFactoryMapsTest {
 		expectedMapFriends.put(key, friend);
 		expectedRobot.setMapWithRobotKey(expectedMapFriends);
 
-		List<ParameterList> expectedParamSets = new ArrayList<ParameterList>();
-		expectedParamSets.add(new ParameterList(null,
-				new Object[] { expectedRobot }));
-
-		// Run the test
-		List<ParameterList> actualParamSets = testFactory
-				.createParameters(inputXml);
-
-		// Verify the expected outcome
-		assertParameterSetsEqual(expectedParamSets, actualParamSets);
+		executeParseTest(testFactory, inputString, expectedRobot);
 	}
 
 	@Test
@@ -257,8 +175,6 @@ public class DigesterParameterFactoryMapsTest {
 				+ "<property name=\"name\" value=\"Johnny 5\" />" + "</bean>"
 				+ "</entry>" + "</map>" + "</entry>" + "</map>" + "</property>"
 				+ XML_FOOTER;
-		InputStream inputXml = new ByteArrayInputStream(inputString
-				.getBytes("UTF-8"));
 
 		Map<String, Robot> innerMap = new HashMap<String, Robot>();
 		innerMap.put("innerKey", friend);
@@ -267,16 +183,7 @@ public class DigesterParameterFactoryMapsTest {
 		mixedMap.put("key", innerMap);
 		expectedRobot.setMixedMap(mixedMap);
 
-		List<ParameterList> expectedParamSets = new ArrayList<ParameterList>();
-		expectedParamSets.add(new ParameterList(null,
-				new Object[] { expectedRobot }));
-
-		// Run the test
-		List<ParameterList> actualParamSets = testFactory
-				.createParameters(inputXml);
-
-		// Verify the expected outcome
-		assertParameterSetsEqual(expectedParamSets, actualParamSets);
+		executeParseTest(testFactory, inputString, expectedRobot);
 	}
 
 	@Test
@@ -289,8 +196,6 @@ public class DigesterParameterFactoryMapsTest {
 				+ "<property name=\"name\" value=\"Johnny 5\" />" + "</bean>"
 				+ "</entry>" + "</map>" + "</key>" + "<value>value</value>"
 				+ "</entry>" + "</map>" + "</property>" + XML_FOOTER;
-		InputStream inputXml = new ByteArrayInputStream(inputString
-				.getBytes("UTF-8"));
 
 		Map<String, Robot> innerMap = new HashMap<String, Robot>();
 		innerMap.put("innerKey", friend);
@@ -299,15 +204,6 @@ public class DigesterParameterFactoryMapsTest {
 		mixedMap.put(innerMap, "value");
 		expectedRobot.setMixedMap(mixedMap);
 
-		List<ParameterList> expectedParamSets = new ArrayList<ParameterList>();
-		expectedParamSets.add(new ParameterList(null,
-				new Object[] { expectedRobot }));
-
-		// Run the test
-		List<ParameterList> actualParamSets = testFactory
-				.createParameters(inputXml);
-
-		// Verify the expected outcome
-		assertParameterSetsEqual(expectedParamSets, actualParamSets);
+		executeParseTest(testFactory, inputString, expectedRobot);
 	}
 }
