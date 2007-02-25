@@ -79,10 +79,20 @@ public class DigesterParameterFactoryTest {
 		Boolean expectedBoolean = false;
 		String inputString = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\" ?>"
 				+ "<tests>" + "<test>"
-				+ "<value id=\"testString\" type=\"java.lang.Boolean\">"
+				+ "<value id=\"testBoolean\" type=\"java.lang.Boolean\">"
 				+ expectedBoolean + "</value>" + "</test>" + "</tests>";
 
 		executeParseTest(testFactory, inputString, expectedBoolean);
+	}
+	
+	@Test
+	public void parseNullValue() throws Exception {
+		String inputString = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\" ?>"
+			+ "<tests>" + "<test>"
+			+ "<value id=\"testString\" type=\"java.lang.Boolean\">"
+			+ "<null/></value>" + "</test>" + "</tests>";
+
+		executeParseTest(testFactory, inputString, new Object[] {null});		
 	}
 
 	@Test

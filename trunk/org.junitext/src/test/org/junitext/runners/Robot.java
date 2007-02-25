@@ -393,8 +393,8 @@ public class Robot {
 	@Override
 	public int hashCode() {
 		final int PRIME = 31;
-		int result = super.hashCode();
-		result = PRIME * result + Arrays.hashCode(arrayOfFriends);
+		int result = 1;
+		result = PRIME * result + Arrays.deepHashCode(arrayOfFriends);
 		result = PRIME * result
 				+ ((bestFriend == null) ? 0 : bestFriend.hashCode());
 		result = PRIME * result + ((friends == null) ? 0 : friends.hashCode());
@@ -447,8 +447,6 @@ public class Robot {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (!super.equals(obj))
-			return false;
 		if (getClass() != obj.getClass())
 			return false;
 		final Robot other = (Robot) obj;
@@ -517,7 +515,7 @@ public class Robot {
 				return false;
 		} else if (!model.equals(other.model))
 			return false;
-		if (!Arrays.equals(multiDimensionalArrayOfStrings,
+		if (!Arrays.deepEquals(multiDimensionalArrayOfStrings,
 				other.multiDimensionalArrayOfStrings))
 			return false;
 		if (name == null) {
