@@ -12,6 +12,8 @@
 package org.junitext.runners;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.io.File;
@@ -300,5 +302,79 @@ public class XMLParameterizedTest {
 		for(Failure failure : failures) {
 			fail("The primative test failed: " + failure);
 		}
+	}
+	
+	
+	/**
+	 * Mock parameter factory that will create a parameter list of nulls.
+	 */
+	static public class NullParameterFactory implements ParameterFactory {
+
+		/**
+		 * Returns a parameter list of primative values.
+		 * 
+		 * @see org.junitext.runners.parameters.factory.ParameterFactory#createParameters(java.lang.Class,
+		 *      java.io.File)
+		 */
+		public List<ParameterList> createParameters(Class<?> testClass,
+				File xmlFile) throws Exception {
+			ArrayList<ParameterList> params = new ArrayList<ParameterList>();
+
+			ArrayList<Parameter> dataSet = new ArrayList<Parameter>();
+			dataSet.add(new Parameter(null));
+			dataSet.add(new Parameter(null));
+			params.add(new ParameterList("Primatives", dataSet));
+
+			return params;
+		}
+	}
+
+	// This is our "mock" test class for testing nulls
+	@RunWith(XMLParameterizedRunner.class)
+	static public class ParameterizedWithNull {
+
+		private Robot nullRobot;
+		private String nullString;
+
+		@XMLParameters(value = "Robots.xml", parameterFactory = NullParameterFactory.class)
+		public ParameterizedWithNull(Robot nullRobot, String nullString) {			
+			this.nullRobot = nullRobot;
+			this.nullString = nullString;
+		}
+		
+		@Test
+		public void allObjectsAreNull() throws Exception {
+			assertNull(nullRobot);
+			assertNull(nullString);
+		}
+	}
+	
+	@Test
+	public void passesNullValues() throws Exception {
+		Result result = JUnitCore.runClasses(ParameterizedWithNull.class);
+		assertEquals("The null test did not run.", 1, result.getRunCount());
+		List<Failure> failures = result.getFailures();
+		for(Failure failure : failures) {
+			fail("The null test failed: " + failure);
+		}
+	}	
+	
+	
+	// This is our "mock" test class for testing that XMLParameterizedRunner 
+	// correctly validates that null cannot be passed for a primative 
+	// constructor parameter 
+	@RunWith(XMLParameterizedRunner.class)
+	static public class ParameterizedWithNullPrimative {
+		@XMLParameters(value = "Robots.xml", parameterFactory = NullParameterFactory.class)
+		public ParameterizedWithNullPrimative(Robot nullRobot, int intParam) {			
+		}
+	}
+	
+	@Test
+	public void validateClassCatchesNullForPrimativeParameter() {
+		Result result = JUnitCore.runClasses(ParameterizedWithNullPrimative.class);
+		assertEquals(1, result.getFailureCount());
+		Failure failure = result.getFailures().get(0);
+		assertTrue("The description of the failure is not correct", failure.getDescription().getDisplayName().startsWith("initializationError0"));
 	}
 }
